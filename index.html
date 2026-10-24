@@ -1011,6 +1011,117 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
 .wc>div{flex:1;min-width:0}
 #btn-daily.wheel-ready{position:relative}
 #btn-daily.wheel-ready::after{content:"🎡";position:absolute;right:-6px;top:-8px;font-size:18px;animation:twk 1.4s ease-in-out infinite}
+
+/* Pantallas táctiles: paneles contenidos, acciones a mano y desplazamiento dentro del contenido. */
+@media (pointer:coarse){
+  .overlay{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  #menu .w-btn{min-width:44px;min-height:44px}
+  #menu .region-action,#menu .w-go{min-height:44px}
+
+  #pedia.overlay{place-items:center;overflow:hidden;padding:max(8px,env(safe-area-inset-top,0px)) max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  #pedia .panel.book{display:flex;flex-direction:column;width:100%;height:100%;max-height:100%;min-height:0;margin:0;overflow:hidden}
+  .book .cover{flex:0 0 auto;gap:8px;padding:8px 10px 6px}
+  .book .cover h2{font-size:clamp(23px,4vw,32px)}
+  .book .cover small{font-size:10px;letter-spacing:.1em}
+  .book .cover .album-sum{gap:4px 6px}
+  .book .cover .album-sum .big{font-size:17px}
+  .book .cover .album-sum .pg{font-size:11px;padding:2px 7px}
+  .book .book-x{flex:0 0 40px}
+  .book .tabs{flex:0 0 auto;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+  .book .tabs::-webkit-scrollbar{display:none}
+  .book .tab{flex:0 0 auto}
+  .book .book-page{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;margin-bottom:8px}
+  .book .pedia-grid.stickers{grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px}
+  .tray{flex:0 0 auto;min-width:0;gap:6px;margin:0 8px 8px;padding:6px}
+  .tray .tray-lbl{font-size:12px}
+  .tray .tray-lbl b{font-size:20px}
+  .tray-row{min-width:0;flex-basis:0;padding:4px 2px 6px;gap:7px}
+  .tray-st{width:72px}
+  .tray-st .ts-art{height:44px}
+  .tray-st .ts-art canvas{width:40px;height:40px}
+  .tray-st b{font-size:11px}
+  .tray .btn{min-height:44px;padding:6px 8px;font-size:12px}
+
+  #shop.overlay{overflow:hidden;padding:max(8px,env(safe-area-inset-top,0px)) max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  #shop .panel.almacen{display:flex;flex-direction:column;width:100%;max-height:100%;min-height:0;padding:0 clamp(10px,2vw,20px) 10px;overflow:hidden}
+  #shop .awning{flex:0 0 18px;height:18px;margin-inline:calc(-1 * clamp(10px,2vw,20px))}
+  #shop .store-sign{flex:0 0 auto;margin:16px auto 4px;padding:4px 14px;font-size:clamp(21px,3vw,28px)}
+  #shop .store-sign small{font-size:10px}
+  #shop .store-top{flex:0 0 auto;align-items:center;gap:6px;margin:4px 0}
+  #shopkeeper{width:68px;height:68px}
+  #shop .bubble{max-width:220px;margin:0;padding:6px 9px;font-size:12px;line-height:1.2}
+  #shop .wallet{gap:5px;margin-left:auto;padding:4px 8px;border-radius:12px}
+  #shop .wallet .bill.big{width:42px;height:21px}
+  #shop .wallet small{font-size:10px}
+  #shop .wallet b{font-size:21px}
+  #shop .shelf{flex:1 1 auto;min-height:0;align-content:start;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px 9px;margin:5px 0 7px;padding:10px 8px 14px}
+  #shop .shop-sec{gap:6px;margin:2px 0 0;font-size:20px}
+  #shop .shop-sec small{font-size:10px}
+  #shop .product{min-width:0;gap:4px;padding:8px 8px 10px;border-width:2px;border-radius:11px;box-shadow:0 3px 0 var(--tinta),0 10px 0 -2px #a8743f,0 12px 0 -2px var(--tinta)}
+  #shop .product .prod{width:46px;height:46px;border-radius:9px}
+  #shop .product b{font-size:15px}
+  #shop .product p{font-size:11px;line-height:1.25;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+  #shop .product .own{font-size:11px}
+  #shop .product .tag{top:7px;right:-6px;padding:1px 6px;font-size:13px}
+  #shop .product .tag.sold{font-size:11px}
+  #shop .product .btn{min-height:44px;padding:6px 10px;font-size:13px}
+  #shop .panel.almacen>.sub{display:none}
+  #shop .panel.almacen>.row{flex:0 0 auto;justify-content:center;margin:0}
+  #shop-back{min-height:44px}
+
+  #bvid.overlay{overflow:hidden;padding:max(8px,env(safe-area-inset-top,0px)) max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  #bvid .panel{width:min(560px,100%);max-height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:16px}
+  #bv-canvas{width:100%;max-width:calc((100dvh - 210px) * 1.714);height:auto}
+  #bvid .row .btn{min-height:44px}
+}
+
+@media (pointer:coarse) and (max-width:560px){
+  #pedia .panel.book{border-radius:12px}
+  .book .cover{gap:5px;padding:7px 8px 5px}
+  .book .cover small{font-size:8px}
+  .book .cover .album-sum{max-width:105px;justify-content:flex-end}
+  .book .cover .album-sum .big{font-size:15px}
+  .book .cover .album-sum .pg{font-size:10px}
+  .book .book-x{width:36px;height:36px;flex-basis:36px}
+  .book .tabs{padding:0 6px;gap:3px}
+  .book .tab{font-size:12px;padding:6px 8px 7px}
+  .book .book-page{padding:10px 8px 8px 13px}
+  .book .pedia-grid.stickers{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .tray .tray-lbl{font-size:10px}
+  .tray-row{flex:1 1 0}
+  .tray-st{width:62px}
+  .tray .btn{font-size:10px;padding-inline:6px}
+  #shop .store-top{gap:4px}
+  #shopkeeper{width:52px;height:52px}
+  #shop .bubble{font-size:10px;max-width:118px;padding:5px 6px}
+  #shop .wallet{gap:3px;padding:3px 5px}
+  #shop .wallet .bill.big{width:32px;height:16px}
+  #shop .wallet small{font-size:8px}
+  #shop .wallet b{font-size:17px}
+  #shop .shelf{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 7px;padding:8px 6px 12px}
+  #shop .product .tag{position:static;align-self:flex-start;transform:none}
+  #shop .product .btn{width:100%;padding:5px 6px;font-size:11px}
+}
+
+@media (pointer:coarse) and (orientation:landscape) and (max-height:560px){
+  #bvid .panel{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(190px,.8fr);gap:0 14px;width:min(820px,100%);padding:14px 18px}
+  #bvid .eyebrow,#bvid h2{grid-column:1/-1}
+  #bvid .eyebrow{margin:0 0 2px}
+  #bvid h2{margin:0 0 6px;font-size:23px}
+  #bv-canvas{grid-column:1;grid-row:3;width:100%;max-width:none;align-self:center}
+  #bv-verb{grid-column:2;grid-row:3;align-self:end;margin:0 0 4px;font-size:17px}
+  #bv-desc{grid-column:2;grid-row:4;align-self:start;margin:0 0 8px;font-size:12px}
+  #bvid .bv-bar{grid-column:2;grid-row:5;align-self:end}
+  #bvid .row{grid-column:2;grid-row:6;align-self:end;margin-top:8px}
+}
+
+@media (pointer:coarse) and (max-height:560px){
+  #shop .store-sign{margin-top:8px}
+  #shop .store-sign small{display:none}
+  #shop .awning{flex-basis:12px;height:12px}
+  #shop .shop-sec{font-size:17px}
+  #menu .w-top{padding-top:max(6px,env(safe-area-inset-top,0px))}
+}
 </style>
 </head>
 <body>
@@ -8113,7 +8224,12 @@ function mvZoom(f, px, py) {
 function setupMapView(next) {
   cancelAnimationFrame(MV.anim);
   const [cw] = mvSize();
-  if (!MV.ready) { const [, ch] = mvSize(); MV.w = cw / clamp(Math.min(cw / MAP.W, ch / 430), 0.8, 1.6); MV.ready = true; }
+  if (!MV.ready) {
+    const [, ch] = mvSize(), scale = clamp(Math.min(cw / MAP.W, ch / 430), 0.8, 1.6);
+    // En pantallas táctiles conviene partir con más contexto del territorio.
+    MV.w = cw / scale * (matchMedia('(pointer: coarse)').matches ? 1.4 : 1);
+    MV.ready = true;
+  }
   mvClamp();
   const T = G.travel; G.travel = null;
   const auto = G.autoSheet; G.autoSheet = null;
