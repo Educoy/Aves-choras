@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
 <meta name="claude:viewport-fit-sides" content="cover">
 <title>Aves Choras</title>
 <meta name="description" content="Un juego de hondas con aves nativas de Chile contra las especies invasoras. Recorre el país, rescata regiones y completa tu álbum de fauna.">
@@ -660,23 +660,6 @@ body.ovin #menu:not([hidden]) .w-bottom,body.ovin #menu:not([hidden]) .map-ctrl{
 @media (max-width:560px){.book .book-page{padding:12px 10px 10px 16px}.book .pedia-grid.stickers{grid-template-columns:repeat(2,minmax(0,1fr))}.book .tab{font-size:13px;padding:6px 8px 7px}.tray{flex-wrap:wrap}.tray-row{flex-basis:100%}}
 /* sobre de láminas */
 #pack{z-index:57}
-.pack-stage{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;color:#fff;padding:16px;width:min(560px,100%)}
-.pack-stage p{margin:0;font:400 clamp(18px,3vw,24px) var(--display);text-shadow:0 2px 0 var(--tinta)}
-.pack-area{position:relative;width:100%;height:270px;display:grid;place-items:center}
-.pack-cards{position:absolute;inset:0;display:flex;gap:14px;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.pack-cards.on{opacity:1}
-.pk-card{width:150px;height:210px;perspective:800px;animation:pkin .5s cubic-bezier(.2,1.4,.4,1) both;animation-delay:calc(var(--i)*.12s)}
-@keyframes pkin{from{transform:translateY(60px) scale(.6);opacity:0}to{transform:none;opacity:1}}
-.pk-in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.3,.5,1)}
-.pk-card.flip .pk-in{transform:rotateY(180deg)}
-.pk-back,.pk-front{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:4px solid #fffdf5;border-radius:12px;box-shadow:0 0 0 1.5px var(--tinta),0 10px 18px rgba(0,0,0,.45)}
-.pk-back{background:repeating-linear-gradient(45deg,#c4281f 0 10px,#a81e14 10px 20px);display:grid;place-items:center;font:400 54px var(--display);color:#f7dc92}
-.pk-front{transform:rotateY(180deg);background:#fff4dc;color:var(--tinta);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;text-shadow:none}
-.pk-front b{font:400 20px/1.05 var(--display)}.pk-front small{font:800 11px var(--body);letter-spacing:.1em;text-transform:uppercase;color:#6b5a4c}
-.pk-art canvas{width:96px;height:96px}
-.pk-card.flip{animation:none}
-#pack-btns{display:flex;gap:10px;margin-top:8px}
-#pack-btns[hidden]{display:none}
 
 /* ===== v2.2 · Cofre de región ===== */
 #chest .panel{overflow:visible}
@@ -867,31 +850,7 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
   #rp-go{position:sticky;bottom:0;padding:10px 12px;font-size:16px}
 }
 /* ===== v2.13 · sobres y cofres: sobre de correo con lacre y cofre de madera con herrajes ===== */
-#pack .pack-area{height:310px}
-.env{position:absolute;left:50%;top:6px;margin-left:-110px;width:220px;height:290px;border:0;background:none;padding:0;cursor:pointer;perspective:800px;animation:envwig 1.7s ease-in-out infinite;transition:transform .5s cubic-bezier(.5,0,.3,1),opacity .45s;filter:drop-shadow(0 16px 18px rgba(0,0,0,.45));-webkit-tap-highlight-color:transparent}
-.env-svg{position:absolute;inset:0;width:100%;height:100%}
-.env-flap{position:absolute;left:12px;top:14px;width:196px;height:138px;transform-origin:50% 2%;transition:transform .55s cubic-bezier(.3,1.35,.5,1)}
-.env.open .env-flap{transform:rotateX(180deg);filter:brightness(.9)}
-.env-seal{position:absolute;left:50%;top:116px;width:50px;height:50px;margin-left:-25px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8a78,#c4281f 58%,#8a1410);border:3px solid #2a1a12;box-shadow:0 3px 0 rgba(0,0,0,.35),inset 0 -5px 0 rgba(0,0,0,.2);display:grid;place-items:center;z-index:3}
-.env-seal em{font:400 26px/1 var(--display);font-style:normal;color:#ffd9a0;text-shadow:0 2px 0 #7a1410}
-.env.open .env-seal{animation:sealpop .5s ease forwards}
-@keyframes sealpop{0%{transform:scale(1)}30%{transform:scale(1.4) rotate(14deg)}100%{transform:scale(.2) rotate(50deg) translateY(36px);opacity:0}}
-.env-lbl{position:absolute;left:30px;top:222px;transform:rotate(-6deg);font:400 26px/1 var(--display);color:var(--tinta);background:var(--crema);padding:6px 14px;border:3px solid var(--tinta);border-radius:10px;white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.25)}
-.env-shine{position:absolute;inset:12px 12px 18px;border-radius:12px;overflow:hidden;pointer-events:none}
-.env-shine::after{content:"";position:absolute;top:-20%;bottom:-20%;width:32%;left:-50%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-18deg);animation:envshine 2.8s ease-in-out infinite}
-@keyframes envshine{0%,55%{left:-50%}100%{left:130%}}
-.env.press{transform:scale(.93);animation:none}
-.env.open{animation:none}
-.env.tear{animation:none;transform:translateY(120px) scale(.8);opacity:0;pointer-events:none}
-@keyframes envwig{0%,100%{transform:rotate(-2.2deg) translateY(0)}50%{transform:rotate(2.2deg) translateY(-6px)}}
-.pk-halo{position:absolute;left:50%;top:50%;width:460px;height:460px;margin:-230px 0 0 -230px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,120,.55),transparent 62%);opacity:0;pointer-events:none;transition:opacity .45s}
-#pack.go .pk-halo{opacity:1;animation:halopulse 1.8s ease-in-out infinite alternate}
-@keyframes halopulse{to{transform:scale(1.12)}}
 .pk-burst{position:absolute;left:50%;top:48%;width:0;height:0;pointer-events:none;z-index:6}
-.pk-card{position:relative}.pk-spark{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none;z-index:7}
-.pk-card.flip .pk-front{box-shadow:0 0 0 1.5px var(--tinta),0 0 22px 6px rgba(255,214,90,.75),0 10px 18px rgba(0,0,0,.45)}
-.pk-new{position:absolute;right:-10px;top:-10px;z-index:3;background:#d52b1e;color:#fff;font:400 13px var(--display);padding:3px 9px;border:2.5px solid var(--tinta);border-radius:999px;transform:rotate(10deg) scale(0);transition:transform .35s .55s cubic-bezier(.3,1.8,.5,1)}
-.pk-card.flip .pk-new{transform:rotate(10deg) scale(1)}
 .cp.coin{width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3a8,#f2b41b 58%,#c98a0a);border:2px solid var(--tinta)}
 .cp.coin::after{content:"";position:absolute;inset:4px;border-radius:50%;border:1.5px solid rgba(122,74,34,.55)}
 /* cofre */
@@ -1079,7 +1038,7 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
   #bv-canvas{width:100%;max-width:calc((100dvh - 210px) * 1.714);height:auto}
   #bvid .row .btn{min-height:44px}
   #daily .panel{max-height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
-  #daily .panel>h2{font-size:clamp(26px,4vw,36px)}
+  #daily .panel h2{font-size:clamp(26px,4vw,36px)}
   #daily .row{position:sticky;bottom:-12px;padding:8px 0 4px;background:linear-gradient(transparent,#f4ead0 24%);z-index:2}
   #daily-back{min-height:44px}
   #medals .panel,#help .panel{max-height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
@@ -1158,6 +1117,244 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
   #daily .wk-title{margin:8px 0 4px}
   #daily .foot{margin:4px 0;font-size:11px}
 }
+/* v2.15 · Celular acostado (iPhone): bordes seguros, nada fuera de pantalla, botones de acción siempre a la vista */
+:root{--sa-t:env(safe-area-inset-top,0px);--sa-r:env(safe-area-inset-right,0px);--sa-b:env(safe-area-inset-bottom,0px);--sa-l:env(safe-area-inset-left,0px)}
+html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,.btn,summary,[role="button"]{touch-action:manipulation}
+/* Carrusel de niveles: solo en pantallas chicas (reemplaza la bitácora) */
+.lvl-strip{display:none;pointer-events:auto;min-width:0;align-items:stretch;gap:6px;padding:5px 6px;background:#f4ead0;border:2px solid var(--tinta);border-radius:8px 15px 8px 13px;box-shadow:2px 3px 0 rgba(42,26,18,.28)}
+.ls-head{display:flex;align-items:center;gap:2px;flex:0 0 auto;padding-right:6px;border-right:1px dashed rgba(42,26,18,.5)}
+.ls-title{display:flex;flex-direction:column;align-items:center;width:88px;text-align:center;line-height:1.05}
+.ls-title b{font:400 15px/1.05 var(--display);color:#31533a;overflow-wrap:anywhere}
+.ls-title small{font:800 10.5px var(--body);color:#625744;margin-top:2px}
+.ls-nav{flex:0 0 auto;width:34px;min-height:52px;border:2px solid var(--tinta);border-radius:9px;background:#fffaf0;font:400 26px/1 var(--display);color:var(--tinta);cursor:pointer;box-shadow:0 2px 0 var(--tinta);padding:0}
+.ls-nav:active{transform:translateY(2px);box-shadow:none}
+.ls-row{display:flex;gap:8px;min-width:0;flex:1;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none;padding:2px 2px 3px;scroll-padding:0 8px;-webkit-overflow-scrolling:touch}
+.ls-row::-webkit-scrollbar{display:none}
+.ls-card{flex:0 0 66px;display:flex;flex-direction:column;align-items:center;gap:0;min-height:62px;padding:3px 2px 2px;border:2px solid var(--tinta);border-radius:11px;background:#fff;box-shadow:0 2px 0 var(--tinta);cursor:pointer;scroll-snap-align:start;color:var(--tinta);font:inherit}
+.ls-card svg{width:34px;height:34px;flex:none}
+.ls-card .ls-st{font:400 11px/1 var(--display);letter-spacing:1px;color:#d9ccb3;-webkit-text-stroke:.8px var(--tinta)}
+.ls-card .ls-st b{color:var(--oro);font-weight:400}
+.ls-card small{max-width:62px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:800 9.5px/1.3 var(--body)}
+.ls-card.lk{background:#ece4d2;border-style:dashed;box-shadow:none}
+.ls-card.lk .emb [fill]:not([fill="none"]){fill:#938d9e !important}.ls-card.lk .emb *{stroke:#5a5565 !important}
+.ls-card.next{background:#fff4c2;animation:pulse2 .9s ease-in-out infinite alternate}
+.ls-card.sel{background:#ffe27a;outline:3px solid var(--azul);outline-offset:1px;animation:none}
+.ls-card.boss svg circle{stroke:#b8860b;stroke-width:3.5}
+.ls-card:active{transform:translateY(2px);box-shadow:none}
+@media (max-height:560px),(max-width:760px){
+  .lvl-strip{display:flex}
+  .campaign-note{display:none}
+  .w-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px}
+}
+@media (max-width:760px){.lvl-strip{grid-column:1/-1}}
+
+@media (max-height:500px){
+  /* Mapa: barra de arriba y de abajo delgadas, controles de zoom al costado */
+  #menu .w-top{padding:max(6px,var(--sa-t)) max(10px,var(--sa-r)) 10px max(10px,var(--sa-l))}
+  .w-bottom{padding:6px max(10px,var(--sa-r)) max(6px,var(--sa-b)) max(10px,var(--sa-l))}
+  .w-go{font-size:16px;padding:9px 14px;max-width:210px;min-height:48px}
+  #menu .map-ctrl{top:calc(max(6px,var(--sa-t)) + 58px);bottom:auto;left:max(10px,var(--sa-l));gap:6px}
+  #menu .map-ctrl button{width:44px;height:44px}
+  #menu .map-hint{display:none}
+  /* Pantallas superpuestas: caben en el alto; se desplaza el contenido y los botones quedan pegados abajo */
+  .overlay{padding:max(6px,var(--sa-t)) max(10px,var(--sa-r)) max(6px,var(--sa-b)) max(10px,var(--sa-l))}
+  .overlay:not(#pedia):not(#shop):not(#bvid):not(#regpick):not(#pack)>.panel{max-height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:12px 18px 0;margin-block:auto}
+  .overlay:not(#pedia):not(#shop):not(#bvid):not(#regpick):not(#pack)>.panel>.row:last-child{position:sticky;bottom:0;z-index:4;justify-content:center;margin:8px -18px 0;padding:10px 18px 10px;background:linear-gradient(rgba(248,238,214,0),#f8eed6 32%)}
+  .panel h2{font-size:clamp(24px,4.4vh,32px);margin:2px 0 4px}
+  .eyebrow{font-size:11px}
+  .sub{font-size:14px;margin-bottom:8px}
+  .btn{font-size:18px;padding:8px 16px;min-height:44px}
+  .row{gap:8px}
+  /* Historia y ruleta: el dibujo se achica según el alto */
+  #story .panel{max-width:min(860px,calc((var(--app-height,100dvh) - 150px) * 2 + 40px))}
+  #story canvas{aspect-ratio:2/1}
+  #story .cap{font-size:14px;margin:6px 2px;min-height:0}
+  #story .dots{margin-bottom:0}
+  .wheel-stage{width:min(380px,calc(var(--app-height,100dvh) - 170px))}
+  .wheel-res{min-height:0;margin:2px 0 0}
+  /* Desafíos del día en dos columnas */
+  #daily .panel{max-width:min(900px,100%)}
+  #daily .dl-cols{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:10px;align-items:start}
+  #daily .dl-a>*:first-child{margin-top:0}
+  #daily .streak{margin:0 0 6px}
+  #daily .streak b{font-size:34px}
+  #daily .streak span{font-size:17px}
+  #daily .streak small{font-size:11px;line-height:1.25}
+  #daily .wc{padding:7px 9px;gap:8px}#daily .wc .wc-ic{font-size:26px}#daily .wc b{font-size:16px}#daily .wc small{font-size:11px}
+  #daily .wc .btn{font-size:15px;padding:6px 10px}
+  #daily .dl-b .missions:first-child{margin-top:0}
+  #daily .wk-title{font-size:17px}
+  #daily .daylvl .btn{white-space:nowrap;font-size:15px;padding:6px 10px}
+  /* Tienda: letrero, bolsillo y volver en una sola franja; el estante usa el resto */
+  #shop.overlay{overflow:hidden}
+  #shop .panel.almacen{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;grid-template-rows:auto minmax(0,1fr);align-items:center;gap:6px 10px;width:100%;height:100%;max-height:100%;padding:16px 12px 8px;overflow:hidden}
+  #shop .awning{position:absolute;left:0;right:0;top:0;height:10px;margin:0;border-radius:18px 18px 0 0;border-bottom-width:2px}
+  #shop .awning::after{display:none}
+  #shop .store-sign{grid-column:1;grid-row:1;margin:0;padding:3px 12px;font-size:20px;box-shadow:0 3px 0 var(--tinta);transform:rotate(-1deg)}
+  #shop .store-sign small{display:none}
+  #shop .store-top{display:contents}
+  #shopkeeper{grid-column:2;grid-row:1;justify-self:end;width:44px;height:44px}
+  #shop .bubble{display:none}
+  #shop .wallet{grid-column:3;grid-row:1;margin:0;padding:3px 8px}
+  #shop .wallet .bill.big{width:34px;height:17px}
+  #shop .wallet small{font-size:9px}
+  #shop .wallet b{font-size:18px}
+  #shop .panel.almacen>.row{grid-column:4;grid-row:1;margin:0}
+  #shop-back{font-size:15px;padding:6px 12px}
+  #shop .shelf{grid-column:1/-1;grid-row:2;height:100%;min-height:0;margin:0;overflow-y:auto;overscroll-behavior:contain;align-content:start;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px 8px;padding:8px 8px 14px}
+  #shop .panel.almacen>.sub{display:none}
+  /* Álbum: tapa y encabezado de página más bajos */
+  .book .cover small{display:none}
+  .book .cover h2{font-size:20px}
+  .book .pg-head{margin-bottom:6px}
+  .book .pg-head h3{font-size:19px}
+  .book .pg-head p{display:none}
+  .book .book-page::after{height:30px;width:16px}
+  /* Video de ave nueva: el dibujo ocupa todas las filas de su columna, así el botón no se sale */
+  #bv-canvas{grid-row:3/7;max-width:calc((var(--app-height,100dvh) - 110px) * 1.714)}
+  /* Ficha del nivel: panel angosto a la derecha, con el botón de jugar siempre visible */
+  #menu .sheet{display:flex;flex-direction:column;left:auto;right:max(10px,var(--sa-r));top:max(6px,var(--sa-t));bottom:max(6px,var(--sa-b));transform:none;width:min(350px,48vw);max-height:none;overflow:hidden;z-index:8}
+  #menu .sheet:not([hidden]){animation-name:sheetpop2}
+  .sheet-hero{flex:0 0 74px}
+  .sheet-hero .sheet-art{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:50% 38%;border:0}
+  .sheet-hero h3{left:12px;right:52px;bottom:6px;font-size:23px}
+  .hero-num{left:10px;top:6px;padding:1px 8px;font-size:10px;box-shadow:0 2px 0 var(--tinta)}
+  .sheet-x{width:40px;height:40px;right:6px;top:6px;font-size:22px}
+  .sheet-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:6px;padding:8px 12px 0}
+  .sheet-body>*{margin:0!important;flex:0 0 auto}
+  .sheet-sub{display:-webkit-box!important;-webkit-line-clamp:2;font-size:12.5px;line-height:1.35}
+  .tiles{display:flex;gap:5px}
+  .tile{flex-direction:row;gap:4px;padding:3px 8px;border-width:2px;border-radius:10px;box-shadow:0 2px 0 var(--tinta)}
+  .tile .ti{font-size:13px;min-height:0}
+  .tile b{font-size:15px}
+  .tile small{display:none}
+  .tile.dif{flex:1;min-width:0;justify-content:center}
+  .tile.dif .ti{display:none}
+  .tile.dif b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .badges{gap:4px}.badges span{font-size:11px;padding:2px 7px}
+  .sheet-goal{padding:3px 10px;border-radius:10px}
+  .sheet-stars{font-size:20px}
+  .sheet-goal p{font-size:11px}
+  .sheet-birds{flex-wrap:nowrap;overflow-x:auto;padding:7px 2px 3px 6px;gap:5px;scrollbar-width:none}
+  .sheet-birds .sb{flex:0 0 38px;width:38px;height:38px;border-radius:10px}
+  .sheet-birds .sb canvas{width:32px;height:32px}
+  .sheet-fact{padding:6px 10px}
+  .sheet-lock{padding:8px 10px}.sheet-lock p{font-size:12.5px}
+  .sheet-play{position:sticky;bottom:0;z-index:2;margin:2px 0 0!important;font-size:21px;padding:9px 12px;min-height:48px;box-shadow:0 4px 0 var(--tinta),0 -10px 12px 4px #f4ead0}
+  .sheet-body::after{content:"";flex:0 0 8px}
+  /* En el juego: el consejo y las medallas no tapan la cancha */
+  #medal-banner{top:calc(max(6px,var(--sa-t)) + 112px);max-width:min(560px,calc(100% - 2 * max(16px,var(--sa-l)) - 120px));padding:6px 12px 6px 8px;gap:8px}
+  #medal-banner .disk{width:32px;height:32px;font-size:16px}
+  #medal-banner b{font-size:15px;line-height:1.2}
+  #medal-banner small{font-size:10px}
+  #hud{padding-top:max(6px,var(--sa-t))}
+  .score .lbl{font-size:11px}.score .num{font-size:26px}
+  .smeter{margin:3px 0 2px}
+  #cards-bar,#wind-chip{top:calc(max(6px,var(--sa-t)) + 56px)}
+  #boss-bar{top:calc(max(6px,var(--sa-t)) + 78px)}
+}
+/* v2.15 · Rendimiento del mapa: el SVG mide 1,5 veces la vista (MV_OV en js/17) y se mueve con transform en la GPU */
+#chile-map{position:absolute;left:-25%;top:-25%;width:150%;height:150%;transform-origin:0 0;will-change:transform}
+#chile-map.moving *{animation-play-state:paused!important}
+#chile-map.lite .foam,#chile-map.lite .waves,#chile-map.lite .cloud,#chile-map.lite .tw,#chile-map.lite .smoke circle{animation:none!important}
+/* v2.15 · Sobre de láminas al estilo de los juegos de cartas: se rasga deslizando, las láminas salen en pila y las raras brillan */
+#pack.overlay{place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,rgba(40,60,120,.55),rgba(10,8,20,.88) 70%)}
+.tp-stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;width:min(560px,100%);height:100%;max-height:640px;justify-content:center;color:#fff;text-align:center;--ph:min(330px,calc(var(--app-height,100dvh) - 150px))}
+.tp-msg{margin:0;min-height:1.3em;font:400 clamp(17px,2.6vw,22px)/1.2 var(--display);text-shadow:0 2px 0 var(--tinta)}
+.tp-area{position:relative;width:100%;height:var(--ph);display:grid;place-items:center;touch-action:none}
+.tp-halo{position:absolute;left:50%;top:50%;width:calc(var(--ph) * 1.5);height:calc(var(--ph) * 1.5);transform:translate(-50%,-50%) scale(.6);border-radius:50%;background:radial-gradient(circle,rgba(255,226,122,.55),rgba(255,226,122,0) 62%);opacity:0;transition:opacity .4s,transform .6s;pointer-events:none}
+#pack.go .tp-halo{opacity:1;transform:translate(-50%,-50%) scale(1)}
+/* el sobre */
+.tp-pack{position:absolute;left:50%;top:50%;width:calc(var(--ph) * .66);height:var(--ph);transform:translate(-50%,-50%);cursor:grab;outline:none;user-select:none;-webkit-user-select:none;transition:transform .5s cubic-bezier(.3,1.3,.5,1),opacity .4s;animation:tpidle 2.6s ease-in-out infinite}
+@keyframes tpidle{0%,100%{transform:translate(-50%,-50%) rotate(-1.5deg)}50%{transform:translate(-50%,-52%) rotate(1.5deg)}}
+.tp-pack:focus-visible .tp-body{outline:3px solid #fff;outline-offset:3px}
+.tp-body,.tp-top{position:absolute;left:0;right:0;border:3px solid var(--tinta);overflow:hidden;background:linear-gradient(160deg,#ffd75e 0%,#f2a91b 18%,#d52b1e 42%,#9b1c2e 58%,#0b3c8c 82%,#2a64c4 100%)}
+.tp-top{top:0;height:15%;border-radius:12px 12px 0 0;border-bottom:0;z-index:2;transition:transform .6s cubic-bezier(.3,.9,.4,1),opacity .6s}
+.tp-body{top:15%;bottom:0;border-radius:0 0 12px 12px;border-top:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 10px 0 rgba(0,0,0,.35)}
+.tp-top::before,.tp-body::after{content:"";position:absolute;left:0;right:0;height:9px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.28) 0 3px,rgba(255,255,255,.18) 3px 6px)}
+.tp-top::before{top:0}.tp-body::after{bottom:0}
+.tp-foil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 45%,transparent 60%);background-size:260% 100%;animation:tpfoil 3s ease-in-out infinite;mix-blend-mode:overlay}
+@keyframes tpfoil{0%{background-position:120% 0}60%,100%{background-position:-60% 0}}
+.tp-emb{width:46%;aspect-ratio:1;border-radius:50%;background:#fff4dc;border:3px solid var(--tinta);display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.3);margin-top:6%}
+.tp-emb canvas{width:86%;height:86%}
+.tp-title{font:400 calc(var(--ph) * .085)/1 var(--display);color:#fff;text-shadow:0 3px 0 var(--tinta),2px 0 0 var(--tinta),-2px 0 0 var(--tinta),0 -2px 0 var(--tinta);margin-top:4px}
+.tp-sub{font:800 calc(var(--ph) * .036) var(--body);letter-spacing:.14em;text-transform:uppercase;color:#fff8e0;text-shadow:0 1px 0 var(--tinta)}
+.tp-flag{display:flex;width:40%;height:7px;border:2px solid var(--tinta);border-radius:3px;overflow:hidden;margin-top:6px}.tp-flag i{flex:1}.tp-flag i:nth-child(1){background:var(--azul)}.tp-flag i:nth-child(2){background:#fff}.tp-flag i:nth-child(3){background:var(--rojo)}
+/* guía para rasgar: línea punteada justo bajo la franja de arriba */
+.tp-guide{position:absolute;left:4%;right:4%;top:15%;height:0;border-top:3px dashed rgba(255,255,255,.9);z-index:3;pointer-events:none;filter:drop-shadow(0 1px 0 var(--tinta))}
+.tp-guide span{position:absolute;left:0;top:-30px;white-space:nowrap;font:400 13px var(--display);color:#fff;background:rgba(42,26,18,.75);padding:2px 9px;border-radius:99px;animation:tpfinger 1.6s ease-in-out infinite}
+@keyframes tpfinger{0%{transform:translateX(0);opacity:0}15%{opacity:1}80%{transform:translateX(calc(var(--ph) * .3));opacity:1}100%{transform:translateX(calc(var(--ph) * .34));opacity:0}}
+.tp-cut{position:absolute;left:0;top:15%;height:4px;margin-top:-2px;width:0;z-index:4;pointer-events:none;background:linear-gradient(90deg,#fff,#ffe27a);border-radius:2px;box-shadow:0 0 10px 3px rgba(255,240,170,.9)}
+.tp-cut::after{content:"";position:absolute;right:-9px;top:-7px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#fff 0 30%,rgba(255,226,122,.8) 45%,transparent 70%)}
+.tp-cut{opacity:0}
+.tp-pack.cutting .tp-cut{opacity:1}
+.tp-pack.cutting{animation:none;cursor:grabbing}
+.tp-pack.hint{animation:tpshake .45s ease}
+@keyframes tpshake{0%,100%{transform:translate(-50%,-50%)}25%{transform:translate(-53%,-50%) rotate(-3deg)}75%{transform:translate(-47%,-50%) rotate(3deg)}}
+.tp-pack.torn{animation:none}
+.tp-pack.torn .tp-top{transform:translate(60%,-160%) rotate(28deg);opacity:0}
+.tp-pack.torn .tp-guide,.tp-pack.torn .tp-cut{display:none}
+.tp-pack.gone{transform:translate(-50%,40%) scale(.9);opacity:0;pointer-events:none}
+/* láminas en pila */
+.tp-stack{position:absolute;inset:0;pointer-events:none}
+.tp-card{position:absolute;left:50%;top:50%;width:calc(var(--ph) * .68);height:calc(var(--ph) * .95);margin:calc(var(--ph) * -.475) 0 0 calc(var(--ph) * -.34);border-radius:14px;
+  transform:translate(var(--x,0px),calc(var(--k) * 5px + var(--y,0px))) rotate(calc(var(--k) * 2.5deg + var(--rot,0deg))) scale(calc(1 - var(--k) * .04));z-index:calc(10 - var(--k));
+  transition:transform .45s cubic-bezier(.25,1.2,.4,1),opacity .35s;opacity:0;perspective:900px}
+.tp-stack.on .tp-card{opacity:1;pointer-events:auto}
+.tp-stack:not(.on) .tp-card{transform:translate(0,40%) scale(.7)}
+.tp-card.top{cursor:grab}
+.tp-card.drag{transition:none}
+.tp-stack.on .tp-card.out{opacity:0;pointer-events:none!important;transition:transform .45s cubic-bezier(.4,0,.6,1),opacity .45s}
+.tp-face{position:relative;width:100%;height:100%;border-radius:14px;border:4px solid #fffdf5;outline:3px solid var(--tinta);background:#fff4dc;color:var(--tinta);display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 12px 24px rgba(0,0,0,.45);transform:rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));transition:transform .2s}
+.tp-card.drag .tp-face{transition:none}
+.tp-ph{position:relative;flex:0 0 62%;background:#e8dcc4;border-bottom:3px solid var(--tinta);display:grid;place-items:center;overflow:hidden}
+.tp-ph img{width:100%;height:100%;object-fit:cover;display:block}
+.tp-ph canvas{width:78%;height:auto;aspect-ratio:1}
+.tp-badge{position:absolute;right:6px;bottom:-2px;width:30%;aspect-ratio:1;border-radius:50%;background:#fff4dc;border:3px solid var(--tinta);display:grid;place-items:center;overflow:hidden;z-index:2}
+.tp-badge canvas{width:100%;height:100%}
+.tp-info{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 8px 8px}
+.tp-info b{font:400 calc(var(--ph) * .062)/1.05 var(--display)}
+.tp-info small{font:800 calc(var(--ph) * .032) var(--body);letter-spacing:.1em;text-transform:uppercase;color:#6b5a4c}
+.tp-rar{font:400 calc(var(--ph) * .045)/1 var(--display);color:var(--oro);-webkit-text-stroke:1px var(--tinta);letter-spacing:2px}
+.tp-new{position:absolute;left:-6px;top:10px;z-index:3;background:var(--rojo);color:#fff;font:400 13px var(--display);padding:2px 10px;border:2px solid var(--tinta);border-radius:6px;transform:rotate(-8deg)}
+/* brillo holográfico de las raras: se mueve con el dedo (o al inclinar) y brilla solo cuando está quieta */
+.tp-card.holo .tp-face{outline-color:#b8860b;background:linear-gradient(160deg,#fff7d6,#ffe9b0)}
+.tp-card.holo .tp-face::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;border-radius:10px;mix-blend-mode:color-dodge;opacity:.55;
+  background:linear-gradient(115deg,transparent 18%,rgba(255,80,170,.7) 32%,rgba(80,230,255,.7) 44%,rgba(255,240,90,.7) 56%,rgba(140,255,140,.6) 66%,transparent 80%),
+    repeating-linear-gradient(45deg,rgba(255,255,255,.12) 0 2px,transparent 2px 7px);
+  background-size:260% 260%,auto;background-position:var(--hx,50%) var(--hy,50%),0 0;animation:tpholo 4s ease-in-out infinite}
+.tp-card.holo.touch .tp-face::after{animation:none}
+@keyframes tpholo{0%,100%{background-position:0% 30%,0 0}50%{background-position:100% 70%,0 0}}
+.tp-card.holo.top .tp-face{box-shadow:0 0 0 2px #f6bd1d,0 0 28px 8px rgba(255,214,90,.6),0 12px 24px rgba(0,0,0,.45)}
+.tp-count{position:absolute;right:max(4px,calc(50% - var(--ph) * .5));bottom:-4px;font:400 16px var(--display);color:#fff;background:rgba(42,26,18,.7);border-radius:99px;padding:2px 10px;opacity:0;transition:opacity .3s}
+.tp-stack.on~.tp-count{opacity:1}
+#pack .pk-burst{top:50%}
+#pack-btns{display:flex;gap:10px}
+#pack-btns[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){.tp-pack,.tp-foil,.tp-guide span,.tp-card.holo .tp-face::after{animation:none}}
+/* v2.15 · Borrar progreso (en Cómo se juega) */
+.danger-box{margin:16px 0 4px;padding:10px 12px;border:3px dashed #a81e14;border-radius:14px;background:#fff0ec}
+.danger-box b{font:400 18px var(--display);color:#a81e14}
+.danger-box p{margin:4px 0 8px;font-size:13.5px;line-height:1.4}
+.btn.danger{background:#c4281f;color:#fff}
+.btn.hold{position:relative;overflow:hidden;min-width:220px;touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.btn.hold i{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#6e0f09,#3a0704);pointer-events:none}
+.btn.hold span{position:relative}
+.btn.hold.on{transform:translateY(3px);box-shadow:0 2px 0 var(--tinta)}
+/* v2.15 · Viaje entre niveles: plumitas que caen girando */
+#chile-map .tfeather{transform-box:fill-box;transform-origin:center;animation:tfeather 1.2s ease-out forwards}
+@keyframes tfeather{0%{transform:translate(0,0) rotate(0) scale(.6);opacity:0}15%{opacity:1;transform:translate(0,2px) rotate(calc(var(--rr) * .2)) scale(1)}100%{transform:translate(var(--dx),26px) rotate(var(--rr)) scale(.8);opacity:0}}
+#chile-map.moving .tfx{animation-play-state:running!important}
+/* v2.15 · El menú "⋯" siempre muestra los nombres (las reglas de pantallas chicas ocultaban el texto de todos los botones del mapa) */
+#menu .more-menu .w-btn span{display:block;font-size:13px;line-height:1.2;white-space:nowrap}
+#menu .more-menu .w-btn{min-width:0;min-height:44px;padding:5px 8px}
+/* v2.15 · Resultado sin desglose del puntaje (invasores, bloques, aves que sobraron): solo el total y las estrellas */
+#res-tally{display:none!important}
+/* v2.15 · Ayuda: historial de versiones plegado */
+#help .old-news{margin-top:14px}
+#help .old-news[open] summary{margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -1196,7 +1393,7 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
 <section id="menu" class="world">
   <div class="map-wrap" id="map-view"><svg id="chile-map" role="group" aria-label="Mapa de Chile con los niveles"></svg></div>
   <header class="w-top">
-    <div class="w-brand"><span class="star">★</span><b>Aves Choras</b><small>v2.14</small></div>
+    <div class="w-brand"><span class="star">★</span><b>Aves Choras</b><small>v2.15</small></div>
     <div class="stats" id="stats"></div>
     <nav class="w-actions" aria-label="Menú">
       <button class="w-btn" id="btn-daily" aria-label="Desafíos del día"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3" fill="#fff"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4" stroke-linecap="round"/><path d="M8.5 15.2l2.4 2.4 4.6-4.9" stroke="#d52b1e" stroke-linecap="round"/></svg><span>Desafíos</span><i class="wbadge" id="daily-badge">0/3</i></button>
@@ -1213,6 +1410,10 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
   <div class="map-ctrl"><button id="mz-in" aria-label="Acercar mapa">+</button><button id="mz-out" aria-label="Alejar mapa">−</button><button id="mz-fit" aria-label="Ver todo Chile" style="font-size:16px">⤢</button></div>
   <div class="map-hint" id="map-hint">Arrastra para recorrer Chile · toca un nivel para jugar</div>
   <div class="w-bottom">
+    <section class="lvl-strip" id="lvl-strip" aria-label="Niveles de la región">
+      <div class="ls-head"><button class="ls-nav" id="ls-prev" aria-label="Región anterior">‹</button><div class="ls-title"><b id="ls-name"></b><small id="ls-prog"></small></div><button class="ls-nav" id="ls-next" aria-label="Región siguiente">›</button></div>
+      <div class="ls-row" id="ls-row"></div>
+    </section>
     <section class="campaign-note" aria-live="polite" aria-label="Progreso de campaña">
       <div class="campaign-mark" aria-hidden="true">BITÁCORA <span>✳</span></div>
       <div class="campaign-copy"><b id="campaign-title">Ruta de rescate</b><span id="campaign-detail">Elige una región para comenzar.</span></div>
@@ -1243,7 +1444,7 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
 <section id="help" class="overlay" hidden>
   <div class="panel small">
     <div class="flagbar"><i></i><i></i><i></i></div>
-    <p class="eyebrow">Aves Choras · versión 2.14</p>
+    <p class="eyebrow">Aves Choras · versión 2.15</p>
     <h2>¿Cómo se juega, cachái?</h2>
     <ul class="help-list">
       <li>Agarra el ave de la honda, tírala hacia atrás y suelta. La línea punteada muestra la trayectoria.</li>
@@ -1252,6 +1453,17 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
       <li>Los jefes tienen tres fases y cada golpe les quita como máximo 40 de vida. Al cambiar de fase se protegen con un escudo hasta tu siguiente tiro. Cuando ves el <b>!</b> van a saltar o a lanzarte algo: si cae sobre tus aves, te bota una. No te demores en tirar.</li>
       <li>En el mapa: rojo es por jugar, azul es ganado y dorado es con 3 estrellas. La corona marca a los jefes.</li>
     </ul>
+    <p class="eyebrow" style="margin:14px 0 6px">Novedades de la 2.15</p>
+    <ul class="help-list">
+      <li>Pensado para el celular acostado: todo cabe en pantalla y el mapa trae un carrusel con los niveles de cada región.</li>
+      <li>El mapa se mueve mucho más fluido en el iPhone.</li>
+      <li>La línea de puntería muestra solo el 65% del vuelo; la Mira de águila la alarga (80% y completa).</li>
+      <li>Invasores un poco más frágiles y menos aves en varios niveles. Pingüino y jote, algo más suaves.</li>
+      <li>Se gana la mitad de lucas por nivel.</li>
+      <li>Sobres de láminas que se rasgan con el dedo, con láminas raras que brillan.</li>
+      <li>El ave vuela por el mapa al pasar de nivel, y puedes borrar todo tu progreso aquí abajo.</li>
+    </ul>
+    <details class="howto old-news"><summary>Versiones anteriores</summary>
     <p class="eyebrow" style="margin:14px 0 6px">Novedades de la 2.14</p>
     <ul class="help-list">
       <li>Interfaz móvil ajustada: el mapa parte más abierto y las ventanas aprovechan mejor la pantalla del teléfono.</li>
@@ -1433,11 +1645,27 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
       <li>Terreno nuevo: cerros, quebradas donde caen los invasores, agua donde se ahogan, ríos de lava y rocas fijas. La honda cambia de altura según el nivel. Material nuevo: fierro y calamina.</li>
       <li>Seis jefes con tres fases y ataques propios: hijos del conejo, represas del castor, embestidas del jabalí, saltos del visón y la Rata reina que se esconde bajo tierra. En la final, el Gran Jabalí los usa todos.</li>
     </ul>
+    </details>
     <p class="foot">Atajos: R reinicia, M silencia, P o Esc pausa, Espacio usa el poder, F pantalla completa. Funciona sin internet.</p>
+    <div class="danger-box">
+      <b>Borrar todo el progreso</b>
+      <p>Empieza de cero: se pierden estrellas, regiones rescatadas, lucas, láminas, medallas y compras. No se puede deshacer.</p>
+      <button class="btn danger" id="reset-open">Borrar todo el progreso</button>
+    </div>
     <div class="row" style="margin-top:12px"><button class="btn" id="help-story">Ver la historia</button><button class="btn primary" id="help-back">Volver al mapa</button></div>
   </div>
 </section>
 
+<section id="reset" class="overlay" hidden>
+  <div class="panel small center">
+    <div class="flagbar"><i></i><i></i><i></i></div>
+    <p class="eyebrow">Ojo, casero</p>
+    <h2>¿Borrar todo?</h2>
+    <p class="sub" id="reset-sum"></p>
+    <p class="sub"><b>No se puede deshacer.</b> Para confirmar, mantén apretado el botón rojo.</p>
+    <div class="row"><button class="btn" id="reset-cancel">Cancelar</button><button class="btn danger hold" id="reset-hold"><i></i><span>Mantén para borrar</span></button></div>
+  </div>
+</section>
 <section id="medals" class="overlay" hidden>
   <div class="panel">
     <div class="flagbar"><i></i><i></i><i></i></div>
@@ -1469,32 +1697,20 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
   </div>
 </section>
 <section id="pack" class="overlay" hidden>
-  <div class="pack-stage">
-    <div class="pack-area">
-      <div class="pk-halo" aria-hidden="true"></div>
-      <button class="env" id="pack-env" aria-label="Abrir el sobre">
-        <svg class="env-svg" viewBox="0 0 220 290" aria-hidden="true">
-          <defs>
-            <pattern id="airm" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="24" fill="#d52b1e"/><rect x="12" width="12" height="24" fill="#0b3c8c"/><rect x="11" width="2" height="24" fill="#fffaf0"/></pattern>
-            <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffaf0"/><stop offset=".6" stop-color="#f6ead0"/><stop offset="1" stop-color="#ead9b4"/></linearGradient>
-          </defs>
-          <rect x="16" y="22" width="196" height="262" rx="12" fill="#2a1a12" opacity=".32"/>
-          <rect x="10" y="12" width="196" height="262" rx="12" fill="url(#airm)" stroke="#2a1a12" stroke-width="4"/>
-          <rect x="22" y="24" width="172" height="238" rx="6" fill="url(#paper)" stroke="#2a1a12" stroke-width="2.5"/>
-          <g transform="translate(140 196) scale(.86)"><rect width="48" height="58" fill="#fffaf0" stroke="#2a1a12" stroke-width="2.5" stroke-dasharray="3 2.4"/><rect x="5" y="5" width="38" height="48" fill="#0b3c8c"/><path d="M24 14l3.2 7.2 7.8.7-5.9 5.2 1.8 7.7-6.9-4.1-6.9 4.1 1.8-7.7-5.9-5.2 7.8-.7z" fill="#fffaf0"/><rect x="5" y="40" width="38" height="13" fill="#d52b1e"/><text x="24" y="50" text-anchor="middle" font-family="Lilita One,sans-serif" font-size="9" fill="#fffaf0">CHILE</text></g>
-          <g transform="translate(138 224) scale(.9)" opacity=".6"><circle r="22" fill="none" stroke="#2a1a12" stroke-width="2"/><circle r="17" fill="none" stroke="#2a1a12" stroke-width="1"/><path d="M-44 -6 q8 -7 16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="#2a1a12" stroke-width="2"/><path d="M-44 6 q8 -7 16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="#2a1a12" stroke-width="2"/></g>
-          <g stroke="#b9a88a" stroke-width="3" stroke-linecap="round"><path d="M40 186 h124"/><path d="M40 198 h96"/></g>
-          <text x="40" y="174" font-family="Lilita One,sans-serif" font-size="14" fill="#7a4a22">PARA: TU ÁLBUM</text>
-        </svg>
-        <svg class="env-flap" viewBox="0 0 196 138" aria-hidden="true"><path d="M3 3 H193 L98 132 Z" fill="url(#airm)" stroke="#2a1a12" stroke-width="4" stroke-linejoin="round"/><path d="M20 10 H176 L98 116 Z" fill="url(#paper)" stroke="#2a1a12" stroke-width="2.5" stroke-linejoin="round"/></svg>
-        <b class="env-seal" aria-hidden="true"><em>★</em></b>
-        <span class="env-lbl">¡Sobre!</span>
-        <i class="env-shine" aria-hidden="true"></i>
-      </button>
-      <div class="pk-burst cburst" id="pkburst" aria-hidden="true"></div>
-      <div class="pack-cards" id="pack-cards"></div>
+  <div class="tp-stage">
+    <p class="tp-msg" id="pack-msg"></p>
+    <div class="tp-area" id="tp-area">
+      <div class="tp-halo" aria-hidden="true"></div>
+      <div class="tp-pack" id="pack-env" role="button" tabindex="0" aria-label="Abrir el sobre: desliza el dedo por la línea de arriba">
+        <div class="tp-top"><div class="tp-foil"></div></div>
+        <div class="tp-body"><div class="tp-foil"></div><div class="tp-emb" id="tp-emb"></div><div class="tp-title">Aves Choras</div><div class="tp-sub" id="tp-sub">Sobre de láminas</div><div class="tp-flag"><i></i><i></i><i></i></div></div>
+        <div class="tp-guide"><span>Desliza para abrir →</span></div>
+        <div class="tp-cut" id="tp-cut"></div>
+      </div>
+      <div class="tp-stack" id="pack-cards"></div>
+      <div class="tp-count" id="tp-count"></div>
+      <div class="pk-burst" id="pkburst" aria-hidden="true"></div>
     </div>
-    <p id="pack-msg"></p>
     <div id="pack-btns" hidden><button class="btn primary" id="pack-album">Pegar en el álbum</button><button class="btn" id="pack-later">Después</button></div>
   </div>
 </section>
@@ -1509,7 +1725,7 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
       <div class="wallet"><i class="bill big"></i><div><small>En el bolsillo</small><b id="shop-lucas">0</b></div></div>
     </div>
     <div class="shelf" id="shop-grid"></div>
-    <p class="sub" style="font-size:13px">Ganas una luca por cada 1.000 puntos al pasar un nivel, y más con las empanadas, los desafíos y los cofres de cada región.</p>
+    <p class="sub" style="font-size:13px">Ganas lucas por puntaje y estrellas al pasar un nivel, y más con las empanadas, los desafíos y los cofres de cada región.</p>
     <div class="row"><button class="btn primary" id="shop-back">Volver al mapa</button></div>
   </div>
 </section>
@@ -1610,14 +1826,17 @@ body.cine #hud,body.cine #boss-bar,body.cine #medal-banner,body.cine #cards-bar,
     <div class="flagbar"><i></i><i></i><i></i></div>
     <p class="eyebrow" id="daily-eyebrow">Desafíos del día</p>
     <h2>Desafíos del día</h2>
+    <div class="dl-cols"><div class="dl-a">
     <div class="streak" id="daily-streak"></div>
     <div class="wheel-cta" id="wheel-cta"></div>
-    <div class="missions" id="daily-list"></div>
     <div class="daylvl" id="daily-lvl"></div>
+    </div><div class="dl-b">
+    <div class="missions" id="daily-list"></div>
     <h3 class="wk-title">Misiones de la semana</h3>
     <div class="missions weekly" id="weekly-list"></div>
     <p class="foot" id="weekly-foot"></p>
     <p class="foot" id="daily-reset"></p>
+    </div></div>
     <div class="row" style="margin-top:12px"><button class="btn primary" id="daily-back">Volver al mapa</button></div>
   </div>
 </section>
@@ -1689,7 +1908,8 @@ const SLING = { x: 230, y: 640 };
 const MAX_PULL = 140, POWER = 0.17, STEP = 1000 / 60;
 const GRAV_STEP = 0.001 * STEP * STEP;
 const BG = { x0: -600, y0: -900, w: 2800, h: 1900 };
-const K_DMG = 0.4, ENEMY_MULT = 3, BOSS_MULT = 1.0, BOSS_HIT_CAP = 40;
+const K_DMG = 0.4, ENEMY_MULT = 3.75, BOSS_MULT = 1.0, BOSS_HIT_CAP = 40; // v2.15: invasores un poco más frágiles (antes 3)
+const AIM_FRAC = [0.65, 0.8, 1]; // parte visible de la trayectoria según el nivel de la Mira de águila
 
 const BIRDS = {
   chincol:  { name: 'Chincol', r: 20, density: 0.004, power: 'call', verb: 'llamar a los chincolitos',
@@ -5262,62 +5482,62 @@ const SMOOTH23 = ['islanegra', 'quintavergara', 'colchagua', 'rapel', 'sewell', 
 for (const L of LEVELS) if (SMOOTH23.includes(L.key)) smoothTerrain(L);
 const REGEN23 = {
   pichilemu: { tpl: 'valle', mods: ['fortaleza', 'zigurat', 'arch', 'pyramid'], types: ['rata', 'conejo'], helm: 0.05, balloons: 0, seed: 27, xE: 9, xB: 7900, nb: 5 },
-  santalucia: { tpl: 'colina', mods: ['catedral', 'torreGemela', 'pyramid', 'tower2'], types: ['cotorra', 'rata', 'conejo'], mat: { pm: ['adobe', 'piedra', 'madera'], km: ['piedra', 'adobe', 'madera'] }, helm: 0.04, balloons: 0, seed: 15, xE: 9, xB: 10000, nb: 10 },
+  santalucia: { tpl: 'colina', mods: ['catedral', 'torreGemela', 'pyramid', 'tower2'], types: ['cotorra', 'rata', 'conejo'], mat: { pm: ['adobe', 'piedra', 'madera'], km: ['piedra', 'adobe', 'madera'] }, helm: 0.04, balloons: 0, seed: 15, xE: 9, xB: 10000, nb: 6 },
   maule: { tpl: 'doble', mods: ['ziguratXL', 'palacioVidrio', 'arch', 'barrels'], types: ['conejo', 'jabali'], helm: 0.15, glass: 0.6, balloons: 0, seed: 1, xE: 10, xB: 11000, nb: 5 },
   sietetazas: { tpl: 'cañon', mods: ['casaVidrio', 'castle', 'balancin', 'domino'], types: ['vison'], helm: 0.18, seed: 4, xE: 9, xB: 8400, nb: 6 },
   constitucion: { tpl: 'colina', mods: ['zigurat', 'torreGemela', 'tower2', 'watch'], types: ['castor', 'rata'], helm: 0.04, glass: 0.5, balloons: 0, seed: 8, xE: 10, xB: 8400, nb: 8 },
   copiapo: { tpl: 'meseta', mods: ['palacioVidrio', 'castilloXL', 'watch', 'crates'], types: ['rata', 'conejo'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'madera', 'piedra'] }, helm: 0.04, glass: 0.6, balloons: 0, seed: 6, xE: 17, xB: 13300, nb: 9 },
-  atacama: { tpl: 'meseta', mods: ['torreXL', 'castilloXL', 'watch', 'crates'], types: ['conejo', 'vison'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'madera'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 10, xE: 13, xB: 11300, nb: 10 },
-  chuqui: { tpl: 'doble', mods: ['fortaleza', 'columnata', 'stairs', 'balancin'], types: ['rata', 'conejo'], mat: { pm: ['madera', 'fierro'], km: ['fierro', 'piedra', 'madera'] }, helm: 0.27, seed: 7, xE: 13, xB: 12500, nb: 8 },
-  juanfernandez: { tpl: 'doble', mods: ['ziguratXL', 'castilloXL', 'watch', 'watch'], types: ['rata', 'gato', 'conejo'], helm: 0.15, glass: 0.6, balloons: 0, seed: 1, xE: 10, xB: 11100, nb: 8 },
-  lota: { tpl: 'valle', mods: ['torreAB', 'almenas', 'domino', 'barrels'], types: ['rata', 'vison'], mat: { pm: ['madera', 'fierro'], km: ['fierro', 'madera'] }, helm: 0.06, balloons: 0, seed: 29, xE: 13, xB: 13800, nb: 9 },
+  atacama: { tpl: 'meseta', mods: ['torreXL', 'castilloXL', 'watch', 'crates'], types: ['conejo', 'vison'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'madera'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 10, xE: 13, xB: 11300, nb: 8 },
+  chuqui: { tpl: 'doble', mods: ['fortaleza', 'columnata', 'stairs', 'balancin'], types: ['rata', 'conejo'], mat: { pm: ['madera', 'fierro'], km: ['fierro', 'piedra', 'madera'] }, helm: 0.27, seed: 7, xE: 13, xB: 12500, nb: 6 },
+  juanfernandez: { tpl: 'doble', mods: ['ziguratXL', 'castilloXL', 'watch', 'watch'], types: ['rata', 'gato', 'conejo'], helm: 0.15, glass: 0.6, balloons: 0, seed: 1, xE: 10, xB: 11100, nb: 7 },
+  lota: { tpl: 'valle', mods: ['torreAB', 'almenas', 'domino', 'barrels'], types: ['rata', 'vison'], mat: { pm: ['madera', 'fierro'], km: ['fierro', 'madera'] }, helm: 0.06, balloons: 0, seed: 29, xE: 13, xB: 13800, nb: 6 },
   pucon: { tpl: 'meseta', mods: ['puenteXL', 'ziguratXL', 'watch', 'arch'], types: ['conejo', 'jabali'], helm: 0.15, glass: 0.6, balloons: 0, seed: 34, xE: 15, xB: 12300, nb: 5 },
-  ranco: { tpl: 'cañon', mods: ['zigurat', 'casaVidrio', 'balancin', 'stairs'], types: ['rana', 'vison'], helm: 0.33, seed: 40, xE: 11, xB: 12200, nb: 10 },
-  sanrafael: { tpl: 'colina', mods: ['torreAB', 'pagoda', 'crates', 'arch'], types: ['castor', 'rata', 'vison'], mat: { pm: ['hielo', 'madera'], km: ['hielo', 'madera'] }, helm: 0.04, balloons: 0, seed: 4, xE: 10, xB: 8400, nb: 8 },
-  tortel: { tpl: 'doble', mods: ['keep4', 'almenas', 'crates', 'arch'], types: ['vison', 'rata'], helm: 0.38, seed: 1, xE: 10, xB: 12200, nb: 10 },
-  natales: { tpl: 'ondulado', mods: ['fortaleza', 'mesaT', 'balancin', 'stairs'], types: ['castor', 'vison'], mat: { pm: ['madera', 'piedra'], km: ['piedra', 'madera'] }, helm: 0.38, seed: 17, xE: 11, xB: 11200, nb: 6 },
+  ranco: { tpl: 'cañon', mods: ['zigurat', 'casaVidrio', 'balancin', 'stairs'], types: ['rana', 'vison'], helm: 0.33, seed: 40, xE: 11, xB: 12200, nb: 9 },
+  sanrafael: { tpl: 'colina', mods: ['torreAB', 'pagoda', 'crates', 'arch'], types: ['castor', 'rata', 'vison'], mat: { pm: ['hielo', 'madera'], km: ['hielo', 'madera'] }, helm: 0.04, balloons: 0, seed: 4, xE: 10, xB: 8400, nb: 7 },
+  tortel: { tpl: 'doble', mods: ['keep4', 'almenas', 'crates', 'arch'], types: ['vison', 'rata'], helm: 0.38, seed: 1, xE: 10, xB: 12200, nb: 8 },
+  natales: { tpl: 'ondulado', mods: ['fortaleza', 'mesaT', 'balancin', 'stairs'], types: ['castor', 'vison'], mat: { pm: ['madera', 'piedra'], km: ['piedra', 'madera'] }, helm: 0.38, seed: 17, xE: 11, xB: 11200, nb: 5 },
   cabohornos: { tpl: 'cañon', mods: ['keep4', 'catedral', 'gallows', 'domino'], types: ['vison', 'castor', 'rata'], mat: { pm: ['madera', 'piedra'], km: ['madera', 'fierro'] }, helm: 0.38, seed: 40, xE: 10, xB: 11900, nb: 10 },
   valpo: { tpl: 'meseta', mods: ['torreXL', 'palacioVidrio', 'barrels', 'pyramid'], types: ['rata', 'conejo'], helm: 0.04, glass: 0.6, balloons: 0, seed: 10, xE: 14, xB: 12900, nb: 7 },
   islanegra: { tpl: 'doble', mods: ['ziguratXL', 'torreXL', 'arch', 'barrels'], types: ['rata', 'conejo'], helm: 0.15, glass: 0.6, balloons: 0, seed: 1, xE: 10, xB: 11000, nb: 6 },
-  quintavergara: { tpl: 'terraza', mods: ['torreAB', 'fortaleza', 'balancin', 'stairs'], types: ['ardilla', 'rata', 'conejo'], helm: 0.05, balloons: 0, seed: 4, xE: 15, xB: 9900, nb: 8 },
+  quintavergara: { tpl: 'terraza', mods: ['torreAB', 'fortaleza', 'balancin', 'stairs'], types: ['ardilla', 'rata', 'conejo'], helm: 0.05, balloons: 0, seed: 4, xE: 15, xB: 9900, nb: 7 },
   colchagua: { tpl: 'meseta', mods: ['puenteXL', 'palacioVidrio', 'barrels', 'watch'], types: ['conejo', 'rata'], helm: 0.15, glass: 0.6, balloons: 0, seed: 30, xE: 15, xB: 13400, nb: 9 },
   rapel: { tpl: 'cañon', mods: ['keep4', 'torreGemela', 'domino', 'gallows'], types: ['conejo', 'rata'], helm: 0.05, balloons: 0, seed: 40, xE: 11, xB: 8800, nb: 10 },
   sewell: { tpl: 'meseta', mods: ['ziguratXL', 'puenteXL', 'tower2', 'stairs'], types: ['conejo', 'rata'], helm: 0.15, glass: 0.6, balloons: 0, seed: 24, xE: 17, xB: 11100, nb: 7 },
   sancristobal: { tpl: 'terraza', mods: ['almenas', 'mesaT', 'balancin', 'tower2'], types: ['conejo', 'rata'], helm: 0, seed: 3, xE: 8, xB: 10700, nb: 9 },
   quintanormal: { tpl: 'valle', mods: ['longhouse', 'torreGemela', 'stairs', 'watch'], types: ['conejo', 'rata'], helm: 0.16, balloons: 0, seed: 1, xE: 15, xB: 9600, nb: 10 },
-  caren: { tpl: 'cañon', mods: ['keep4', 'casaVidrio', 'arch', 'crates'], types: ['conejo', 'rata'], helm: 0.17, seed: 11, xE: 16, xB: 15100, nb: 10 },
-  cajonmaipo: { tpl: 'doble', mods: ['catedral', 'pagoda', 'pyramid', 'watch'], types: ['conejo', 'rata', 'jabali'], helm: 0.04, balloons: 0, seed: 3, xE: 10, xB: 10700, nb: 7 },
+  caren: { tpl: 'cañon', mods: ['keep4', 'casaVidrio', 'arch', 'crates'], types: ['conejo', 'rata'], helm: 0.17, seed: 11, xE: 16, xB: 15100, nb: 7 },
+  cajonmaipo: { tpl: 'doble', mods: ['catedral', 'pagoda', 'pyramid', 'watch'], types: ['conejo', 'rata', 'jabali'], helm: 0.04, balloons: 0, seed: 3, xE: 10, xB: 10700, nb: 5 },
   nuble: { tpl: 'doble', mods: ['longhouse', 'torreAB', 'crates', 'domino'], types: ['conejo', 'rata', 'jabali'], helm: 0.2, seed: 1, xE: 17, xB: 16100, nb: 7 },
-  cobquecura: { tpl: 'cañon', mods: ['catedral', 'torreVidrio', 'arch', 'domino'], types: ['conejo', 'rata'], helm: 0.2, balloons: 0, seed: 10, xE: 16, xB: 17200, nb: 9 },
+  cobquecura: { tpl: 'cañon', mods: ['catedral', 'torreVidrio', 'arch', 'domino'], types: ['conejo', 'rata'], helm: 0.2, balloons: 0, seed: 10, xE: 16, xB: 17200, nb: 7 },
   nevadoschillan: { tpl: 'colina', mods: ['torreAB', 'pagoda', 'crates', 'arch'], types: ['jabali', 'conejo'], mat: { pm: ['madera', 'hielo'], km: ['madera', 'piedra'] }, helm: 0.04, balloons: 0, seed: 4, xE: 14, xB: 15900, nb: 7 },
   elqui: { tpl: 'colina2', mods: ['castle', 'catedral', 'watch', 'balancin'], types: ['conejo', 'rata'], helm: 0.21, balloons: 0, seed: 10, xE: 12, xB: 14900, nb: 6 },
-  fraijorge: { tpl: 'ondulado', mods: ['columnata', 'fortaleza', 'tower2', 'domino'], types: ['conejo', 'rata'], helm: 0.21, seed: 1, xE: 11, xB: 11800, nb: 8 },
-  encanto: { tpl: 'valle', mods: ['torreAB', 'mesaT', 'arch', 'crates'], types: ['cabra', 'conejo', 'rata'], helm: 0.06, balloons: 0, seed: 35, xE: 11, xB: 10000, nb: 10 },
-  laserena: { tpl: 'cañon', mods: ['castle', 'pagoda', 'tower2', 'domino'], types: ['conejo', 'rata'], helm: 0.22, seed: 11, xE: 18, xB: 18200, nb: 8 },
+  fraijorge: { tpl: 'ondulado', mods: ['columnata', 'fortaleza', 'tower2', 'domino'], types: ['conejo', 'rata'], helm: 0.21, seed: 1, xE: 11, xB: 11800, nb: 6 },
+  encanto: { tpl: 'valle', mods: ['torreAB', 'mesaT', 'arch', 'crates'], types: ['cabra', 'conejo', 'rata'], helm: 0.06, balloons: 0, seed: 35, xE: 11, xB: 10000, nb: 7 },
+  laserena: { tpl: 'cañon', mods: ['castle', 'pagoda', 'tower2', 'domino'], types: ['conejo', 'rata'], helm: 0.22, seed: 11, xE: 18, xB: 18200, nb: 6 },
   islandamas: { tpl: 'meseta', mods: ['torreGemela', 'torreAB', 'balancin', 'stairs'], types: ['rata', 'gato', 'conejo'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.23, seed: 6, xE: 16, xB: 15900, nb: 9 },
   bahiainglesa: { tpl: 'cañon', mods: ['torreAB', 'pagoda', 'crates', 'arch'], types: ['conejo', 'rata'], helm: 0.04, balloons: 0, seed: 4, xE: 9, xB: 9000, nb: 8 },
   ojosdelsalado: { tpl: 'meseta', mods: ['castle', 'columnata', 'watch', 'tower2'], types: ['conejo', 'rata'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.24, seed: 14, xE: 13, xB: 14900, nb: 7 },
   valleluna: { tpl: 'valle', mods: ['mesaT', 'pagoda', 'barrels', 'balancin'], types: ['conejo', 'cotorra', 'rata'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.26, seed: 2, xE: 12, xB: 9700, nb: 8 },
   tatio: { tpl: 'meseta', mods: ['keep4', 'rascacielos', 'barrels', 'pyramid'], types: ['rata', 'conejo'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, keepG: true, helm: 0.26, seed: 7, xE: 17, xB: 17400, nb: 7 },
-  iquique: { tpl: 'doble', mods: ['ziguratXL', 'castilloXL', 'barrels', 'crates'], types: ['rata', 'conejo'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 1, xE: 10, xB: 11200, nb: 8 },
+  iquique: { tpl: 'doble', mods: ['ziguratXL', 'castilloXL', 'barrels', 'crates'], types: ['rata', 'conejo'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 1, xE: 10, xB: 11200, nb: 6 },
   pica: { tpl: 'meseta', mods: ['torreGrande', 'mesaT', 'crates', 'tower2'], types: ['conejo', 'rata'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.04, balloons: 0, seed: 4, xE: 13, xB: 11400, nb: 7 },
-  humberstone: { tpl: 'meseta', mods: ['torreXL', 'puenteXL', 'arch', 'balancin'], types: ['conejo', 'rata'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 10, xE: 13, xB: 10300, nb: 10 },
+  humberstone: { tpl: 'meseta', mods: ['torreXL', 'puenteXL', 'arch', 'balancin'], types: ['conejo', 'rata'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 10, xE: 13, xB: 10300, nb: 8 },
   surire: { tpl: 'colina2', mods: ['casaVidrio', 'keep4', 'tower2', 'tower2'], types: ['conejo', 'rata'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.29, balloons: 0, seed: 31, xE: 14, xB: 10000, nb: 6 },
-  chungara: { tpl: 'terraza', mods: ['torreAB', 'casaVidrio', 'stairs', 'watch'], types: ['conejo', 'rata', 'jabali'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.29, balloons: 0, seed: 4, xE: 16, xB: 13900, nb: 10 },
+  chungara: { tpl: 'terraza', mods: ['torreAB', 'casaVidrio', 'stairs', 'watch'], types: ['conejo', 'rata', 'jabali'], mat: { pm: ['adobe', 'madera'], km: ['adobe', 'piedra', 'madera'] }, helm: 0.29, balloons: 0, seed: 4, xE: 16, xB: 13900, nb: 9 },
   mocha: { tpl: 'meseta', mods: ['torreXL', 'palacioVidrio', 'tower2', 'arch'], types: ['rata', 'conejo'], helm: 0.04, glass: 0.6, balloons: 0, seed: 10, xE: 15, xB: 13800, nb: 7 },
   nahuelbuta: { tpl: 'colina', mods: ['torreAB', 'columnata', 'barrels', 'pyramid'], types: ['conejo', 'rata'], helm: 0.31, seed: 14, xE: 19, xB: 15500, nb: 8 },
   budi: { tpl: 'valle', mods: ['catedral', 'torreVidrio', 'stairs', 'balancin'], types: ['vison', 'rata', 'castor'], helm: 0.32, seed: 1, xE: 12, xB: 12900, nb: 6 },
   valdivia: { tpl: 'doble', mods: ['ziguratXL', 'puenteXL', 'stairs', 'crates'], types: ['vison', 'rata'], helm: 0.04, glass: 0.6, balloons: 0, seed: 1, xE: 8, xB: 10200, nb: 5 },
   niebla: { tpl: 'meseta', mods: ['castilloXL', 'palacioVidrio', 'barrels', 'watch'], types: ['vison', 'castor'], helm: 0.15, glass: 0.6, balloons: 0, seed: 10, xE: 14, xB: 13400, nb: 8 },
-  huilohuilo: { tpl: 'colina', mods: ['almenas', 'castle', 'stairs', 'domino'], types: ['vison', 'castor'], helm: 0.06, balloons: 0, seed: 16, xE: 12, xB: 17000, nb: 8 },
+  huilohuilo: { tpl: 'colina', mods: ['almenas', 'castle', 'stairs', 'domino'], types: ['vison', 'castor'], helm: 0.06, balloons: 0, seed: 16, xE: 12, xB: 17000, nb: 6 },
   frutillar: { tpl: 'colina', mods: ['torreVidrio', 'longhouse', 'barrels', 'stairs'], types: ['vison', 'rata', 'castor'], helm: 0, seed: 13, xE: 19, xB: 17400, nb: 9 },
   alerce: { tpl: 'ondulado', mods: ['keep4', 'longhouse', 'gallows', 'domino'], types: ['vison', 'castor'], helm: 0.06, balloons: 0, seed: 13, xE: 9, xB: 9300, nb: 7 },
   quellon: { tpl: 'doble', mods: ['ziguratXL', 'puenteXL', 'watch', 'watch'], types: ['vison', 'castor'], helm: 0.15, glass: 0.6, balloons: 0, seed: 1, xE: 10, xB: 11100, nb: 7 },
-  riesco: { tpl: 'meseta', mods: ['palacioVidrio', 'ziguratXL', 'crates', 'watch'], types: ['vison', 'castor'], helm: 0.04, glass: 0.6, balloons: 0, seed: 6, xE: 16, xB: 12700, nb: 10 },
-  pio11: { tpl: 'colina', mods: ['torreAB', 'mesaT', 'pyramid', 'watch'], types: ['castor', 'vison'], mat: { pm: ['madera', 'hielo'], km: ['madera', 'piedra'] }, helm: 0.37, balloons: 0, seed: 35, xE: 11, xB: 10200, nb: 10 },
+  riesco: { tpl: 'meseta', mods: ['palacioVidrio', 'ziguratXL', 'crates', 'watch'], types: ['vison', 'castor'], helm: 0.04, glass: 0.6, balloons: 0, seed: 6, xE: 16, xB: 12700, nb: 7 },
+  pio11: { tpl: 'colina', mods: ['torreAB', 'mesaT', 'pyramid', 'watch'], types: ['castor', 'vison'], mat: { pm: ['madera', 'hielo'], km: ['madera', 'piedra'] }, helm: 0.37, balloons: 0, seed: 35, xE: 11, xB: 10200, nb: 9 },
   patagonia: { tpl: 'meseta', mods: ['castilloXL', 'ziguratXL', 'arch', 'watch'], types: ['castor', 'vison'], mat: { pm: ['madera', 'hielo'], km: ['madera', 'piedra'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 30, xE: 16, xB: 15600, nb: 6 },
-  estrecho: { tpl: 'doble', mods: ['pagoda', 'columnata', 'domino', 'tower2'], types: ['castor', 'vison', 'rata'], mat: { pm: ['madera', 'hielo'], km: ['madera', 'piedra'] }, helm: 0.38, seed: 3, xE: 13, xB: 11100, nb: 10 },
-  tierrafuego: { tpl: 'meseta', mods: ['palacioVidrio', 'ziguratXL', 'arch', 'balancin'], types: ['castor', 'vison'], mat: { pm: ['madera', 'hielo'], km: ['madera', 'piedra'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 35, xE: 18, xB: 10900, nb: 8 },
+  estrecho: { tpl: 'doble', mods: ['pagoda', 'columnata', 'domino', 'tower2'], types: ['castor', 'vison', 'rata'], mat: { pm: ['madera', 'hielo'], km: ['madera', 'piedra'] }, helm: 0.38, seed: 3, xE: 13, xB: 11100, nb: 9 },
+  tierrafuego: { tpl: 'meseta', mods: ['palacioVidrio', 'ziguratXL', 'arch', 'balancin'], types: ['castor', 'vison'], mat: { pm: ['madera', 'hielo'], km: ['madera', 'piedra'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 35, xE: 18, xB: 10900, nb: 7 },
   antartica: { tpl: 'meseta', mods: ['ziguratXL', 'puenteXL', 'tower2', 'crates'], types: ['vison', 'castor'], mat: { pm: ['hielo', 'madera'], km: ['hielo', 'piedra'] }, helm: 0.15, glass: 0.6, balloons: 0, seed: 24, xE: 17, xB: 9700, nb: 7 },
 };
 for (const L of LEVELS) {
@@ -5549,7 +5769,7 @@ function teleReport() { // TELE() en la consola: niveles más difíciles (menos 
   const birds = {}; for (const v of Object.values(T)) for (const [b, n] of Object.entries(v.birds)) birds[b] = (birds[b] || 0) + n; return { niveles: rows, aves: birds };
 }
 window.TELE = teleReport;
-function saveProgress() { try { localStorage.setItem(STORE_KEY, JSON.stringify(G.progress)); } catch (e) {} }
+function saveProgress() { if (G.wiping) return; try { localStorage.setItem(STORE_KEY, JSON.stringify(G.progress)); } catch (e) {} }
 
 const G = {
   state: 'menu', idx: 0, engine: null, blocks: [], enemies: [], flying: [], eggs: [], queue: [], current: null,
@@ -5802,9 +6022,9 @@ function sniffTarget(p, v) { // el invasor vivo más cercano, de preferencia por
 function sniffStep(f) {
   const S2 = f.sniff, b = f.body; if (!S2 || f.done) return;
   if (--S2.left <= 0) { f.sniff = null; return; }
-  if (!S2.tg || S2.tg.plugin.dead || !G.enemies.includes(S2.tg)) S2.tg = sniffTarget(b.position, b.velocity);
+  if (!S2.tg || S2.tg.plugin.dead || !G.enemies.includes(S2.tg)) { if (S2.tg && S2.swaps-- <= 0) { f.sniff = null; return; } S2.tg = sniffTarget(b.position, b.velocity); } // cambia de presa una sola vez
   if (!S2.tg) return;
-  const dx = S2.tg.position.x - b.position.x, dy = S2.tg.position.y - b.position.y, d = Math.hypot(dx, dy) || 1, sp = Math.max(17, Math.hypot(b.velocity.x, b.velocity.y));
+  const dx = S2.tg.position.x - b.position.x, dy = S2.tg.position.y - b.position.y, d = Math.hypot(dx, dy) || 1, sp = Math.max(15.5, Math.hypot(b.velocity.x, b.velocity.y));
   Body.setVelocity(b, { x: b.velocity.x + (dx / d * sp - b.velocity.x) * 0.2, y: b.velocity.y + (dy / d * sp - b.velocity.y) * 0.2 - GRAV_STEP * 0.6 });
   if (G.frame % 3 === 0) P({ x: b.position.x, y: b.position.y, vx: (Math.random() - 0.5), vy: -0.3, life: 24, max: 24, color: '#9bcf6b', size: 7, vr: 0, g: -0.02, shape: 'puff' });
 }
@@ -6526,7 +6746,8 @@ function usePower(target) {
     G.rings.push({ x: p.x, y: p.y, r: 10, life: 18, max: 18, color: '255,214,120' });
   } else if (pw === 'slide') {
     // cae derecho al suelo y, al tocarlo, sale rodando y barre todo lo bajo
-    Body.setDensity(b, 0.012); f.slide = { dir: Math.sign(v.x) || 1, on: false, left: 70 };
+    // v2.15: un poco menos destructivo (antes densidad 0.012 y 70 cuadros de tobogán)
+    Body.setDensity(b, 0.0105); f.slide = { dir: Math.sign(v.x) || 1, on: false, left: 62 };
     Body.setVelocity(b, { x: f.slide.dir * 6, y: 22 });
     G.rings.push({ x: p.x, y: p.y, r: 10, life: 18, max: 18, color: '200,240,255' });
   } else if (pw === 'call') {
@@ -6566,8 +6787,9 @@ function usePower(target) {
     feathers(p.x, p.y, 'condor', 14); G.shake = Math.max(G.shake, 9); hitStop(3);
   } else if (pw === 'sniff') {
     // olfatea al invasor más cercano y lo persigue un rato
-    f.sniff = { left: 75, tg: sniffTarget(p, v) };
-    Body.setDensity(b, 0.0075);
+    // v2.15: un poco más débil (antes 75 cuadros, densidad 0.0075 y cambiaba de presa sin límite)
+    f.sniff = { left: 62, tg: sniffTarget(p, v), swaps: 1 };
+    Body.setDensity(b, 0.0068);
     G.rings.push({ x: p.x, y: p.y, r: 10, life: 20, max: 20, color: '150,210,110', grow: 7 });
     for (let k = 0; k < 6; k++) P({ x: p.x, y: p.y, vx: -Math.sign(v.x || 1) * (1 + Math.random() * 2), vy: (Math.random() - 0.5) * 2, life: 30, max: 30, color: '#9bcf6b', size: 10 + Math.random() * 6, vr: 0, g: -0.02, shape: 'puff' });
   } else if (pw === 'redirect') {
@@ -6981,10 +7203,11 @@ function finish(won) {
     const st = levelStats(LEVELS[G.idx]); G.lastStats = st;
     stars = G.score >= st.t3 ? 3 : G.score >= st.t2 ? 2 : 1;
     G.dayBonus = daily().lvl === LEVELS[G.idx].key;
-    G.earned = (Math.max(1, Math.round(G.score / 1000 * 1.3)) + stars * 12 + (G.prevBest ? 0 : 25)) * (G.dayBonus ? 2 : 1); // +30% por puntaje, 12 por estrella y 25 la primera vez
+    // v2.15: la mitad que antes (puntaje/1000 × 1,3 + 12 por estrella + 25 la primera vez, todo ÷ 2)
+    G.earned = Math.max(1, Math.round((Math.round(G.score / 1000 * 1.3) + stars * 12 + (G.prevBest ? 0 : 25)) / 2)) * (G.dayBonus ? 2 : 1);
     G.magnet = (G.progress.iman || 0) > 0; if (G.magnet) { G.earned = Math.round(G.earned * 1.25); G.progress.iman--; }
     G.progress.lucas = (G.progress.lucas || 0) + G.earned;
-    G.travel = { from: G.idx };
+    G.travel = { from: G.idx, bird: (G.shot && G.shot.type) || LEVELS[G.idx].birds[0] }; // vuela al mapa la última ave que lanzaste
     const key = LEVELS[G.idx].key, best = G.progress.best[key] || { stars: 0, score: 0 };
     G.progress.best[key] = { stars: Math.max(best.stars, stars), score: Math.max(best.score, G.score) };
     if (stars === 3) award('seco');
@@ -7004,7 +7227,8 @@ function finish(won) {
 
 /* ================= Cámara ================= */
 function resize() {
-  const vv = window.visualViewport, w = Math.round(vv?.width || innerWidth), h = Math.round(vv?.height || innerHeight);
+  // En iOS el visualViewport a veces queda corto mientras se esconde la barra de Safari: se usa el mayor de los dos.
+  const vv = window.visualViewport, w = Math.round(vv?.width || innerWidth), h = Math.round(Math.max(vv?.height || 0, innerHeight));
   document.documentElement.style.setProperty('--app-height', h + 'px');
   const dpr = Math.min(window.devicePixelRatio || 1, G.lowQ ? 1.25 : MOBILE ? 1.75 : 2);
   canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
@@ -7333,15 +7557,22 @@ function render() {
   });
   if (G.state === 'aiming' && G.drag) {
     let px = G.drag.x, py = G.drag.y, vx = (SLING.x - px) * power(), vy = (SLING.y - py) * power();
-    const steps = 110 * (1 + 0.6 * upg('mira')); let hitG = false;
+    // v2.15: solo se ve una parte de la trayectoria (65%); la Mira de águila la alarga (80% y luego completa)
+    const frac = AIM_FRAC[Math.min(AIM_FRAC.length - 1, upg('mira'))], pts = []; let hitG = false;
     const ww = upg('viento') && (L.wind || L.gusts), dotC = ww ? '170,225,255' : '255,255,255';
-    for (let i = 1; i < steps; i++) {
+    for (let i = 1; i < 420; i++) {
       vy += GRAV_STEP; vx *= 0.998; vy *= 0.998; if (ww) vx += windAt(L, G.frame + i); px += vx; py += vy;
       if (py > gy(px)) { hitG = true; break; }
       if (px > L.width + 100) break;
-      if ((i + ((G.frame >> 1) % 4)) % 4 === 0) circle(c, px, py, Math.max(2, 5.5 - i * 0.03), `rgba(${dotC},${Math.max(0.2, 0.95 - i * 0.005)})`); // los puntos corren hacia el destino
+      pts.push(px, py);
     }
-    if (hitG) { const g0 = gy(px); c.strokeStyle = 'rgba(255,255,255,.8)'; c.lineWidth = 3; c.beginPath(); c.ellipse(px, g0 - 2, 15, 5, 0, 0, 7); c.stroke(); }
+    const n = Math.max(1, Math.round(pts.length / 2 * frac)), fade = Math.min(24, n * 0.3);
+    for (let i = 1; i <= n; i++) {
+      if ((i + ((G.frame >> 1) % 4)) % 4 !== 0) continue; // los puntos corren hacia el destino
+      const end = frac < 1 ? Math.min(1, (n - i) / fade) : 1; // se desvanecen donde se corta la mira
+      circle(c, pts[2 * i - 2], pts[2 * i - 1], Math.max(2, 5.5 - i * 0.03), `rgba(${dotC},${(Math.max(0.2, 0.95 - i * 0.005) * end).toFixed(3)})`);
+    }
+    if (hitG && frac >= 1) { const g0 = gy(px); c.strokeStyle = 'rgba(255,255,255,.8)'; c.lineWidth = 3; c.beginPath(); c.ellipse(px, g0 - 2, 15, 5, 0, 0, 7); c.stroke(); }
   }
   if (bp && G.current) {
     const jj = ten > 0.97 ? 2.4 : 0; // tiembla con el elástico al máximo
@@ -8112,14 +8343,14 @@ function buildMap() {
   const order = LEVELS.map((l, i) => i).sort((p2, q) => (p2 === next) - (q === next));
   for (const i of order) o += nodeSvg(i, pos[i][0], pos[i][1], i === next);
   o += `<g pointer-events="none">${fogTop}${fog}</g>`;
-  o += `<g id="ttrail"></g><g id="traveler" style="display:none"><ellipse id="tshadow" cx="0" cy="38" rx="11" ry="3.5" fill="#2a1a12" opacity=".25"/><g id="tbird">
-    <path d="M-9 2 L-24 -4 L-22 6 L-24 14 L-8 10Z" fill="#5b4330" stroke="#2a1a12" stroke-width="2.2" stroke-linejoin="round"/>
-    <circle r="13" fill="#8a6a4b" stroke="#2a1a12" stroke-width="2.6"/><ellipse cx="3" cy="6" rx="9" ry="6" fill="#ecdcbc"/>
-    <path d="M-3 -10 L2 -20 L7 -10Z" fill="#5b4330" stroke="#2a1a12" stroke-width="1.8" stroke-linejoin="round"/>
-    <path d="M10 -3 L20 1 L10 5Z" fill="#f2b31b" stroke="#2a1a12" stroke-width="1.8" stroke-linejoin="round"/>
-    <circle cx="6" cy="-4" r="3.2" fill="#fff" stroke="#2a1a12" stroke-width="1.4"/><circle cx="7" cy="-4" r="1.5" fill="#111"/>
-    <path id="twing" d="M-3 0 Q-14 -22 -26 -10 Q-14 -6 -3 6Z" fill="#6b4f36" stroke="#2a1a12" stroke-width="2.2" stroke-linejoin="round"/></g></g>`;
-  svg.innerHTML = o;
+  // viajero: el ave del juego (imagen) con dos alas de plumas que aletean; se arma en travel()
+  o += `<g id="ttrail"></g><g id="traveler" style="display:none"><ellipse id="tshadow" cx="0" cy="40" rx="14" ry="4" fill="#2a1a12" opacity=".25"/><g id="tbird">` +
+    `<g id="twingB"><path d="${WING}" stroke="#2a1a12" stroke-width="2" stroke-linejoin="round"/></g><image id="timg" x="-32" y="-36" width="64" height="64"/>` +
+    `<g id="twing"><path d="${WING}" stroke="#2a1a12" stroke-width="2.2" stroke-linejoin="round"/><path d="M-6 -3 Q-15 -11 -26 -15 M-5 1 Q-15 -5 -27 -7" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.6" stroke-linecap="round"/></g></g></g>`;
+  svg.innerHTML = o; MV.vb = null;
+  // Pantallas táctiles: sin las animaciones grandes (espuma de la costa, olas, nubes, niebla, brillos), que obligan a
+  // repintar el mapa completo en cada cuadro. Quedan las de los nodos.
+  if (matchMedia('(pointer: coarse)').matches) { svg.classList.add('lite'); svg.querySelectorAll('animate,animateTransform,animateMotion').forEach(a => { if (!a.closest('.node')) a.remove(); }); }
   const target = next >= 0 ? next : LEVELS.length - 1;
   const buy = buyableRegions();
   if (!regStarted()) { $('btn-continue').textContent = 'Elige dónde empezar'; $('btn-continue').dataset.level = -2; }
@@ -8133,7 +8364,7 @@ function buildMap() {
     (streakNow() ? `<span class="stat"><b style="color:#d52b1e">${streakNow()}</b>${streakNow() === 1 ? 'día' : 'días'} de racha</span>` : '');
   updateDailyBadge(); updateInfBtn();
   if (claimSobres()) $('nextbar').classList.add('ping'), setTimeout(() => $('nextbar').classList.remove('ping'), 700);
-  renderNextbar();
+  renderNextbar(); renderStrip();
 }
 function updateCampaignNote(next, buy) {
   const title = $('campaign-title'), detail = $('campaign-detail'), action = $('region-action');
@@ -8175,7 +8406,7 @@ function drawSheetArt(L) {
 }
 function openSheet(i) {
   const L = LEVELS[i], b = G.progress.best[L.key], st = levelStats(L);
-  G.sheet = i;
+  G.sheet = i; stripTo(regOf(L));
   document.querySelectorAll('#chile-map .node').forEach(n => n.classList.toggle('sel', +n.dataset.level === i));
   $('sheet-num').textContent = REGION_NAME[GEO[L.key].region];
   $('sheet-name').textContent = L.name; $('sheet-sub').classList.remove('open');
@@ -8213,10 +8444,13 @@ function openSheet(i) {
     const act = $('lock-act'); if (act) act.onclick = () => { audioInit(); if (!regStarted()) { closeSheet(); openRegPick(); return; } if (rescueRegion(id)) { closeSheet(); buildMap(); openSheet(LEVELS.findIndex(l => regOf(l) === id)); } };
   }
   $('level-sheet').hidden = false; $('level-sheet').scrollTop = 0;
-  const p = MAPPOS[i]; if (p) mvGlide(p[0], p[1] + MV.h * 0.18);
+  // Ficha al costado (celular acostado): el nivel queda en la parte libre del mapa; ficha abajo: queda sobre ella.
+  const p = MAPPOS[i], side = sheetSide();
+  if (p) side ? mvGlide(p[0] + $('level-sheet').offsetWidth / 2 * MV.w / mvSize()[0], p[1]) : mvGlide(p[0], p[1] + MV.h * 0.18);
   setTimeout(() => (open ? $('sheet-play') : ($('lock-act') || $('sheet-x'))).focus({ preventScroll: true }), 60);
 }
-function closeSheet() { $('level-sheet').hidden = true; G.sheet = null; document.querySelectorAll('#chile-map .node.sel').forEach(n => n.classList.remove('sel')); }
+function closeSheet() { $('level-sheet').hidden = true; G.sheet = null; document.querySelectorAll('#chile-map .node.sel,#ls-row .sel').forEach(n => n.classList.remove('sel')); }
+const sheetSide = () => matchMedia('(max-height:500px) and (min-width:600px)').matches;
 $('sheet-sub').addEventListener('click', () => $('sheet-sub').classList.toggle('open'));
 $('sheet-x').addEventListener('click', () => { SFX.click(); closeSheet(); });
 $('sheet-play').addEventListener('click', () => { const i = G.sheet; if (i == null) return; audioInit(); SFX.click(); closeSheet(); buildLevel(i); G.state = 'intro'; startPlay(); });
@@ -8249,16 +8483,43 @@ function mvClamp() {
   const padT = 90 * MV.w / cw, padB = 100 * MV.w / cw;
   if (MV.w >= MAP.W) MV.x = (MAP.W - MV.w) / 2; else MV.x = clamp(MV.x, -40 * MV.w / cw, MAP.W - MV.w + 40 * MV.w / cw);
   if (MV.h >= MV.HM + padT + padB) MV.y = (MV.HM - MV.h) / 2; else MV.y = clamp(MV.y, -padT, MV.HM - MV.h + padB);
-  const svg = $('chile-map');
-  svg.setAttribute('viewBox', `${MV.x.toFixed(1)} ${MV.y.toFixed(1)} ${MV.w.toFixed(1)} ${MV.h.toFixed(1)}`);
+  mvPaint();
+}
+/* Rendimiento: redibujar el SVG (miles de elementos) es caro en iPhone. Mientras se arrastra, hace zoom o
+   planea, el mapa ya pintado se mueve con una transformación CSS (GPU); el viewBox se fija al soltar.
+   El SVG mide 1,5 veces la vista (MV_OV de margen por lado) para que al arrastrar no se vean bordes vacíos. */
+const MV_OV = 0.25;
+function mvCommit() {
+  const svg = $('chile-map'), [cw] = mvSize(), o = MV_OV;
+  if (MV.vb && MV.vb.x === MV.x && MV.vb.y === MV.y && MV.vb.w === MV.w && MV.vb.cw === cw && !svg.style.transform) return; // nada cambió: no repintar
+  svg.setAttribute('viewBox', `${(MV.x - o * MV.w).toFixed(1)} ${(MV.y - o * MV.h).toFixed(1)} ${(MV.w * (1 + 2 * o)).toFixed(1)} ${(MV.h * (1 + 2 * o)).toFixed(1)}`);
+  svg.style.transform = '';
+  MV.vb = { x: MV.x, y: MV.y, w: MV.w, cw };
   svg.classList.toggle('far', cw / MV.w < 1.25); svg.classList.toggle('vnear', cw / MV.w > 2.4);
   svg.style.setProperty('--ns', clamp(Math.pow(330 / MV.w, 0.55), 0.4, 0.95).toFixed(3));
+}
+function mvPaint() {
+  if (!MV.live || !MV.vb) { mvCommit(); return; }
+  const [cw, ch] = mvSize(), o = MV_OV, k = cw / MV.w, s = MV.vb.w / MV.w;
+  const tx = (MV.vb.x - MV.x) * k + o * cw * (1 - s), ty = (MV.vb.y - MV.y) * k + o * ch * (1 - s);
+  // si el dibujo ya no cubre la vista o quedaría muy borroso, se repinta de una vez
+  const cover = -o * cw + tx <= 0.5 && -o * cw + tx + (1 + 2 * o) * cw * s >= cw - 0.5 && -o * ch + ty <= 0.5 && -o * ch + ty + (1 + 2 * o) * ch * s >= ch - 0.5;
+  if (!cover || s < 0.6 || s > 1.7) { mvCommit(); return; }
+  $('chile-map').style.transform = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px) scale(${s.toFixed(4)})`;
+}
+function mvLive(on) {
+  if (MV.live === on) return;
+  MV.live = on; const svg = $('chile-map');
+  svg.classList.toggle('moving', on);
+  if (svg.pauseAnimations) on ? svg.pauseAnimations() : svg.unpauseAnimations();
+  if (!on) mvCommit();
 }
 function mvCenter(x, y) { MV.x = x - MV.w / 2; MV.y = y - MV.h / 2; mvClamp(); }
 function mvGlide(x, y) {
   cancelAnimationFrame(MV.anim);
   const x0 = MV.x + MV.w / 2, y0 = MV.y + MV.h / 2, t0 = performance.now();
-  const step = now => { const t = Math.min(1, (now - t0) / 380), e = 1 - Math.pow(1 - t, 3); mvCenter(x0 + (x - x0) * e, y0 + (y - y0) * e); if (t < 1) MV.anim = requestAnimationFrame(step); };
+  mvLive(true);
+  const step = now => { const t = Math.min(1, (now - t0) / 380), e = 1 - Math.pow(1 - t, 3); mvCenter(x0 + (x - x0) * e, y0 + (y - y0) * e); if (t < 1) MV.anim = requestAnimationFrame(step); else if (!MV.pts.size) mvLive(false); };
   MV.anim = requestAnimationFrame(step);
 }
 function mvZoom(f, px, py) {
@@ -8272,7 +8533,7 @@ function setupMapView(next) {
   if (!MV.ready) {
     const [, ch] = mvSize(), scale = clamp(Math.min(cw / MAP.W, ch / 430), 0.8, 1.6);
     // En pantallas táctiles conviene partir con más contexto del territorio.
-    MV.w = cw / scale * (matchMedia('(pointer: coarse)').matches ? 2.25 : 1);
+    MV.w = cw / scale * (matchMedia('(pointer: coarse)').matches ? (ch < 500 ? 1 : 2.25) : 1);
     MV.ready = true;
   }
   mvClamp();
@@ -8281,39 +8542,80 @@ function setupMapView(next) {
   const dest = auto != null && auto < LEVELS.length ? auto : next;
   const target = dest >= 0 ? MAPPOS[dest] : null;
   const after = () => { if (auto != null && auto < LEVELS.length) openSheet(auto); };
-  if (T && target && MAPPOS[T.from]) travel(MAPPOS[T.from], target, after);
+  if (T && target && MAPPOS[T.from]) travel(MAPPOS[T.from], target, after, T.bird);
   else { if (target) mvCenter(target[0], target[1]); after(); }
 }
-function travel(a, b, done) {
-  const el = $('traveler'), bird = $('tbird'), wing = $('twing'), shadow = $('tshadow'), trail = $('ttrail'), NS = 'http://www.w3.org/2000/svg';
+// Ala de plumas: nace en el hombro (0,0) y se abre hacia atrás y arriba
+const WING = 'M2 2 C-4 -10 -16 -22 -34 -25 L-29 -19 L-38 -17 L-30 -12 L-37 -8 L-28 -5 L-33 -1 C-22 1 -10 4 2 6Z';
+const wingShade = (hex, k) => { const n = parseInt(hex.slice(1), 16), c = v => Math.round(Math.min(255, Math.max(0, v * k))); return `rgb(${c(n >> 16)},${c(n >> 8 & 255)},${c(n & 255)})`; };
+function travel(a, b, done, type) {
+  const el = $('traveler'), bird = $('tbird'), wing = $('twing'), wingB = $('twingB'), shadow = $('tshadow'), trail = $('ttrail'), NS = 'http://www.w3.org/2000/svg';
+  type = BIRDS[type] ? type : 'chincol';
+  const LK = LOOK[type], wcol = LK.tail || LK.body, sz = 64, shift = LK.bk === 'pelican' || LK.bk === 'long' ? 0.38 : 0.52;
+  $('timg').setAttribute('href', birdIcon(type, sz).toDataURL()); $('timg').setAttribute('x', -sz * shift); $('timg').setAttribute('y', -sz * 0.56);
+  wing.firstChild.setAttribute('fill', LK.body); wingB.firstChild.setAttribute("fill", wingShade(wcol, 0.8));
   el.style.display = ''; trail.innerHTML = '';
   const dist = Math.hypot(b[0] - a[0], b[1] - a[1]);
   const ctrl = [(a[0] + b[0]) / 2 - 90 - dist * 0.1, Math.min(a[1], b[1]) - 50 - dist * 0.15], t0 = performance.now(), dur = clamp(1500 + dist * 5, 1800, 3400), face = b[0] >= a[0] ? 1 : -1;
-  let last = 0;
-  mvCenter(a[0], a[1]);
-  const ring = (x, y) => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 8); c.setAttribute('class', 'tpuff'); trail.appendChild(c); setTimeout(() => c.remove(), 800); };
+  const at = e => [(1 - e) * (1 - e) * a[0] + 2 * (1 - e) * e * ctrl[0] + e * e * b[0], (1 - e) * (1 - e) * a[1] + 2 * (1 - e) * e * ctrl[1] + e * e * b[1]];
+  const ease = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  let lastF = 0, flapPh = 0, lastNow = t0;
+  mvCenter(a[0], a[1]); mvLive(true);
+  const ring = (x, y) => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 8); c.setAttribute('class', 'tpuff tfx'); trail.appendChild(c); setTimeout(() => c.remove(), 800); };
+  const feather = (x, y) => { // plumita que cae girando
+    const g = document.createElementNS(NS, 'g'), p = document.createElementNS(NS, 'path');
+    g.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(Math.random() * 360).toFixed(0)})`);
+    p.setAttribute('d', 'M0 -6 Q3.4 -1 0 6 Q-3.4 -1 0 -6Z M0 -5 V5'); p.setAttribute('fill', Math.random() < 0.5 ? '#fffaf0' : LK.body); p.setAttribute('stroke', '#2a1a12'); p.setAttribute('stroke-width', '1');
+    p.setAttribute('class', 'tfeather tfx'); p.style.setProperty('--dx', ((Math.random() - 0.5) * 18).toFixed(0) + 'px'); p.style.setProperty('--rr', ((Math.random() - 0.5) * 300).toFixed(0) + 'deg');
+    g.appendChild(p); trail.appendChild(g); setTimeout(() => g.remove(), 1300);
+  };
   ring(a[0], a[1]);
   const step = now => {
-    const t = Math.min(1, (now - t0) / dur), e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-    const x = (1 - e) * (1 - e) * a[0] + 2 * (1 - e) * e * ctrl[0] + e * e * b[0], y = (1 - e) * (1 - e) * a[1] + 2 * (1 - e) * e * ctrl[1] + e * e * b[1];
-    const alt = Math.sin(Math.PI * t), lift = 22 + alt * 34, tilt = (Math.cos(Math.PI * t) * -12 * face) + Math.sin(now / 90) * 3;
+    const t = Math.min(1, (now - t0) / dur), e = ease(t), [x, y] = at(e), dt = now - lastNow; lastNow = now;
+    const alt = Math.sin(Math.PI * t), lift = 24 + alt * 36;
+    // aleteo: rápido al despegar y al llegar, y en el medio bate unas veces y planea
+    const takeoff = t < 0.14, landing = t > 0.86, glide = !takeoff && !landing && (now - t0) % 1300 > 620;
+    flapPh += dt * (takeoff ? 0.034 : landing ? 0.026 : glide ? 0 : 0.022);
+    const flap = Math.sin(flapPh);
+    let wr = glide ? 10 + Math.sin(now / 260) * 4 : landing ? 40 + flap * 20 : flap * 42; // grados: positivo = ala arriba (al frenar, alas abiertas)
+    const wsy = glide ? 1 : 0.55 + 0.45 * Math.abs(Math.cos(flapPh)); // perspectiva al batir
+    // inclinación según la curva; al frenar se echa para atrás
+    const [x2, y2] = at(Math.min(1, ease(Math.min(1, t + 0.02)))), slope = Math.atan2(y2 - y, Math.abs(x2 - x) + 0.001) * 180 / Math.PI;
+    let tilt = clamp(slope * 0.55, -24, 24) + Math.sin(now / 120) * 2;
+    if (landing) tilt -= (t - 0.86) / 0.14 * 16;
+    // despegue: se agacha y salta
+    let sx = 1, sy = 1;
+    if (t < 0.07) { const k = t / 0.07; sx = 1 + 0.16 * Math.sin(k * Math.PI); sy = 1 - 0.16 * Math.sin(k * Math.PI); }
+    const bob = glide ? Math.sin(now / 220) * 2.5 : -flap * 2;
     el.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
-    bird.setAttribute('transform', `translate(0 ${(-lift + Math.sin(now / 110) * 2).toFixed(1)}) rotate(${tilt.toFixed(1)}) scale(${(face * (0.78 + alt * 0.28)).toFixed(2)} ${(0.78 + alt * 0.28).toFixed(2)})`);
-    wing.setAttribute('transform', `rotate(${(Math.sin(now / 55) * 38).toFixed(1)} -3 0)`);
-    shadow.setAttribute('cy', 38 - 4); shadow.setAttribute('rx', (11 - alt * 3).toFixed(1)); shadow.setAttribute('opacity', (0.3 - alt * 0.14).toFixed(2));
-    if (now - last > 70 && t < 0.97) { last = now; const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x.toFixed(1)); c.setAttribute('cy', (y - lift).toFixed(1)); c.setAttribute('r', (2.6 + Math.random() * 1.6).toFixed(1)); c.setAttribute('class', 'ttrail'); trail.appendChild(c); setTimeout(() => c.remove(), 950); }
+    bird.setAttribute('transform', `translate(0 ${(-lift + bob).toFixed(1)}) scale(${(face * sx * (0.82 + alt * 0.22)).toFixed(3)} ${(sy * (0.82 + alt * 0.22)).toFixed(3)}) rotate(${tilt.toFixed(1)})`);
+    wing.setAttribute('transform', `translate(-2 -2) rotate(${wr.toFixed(1)}) scale(1 ${wsy.toFixed(2)})`);
+    wingB.setAttribute('transform', `translate(5 -6) rotate(${(wr * 0.85 - 8).toFixed(1)}) scale(.9 ${(wsy * 0.9).toFixed(2)})`);
+    shadow.setAttribute('cy', 36); shadow.setAttribute('rx', (14 - alt * 5).toFixed(1)); shadow.setAttribute('opacity', (0.3 - alt * 0.15).toFixed(2));
+    if (now - lastF > (glide ? 160 : 95) && t > 0.06 && t < 0.95) { lastF = now; feather(x - face * 18, y - lift + 6); }
     mvCenter(x, y);
-    if (t < 1) MV.anim = requestAnimationFrame(step);
-    else { el.style.display = 'none'; ring(b[0], b[1]); setTimeout(() => ring(b[0], b[1]), 160); SFX.star(2); if (done) done(); }
+    if (t < 1) { MV.anim = requestAnimationFrame(step); return; }
+    // aterrizaje: rebote, polvo y anillos
+    mvLive(false); ring(b[0], b[1]); setTimeout(() => ring(b[0], b[1]), 160); SFX.star(2); buzz(18);
+    for (let k = 0; k < 6; k++) feather(b[0] + (Math.random() - 0.5) * 30, b[1] - 6);
+    const l0 = performance.now();
+    const land = now2 => {
+      const k = Math.min(1, (now2 - l0) / 420), sq = Math.sin(k * Math.PI * 2) * (1 - k) * 0.22;
+      bird.setAttribute('transform', `translate(0 ${(-24 + Math.sin(k * Math.PI) * -8).toFixed(1)}) scale(${(face * 0.82 * (1 + sq)).toFixed(3)} ${(0.82 * (1 - sq)).toFixed(3)})`);
+      wing.setAttribute('transform', `translate(-2 -2) rotate(${(34 - k * 44).toFixed(1)}) scale(1 ${(1 - k * 0.35).toFixed(2)})`);
+      if (k < 1) { MV.anim = requestAnimationFrame(land); return; }
+      el.style.display = 'none'; if (done) done();
+    };
+    MV.anim = requestAnimationFrame(land);
   };
-  MV.anim = requestAnimationFrame(step); SFX.launch('chincol');
+  MV.anim = requestAnimationFrame(step); SFX.launch(type);
 }
 (() => {
   const view = $('map-view');
   view.addEventListener('pointerdown', e => {
     MV.pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); $('map-hint').hidden = true;
     if (MV.pts.size === 2) { const [p2, q] = [...MV.pts.values()]; MV.pinch = { d: Math.hypot(p2.x - q.x, p2.y - q.y), w: MV.w }; MV.drag = null; return; }
-    MV.drag = { sx: e.clientX, sy: e.clientY, x: MV.x, y: MV.y }; MV.moved = false; cancelAnimationFrame(MV.anim);
+    MV.drag = { sx: e.clientX, sy: e.clientY, x: MV.x, y: MV.y }; MV.moved = false; cancelAnimationFrame(MV.anim); mvLive(true);
   });
   view.addEventListener('pointermove', e => {
     if (!MV.pts.has(e.pointerId)) return;
@@ -8330,9 +8632,14 @@ function travel(a, b, done) {
     if (!MV.moved) { MV.moved = true; view.setPointerCapture(e.pointerId); view.classList.add('dragging'); }
     MV.x = MV.drag.x - dx * k; MV.y = MV.drag.y - dy * k; mvClamp();
   });
-  const up = e => { MV.pts.delete(e.pointerId); if (MV.pts.size < 2) MV.pinch = null; MV.drag = null; view.classList.remove('dragging'); };
+  const up = e => {
+    MV.pts.delete(e.pointerId); if (MV.pts.size < 2) MV.pinch = null; MV.drag = null; view.classList.remove('dragging');
+    if (!MV.pts.size) mvLive(false);
+    // al soltar el mapa, el carrusel muestra la región que quedó al centro
+    if (MV.moved && !MV.pts.size && G.sheet == null) { const r = view.getBoundingClientRect(), [ni] = nearestNode(r.left + r.width / 2, r.top + r.height / 2); if (ni >= 0) stripTo(regOf(LEVELS[ni])); }
+  };
   view.addEventListener('pointerup', up); view.addEventListener('pointercancel', up);
-  view.addEventListener('wheel', e => { e.preventDefault(); const r = view.getBoundingClientRect(); mvZoom(Math.exp(e.deltaY * 0.0015), (e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height); }, { passive: false });
+  view.addEventListener('wheel', e => { e.preventDefault(); mvLive(true); clearTimeout(MV.wt); MV.wt = setTimeout(() => mvLive(false), 140); const r = view.getBoundingClientRect(); mvZoom(Math.exp(e.deltaY * 0.0015), (e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height); }, { passive: false });
   $('mz-in').addEventListener('click', () => mvZoom(0.7, 0.5, 0.5));
   $('mz-out').addEventListener('click', () => mvZoom(1 / 0.7, 0.5, 0.5));
   $('mz-fit').addEventListener('click', () => { MV.w = mvLimits()[1]; mvClamp(); });
@@ -8342,11 +8649,61 @@ function travel(a, b, done) {
 })();
 $('chile-map').addEventListener('click', e => {
   if (MV.moved) { MV.moved = false; return; }
-  const t = e.target.closest('[data-level]');
-  if (t) { audioInit(); SFX.click(); openSheet(+t.dataset.level); } else closeSheet();
+  // Con el dedo cuesta acertarle a un nodo chico: vale el nodo más cercano a menos de 32 px.
+  const t = e.target.closest('[data-level]'), [ni, dp] = nearestNode(e.clientX, e.clientY);
+  if (t || dp <= 32) { audioInit(); SFX.click(); openSheet(t ? +t.dataset.level : ni); }
+  else { closeSheet(); if (ni >= 0) stripTo(regOf(LEVELS[ni])); }
 });
 $('chile-map').addEventListener('keydown', e => { const t = e.target.closest('.node'); if (t && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); audioInit(); SFX.click(); openSheet(+t.dataset.level); } });
 
+/* ================= Carrusel de niveles (celular) =================
+   En pantallas bajas los nodos del mapa quedan muy juntos. Abajo se muestra una tira con los
+   niveles de la región elegida, en botones grandes; ‹ › cambia de región y mueve el mapa. */
+const STRIP = { reg: null };
+const stripLevels = id => LEVELS.filter(l => regOf(l) === id);
+function stripDefault() {
+  const next = nextOpenLevel();
+  if (next >= 0) return regOf(LEVELS[next]);
+  const open = REGIONS.find(r => regionOpen(r.id));
+  return open ? open.id : 'valparaiso';
+}
+function renderStrip() {
+  if (!STRIP.reg) STRIP.reg = stripDefault();
+  const id = STRIP.reg, lv = stripLevels(id), next = nextOpenLevel();
+  const stars = lv.reduce((s, l) => s + ((G.progress.best[l.key] || {}).stars || 0), 0);
+  $('ls-name').textContent = REGION_NAME[id];
+  $('ls-prog').textContent = regionOpen(id) ? `${stars}/${lv.length * 3} ★` : '🔒 Por rescatar';
+  $('ls-row').innerHTML = lv.map(L => {
+    const i = LEVELS.indexOf(L), b = G.progress.best[L.key], lk = !levelOpen(L), n = b ? b.stars : 0;
+    const col = lk ? '#8b8794' : NODE_COL(L), boss = !!levelStats(L).boss;
+    return `<button class="ls-card${lk ? ' lk' : ''}${i === next ? ' next' : ''}${G.sheet === i ? ' sel' : ''}${boss ? ' boss' : ''}" data-level="${i}" aria-label="${L.name}${lk ? ', bloqueado' : `, ${n} estrellas`}">` +
+      `<svg viewBox="-17 -17 34 34" aria-hidden="true"><circle r="15" fill="${col}" stroke="#2a1a12" stroke-width="2.5"/><g class="emb${lk ? ' locked' : ''}" stroke="#2a1a12" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">${EMB[EMBLEM[L.key]] || EMB.bandera}</g></svg>` +
+      `<span class="ls-st">${'<b>★</b>'.repeat(n)}${'★'.repeat(3 - n)}</span><small>${L.name}</small></button>`;
+  }).join('');
+  const sel = $('ls-row').querySelector('.sel') || $('ls-row').querySelector('.next');
+  if (sel) requestAnimationFrame(() => { const row = $('ls-row'); row.scrollLeft = Math.max(0, sel.offsetLeft - (row.clientWidth - sel.offsetWidth) / 2); });
+}
+// Cambia la región del carrusel; con glide mueve el mapa hasta ella.
+function stripTo(id, glide) {
+  if (!id || !REGION_NAME[id]) return;
+  const changed = STRIP.reg !== id; STRIP.reg = id;
+  if (changed || glide) renderStrip(); else $('ls-row').querySelectorAll('.ls-card').forEach(c => c.classList.toggle('sel', +c.dataset.level === G.sheet));
+  if (glide) { const i = LEVELS.indexOf(stripLevels(id)[0]), p = MAPPOS[i]; if (p) mvGlide(p[0], p[1]); }
+}
+// Nivel más cercano a un punto de la pantalla: [índice, distancia en px de pantalla]
+function nearestNode(cx, cy) {
+  const r = $('map-view').getBoundingClientRect(), k = r.width / MV.w;
+  const mx = MV.x + (cx - r.left) / k, my = MV.y + (cy - r.top) / k;
+  let best = -1, bd = Infinity;
+  for (const i in MAPPOS) { const p = MAPPOS[i]; if (!p) continue; const d = Math.hypot(p[0] - mx, p[1] - my); if (d < bd) { bd = d; best = +i; } }
+  return [best, bd * k];
+}
+$('ls-row').addEventListener('click', e => {
+  const c = e.target.closest('[data-level]'); if (!c) return;
+  audioInit(); SFX.click(); openSheet(+c.dataset.level);
+});
+$('ls-prev').addEventListener('click', () => { SFX.click(); const k = REGIONS.findIndex(r => r.id === STRIP.reg); closeSheet(); stripTo(REGIONS[(k + REGIONS.length - 1) % REGIONS.length].id, true); });
+$('ls-next').addEventListener('click', () => { SFX.click(); const k = REGIONS.findIndex(r => r.id === STRIP.reg); closeSheet(); stripTo(REGIONS[(k + 1) % REGIONS.length].id, true); });
 /* ================= Mini video de cada ave ================= */
 const BV = { cycle: 4.6, loops: 2, raf: 0, t0: 0, type: null, esc: null };
 function bvScene(c, type, t) {
@@ -8496,7 +8853,10 @@ function award(id) {
   G.progress.medals[id] = Date.now(); const rw = medalPay(id); saveProgress(); banner('Medalla nueva', `${m.name} · +${rw} lucas`, '★');
 }
 function banner(label, name, icon, ms) { medalQ.push({ label, name, icon, ms }); if (!medalBusy) nextMedal(); }
+// v2.15: los avisos esperan mientras haya una pantalla abierta (ayuda, tienda, resultado, sobre…) para no taparla
+const overlayOpen = () => [...document.querySelectorAll('.overlay')].some(o => !o.hidden);
 function nextMedal() {
+  if (medalQ.length && overlayOpen()) { medalBusy = true; setTimeout(nextMedal, 600); return; }
   const m = medalQ.shift(), el = $('medal-banner');
   if (!m) { medalBusy = false; return; }
   medalBusy = true; $('medal-name').textContent = m.name; $('medal-label').textContent = m.label; $('medal-disk').textContent = m.icon; el.classList.add('show'); SFX.medal();
@@ -8752,20 +9112,32 @@ function claimSobres() { // cada 8 estrellas llega un sobre con una lámina de f
 function schedulePacks() { clearTimeout(packTimer); packTimer = setTimeout(flushPacks, 900); }
 function flushPacks() {
   if (packBusy || !packQ.length) return;
-  const idle = G.state === 'menu' && !$('menu').hidden && ['chest', 'story', 'regpick', 'pedia', 'shop', 'help', 'pause', 'daily', 'medals', 'intro', 'result'].every(id => $(id).hidden);
+  const idle = G.state === 'menu' && !$('menu').hidden && ['chest', 'story', 'regpick', 'pedia', 'shop', 'help', 'pause', 'daily', 'medals', 'intro', 'result', 'reset'].every(id => $(id).hidden);
   if (!idle) { packTimer = setTimeout(flushPacks, 1500); return; }
   showPack(packQ.shift());
 }
 function cardCanvas(k, t, px) { return k === 'b' ? birdIcon(t, px) : k === 'e' ? enemyIcon(t, px) : k === 'j' ? bossIcon(t, px) : k === 'n' ? nativeCanvas(t, px) : cultCanvas(t, px); }
+// Sobre al estilo de los juegos de cartas: se rasga deslizando por la línea de arriba y las láminas salen en pila.
+const PACK_RAR = { b: 1, e: 1, c: 2, n: 3, j: 3 }; // las raras (cultura, nativos, jefes) brillan y salen al final
+function packCard(k, t, i, n) {
+  const d = document.createElement('div'), rar = PACK_RAR[k] || 1, ph = PHOTOS[t];
+  d.className = 'tp-card' + (rar > 1 ? ' holo' : ''); d.style.setProperty('--k', i);
+  d.innerHTML = `<div class="tp-face"><span class="tp-new">¡NUEVA!</span><div class="tp-ph">${ph ? `<img alt="" src="${ph}"><div class="tp-badge"></div>` : ''}</div>` +
+    `<div class="tp-info"><span class="tp-rar">${'◆'.repeat(rar)}</span><b>${albumName(k, t)}</b><small>${k === 'c' ? 'Cultura chilena' : k === 'n' ? 'Fauna nativa' : k === 'b' ? 'Ave' : k === 'e' ? 'Invasor' : 'Jefe'}</small></div></div>`;
+  (ph ? d.querySelector('.tp-badge') : d.querySelector('.tp-ph')).appendChild(cardCanvas(k, t, ph ? 64 : 140));
+  d.setAttribute('aria-label', albumName(k, t)); return d;
+}
 function showPack(cards) {
-  packBusy = true; const el = $('pack'); showOnly('pack'); SFX.medal();
-  $('pack-cards').innerHTML = ''; $('pack-cards').classList.remove('on'); $('pack-env').className = 'env'; $('pack').classList.remove('go'); $('pkburst').innerHTML = ''; $('pack-msg').textContent = 'Tienes un sobre nuevo por tus estrellas. ¡Tócalo para abrirlo!'; $('pack-btns').hidden = true;
-  cards.forEach(([k, t], i) => {
-    const d = document.createElement('div'); d.className = 'pk-card'; d.style.setProperty('--i', i); d.style.setProperty('--n', cards.length);
-    d.innerHTML = `<div class="pk-in"><div class="pk-back"><span>★</span></div><div class="pk-front"><div class="pk-art"></div><b>${albumName(k, t)}</b><small>${k === 'c' ? 'Cultura chilena' : k === 'n' ? 'Fauna nativa' : k === 'b' ? 'Ave' : k === 'e' ? 'Invasor' : 'Jefe'}</small></div></div>`;
-    d.querySelector('.pk-art').appendChild(cardCanvas(k, t, 76)); d.insertAdjacentHTML('beforeend', '<i class="pk-spark"></i><b class="pk-new">¡NUEVA!</b>'); $('pack-cards').appendChild(d);
-  });
-  PACK.cards = cards; PACK.opened = false;
+  packBusy = true; showOnly('pack'); SFX.medal();
+  cards = cards.map((c, i) => [c, i]).sort((a, b) => (PACK_RAR[a[0][0]] || 1) - (PACK_RAR[b[0][0]] || 1) || a[1] - b[1]).map(x => x[0]);
+  const st = $('pack-cards'); st.innerHTML = ''; st.classList.remove('on');
+  $('pack-env').className = 'tp-pack'; $('pack').classList.remove('go'); $('pkburst').innerHTML = ''; $('tp-cut').style.width = '0';
+  $('pack-msg').textContent = '¡Sobre nuevo! Desliza el dedo por la línea de arriba para abrirlo.'; $('pack-btns').hidden = true; $('tp-count').textContent = '';
+  $('tp-sub').textContent = `Sobre de láminas · ${cards.length}`;
+  $('tp-emb').innerHTML = ''; $('tp-emb').appendChild(birdIcon(['condor', 'chincol', 'loica', 'pinguino', 'tiuque'][Math.floor(Math.random() * 5)], 90));
+  // en la pila la primera queda arriba: se muestran de la más común a la más rara
+  cards.forEach(([k, t], i) => st.appendChild(packCard(k, t, i, cards.length)));
+  PACK.cards = cards; PACK.opened = false; PACK.top = 0; PACK.taps = 0;
 }
 const PACK = { cards: [], opened: false };
 function packDone(toAlbum) {
@@ -9165,7 +9537,7 @@ function drawCine(c, cr) {
 /* ================= Tienda ================= */
 const SHOP = [
   { id: 'honda', name: 'Honda reforzada', desc: 'Elástico nuevo: lanza un 7% más fuerte por nivel.', cost: [360, 840] },
-  { id: 'mira', name: 'Mira de águila', desc: 'La línea de puntería se ve mucho más larga.', cost: [240, 600] },
+  { id: 'mira', name: 'Mira de águila', desc: 'Ves más de la línea de puntería: sin mejora se ve el 65% del vuelo, con el nivel 1 el 80% y con el nivel 2 completo.', cost: [240, 600] },
   { id: 'plumas', name: 'Plumas de acero', desc: 'Las aves pesan un 15% más por nivel y pegan más fuerte.', cost: [480, 1080] },
   { id: 'extra', name: 'Chincol de refuerzo', desc: 'Un chincol extra al final de cada nivel. No cuenta para las estrellas.', cost: [900] },
   { id: 'viento', name: 'Mira con viento', desc: 'La línea de puntería toma en cuenta el viento y las ráfagas. Se pinta celeste cuando sopla.', cost: [1320] },
@@ -9478,7 +9850,7 @@ function buildMenu() { buildMap(); checkFreed(); if (packQ.length) schedulePacks
 function showOnly(id) {
   document.body.classList.remove('ovin'); void document.body.offsetWidth; document.body.classList.add('ovin');
   if (id !== null) bvClose();
-  ['menu', 'intro', 'result', 'medals', 'pedia', 'shop', 'help', 'pause', 'daily', 'story', 'regpick', 'chest', 'pack', 'wheel'].forEach(k => $(k).hidden = k !== id);
+  ['menu', 'intro', 'result', 'medals', 'pedia', 'shop', 'help', 'pause', 'daily', 'story', 'regpick', 'chest', 'pack', 'wheel', 'reset'].forEach(k => $(k).hidden = k !== id);
   updateWindChip(); updateBossBar();
   if (id !== 'replay') $('replay-label').hidden = true;
   $('hud').hidden = !(id === null || id === 'result');
@@ -9705,14 +10077,74 @@ function openChest() {
     setTimeout(() => { $('chest-ok').hidden = false; }, 2500);
   }, 520);
 }
-function packOpen() {
-  if (PACK.opened) return; PACK.opened = true; audioInit(); const env = $('pack-env'), pk = $('pack'); SFX.click(); buzz(25); env.classList.add('press');
-  setTimeout(() => { env.classList.remove('press'); env.classList.add('open'); pk.classList.add('go'); SFX.medal(); buzz([20, 30, 40]); burstFx($('pkburst'), 16, { spread: 9, up: 70, coins: false }); }, 170); // el lacre se rompe y se abre la solapa
-  setTimeout(() => { env.classList.add('tear'); $('pack-cards').classList.add('on'); SFX.coin(); burstFx($('pkburst'), 20, { spread: 13, up: 120 }); }, 900);
-  [...$('pack-cards').children].forEach((d, i) => setTimeout(() => { d.classList.add('flip'); SFX.click(); buzz(12); burstFx(d.querySelector('.pk-spark'), 12, { spread: 6, up: 60, coins: false }); }, 1650 + i * 720));
-  setTimeout(() => { $('pack-msg').textContent = PACK.cards.length > 1 ? 'Láminas nuevas. Pégalas en su hueco del álbum.' : 'Lámina nueva. Pégala en su hueco del álbum.'; $('pack-btns').hidden = false; }, 1650 + PACK.cards.length * 720);
+function packOpen() { // rasgado completo: sale la tira, cae el sobre y aparecen las láminas
+  if (PACK.opened) return; PACK.opened = true; audioInit(); const env = $('pack-env'), pk = $('pack');
+  env.classList.remove('cutting'); env.classList.add('torn'); $('tp-cut').style.width = '100%'; pk.classList.add('go');
+  SFX.medal(); buzz([20, 30, 40]); burstFx($('pkburst'), 18, { spread: 9, up: 90, coins: false });
+  setTimeout(() => { env.classList.add('gone'); $('pack-cards').classList.add('on'); SFX.coin(); burstFx($('pkburst'), 16, { spread: 12, up: 120 }); packTop(); }, 520);
 }
-$('pack-env').addEventListener('click', packOpen);
+function packTop() { // marca la lámina de arriba de la pila y el contador
+  const cs = [...$('pack-cards').children], n = cs.length, last = PACK.top >= n - 1;
+  cs.forEach((c, i) => { if (i < PACK.top) return; c.style.setProperty('--k', i - PACK.top); c.classList.toggle('top', i === PACK.top); });
+  $('tp-count').textContent = `${Math.min(PACK.top + 1, n)}/${n}`;
+  if (last) { $('pack-msg').textContent = n > 1 ? 'Láminas nuevas. Pégalas en su hueco del álbum.' : 'Lámina nueva. Pégala en su hueco del álbum.'; $('pack-btns').hidden = false; }
+  else $('pack-msg').textContent = 'Toca o desliza la lámina para ver la siguiente';
+  const c = cs[PACK.top]; if (c && c.classList.contains('holo')) { SFX.star(2); buzz([15, 40, 15]); burstFx($('pkburst'), 14, { spread: 8, up: 100, coins: false }); } // lámina rara
+}
+function packNext(dir) { // la lámina de arriba sale volando hacia un lado
+  const cs = [...$('pack-cards').children]; if (PACK.top >= cs.length - 1) return;
+  const c = cs[PACK.top]; c.classList.remove('top', 'drag'); c.classList.add('out');
+  c.style.setProperty('--x', (dir * 130) + '%'); c.style.setProperty('--rot', (dir * 28) + 'deg'); c.style.setProperty('--y', '-6%');
+  SFX.click(); buzz(10); PACK.top++; packTop();
+}
+// Rasgar: el dedo recorre el sobre de lado a lado (en cualquier sentido); al pasar el 72% del ancho se abre.
+{
+  const env = $('pack-env'), cut = $('tp-cut'); let tr = null;
+  env.addEventListener('pointerdown', e => { if (PACK.opened) return; e.preventDefault(); try { env.setPointerCapture(e.pointerId); } catch (er) {} const r = env.getBoundingClientRect(); tr = { x0: e.clientX, r, min: e.clientX, max: e.clientX, moved: false }; env.classList.add('cutting'); });
+  env.addEventListener('pointermove', e => {
+    if (!tr || PACK.opened) return;
+    tr.min = Math.min(tr.min, e.clientX); tr.max = Math.max(tr.max, e.clientX); const span = (tr.max - tr.min) / tr.r.width;
+    if (span > 0.06) tr.moved = true;
+    const l = (tr.min - tr.r.left) / tr.r.width, w = span; cut.style.left = (Math.max(0, l) * 100).toFixed(1) + '%'; cut.style.width = (Math.min(1, w) * 100).toFixed(1) + '%';
+    if (span > 0.25 && !tr.snd) { tr.snd = 1; SFX.stretch(); }
+    if (span >= 0.72) { tr = null; cut.style.left = '0'; packOpen(); }
+  });
+  const end = () => {
+    if (!tr) return; const moved = tr.moved; tr = null; env.classList.remove('cutting');
+    if (PACK.opened) return; cut.style.width = '0';
+    // un toque sin deslizar avisa; el segundo toque lo abre igual (para quien no logra deslizar)
+    if (!moved) { if (++PACK.taps >= 2) packOpen(); else { env.classList.remove('hint'); void env.offsetWidth; env.classList.add('hint'); $('pack-msg').textContent = 'Desliza el dedo por la línea punteada (o toca otra vez)'; } }
+  };
+  env.addEventListener('pointerup', end); env.addEventListener('pointercancel', end);
+  env.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); packOpen(); } });
+}
+// Pila: arrastrar la lámina de arriba (con brillo que sigue al dedo); soltar lejos o tocarla la manda a un lado.
+{
+  const st = $('pack-cards'); let dr = null;
+  const holo = (c, x, y) => { const r = c.getBoundingClientRect(), px = clamp((x - r.left) / r.width, 0, 1), py = clamp((y - r.top) / r.height, 0, 1);
+    c.style.setProperty('--hx', (px * 100).toFixed(0) + '%'); c.style.setProperty('--hy', (py * 100).toFixed(0) + '%');
+    c.style.setProperty('--ty', ((px - 0.5) * 22).toFixed(1) + 'deg'); c.style.setProperty('--tx', ((0.5 - py) * 18).toFixed(1) + 'deg'); };
+  st.addEventListener('pointerdown', e => { const c = e.target.closest('.tp-card.top'); if (!c) return; e.preventDefault(); try { c.setPointerCapture(e.pointerId); } catch (er) {} dr = { c, x0: e.clientX, y0: e.clientY, dx: 0 }; c.classList.add('drag', 'touch'); holo(c, e.clientX, e.clientY); });
+  st.addEventListener('pointermove', e => {
+    if (!dr) { const c = e.target.closest?.('.tp-card.top'); if (c && e.pointerType === 'mouse') { c.classList.add('touch'); holo(c, e.clientX, e.clientY); } return; }
+    const last = PACK.top >= st.children.length - 1; dr.dx = e.clientX - dr.x0; holo(dr.c, e.clientX, e.clientY);
+    if (!last) { dr.c.style.setProperty('--x', dr.dx + 'px'); dr.c.style.setProperty('--rot', (dr.dx * 0.06) + 'deg'); }
+  });
+  const up = () => {
+    if (!dr) return; const { c, dx } = dr; dr = null; c.classList.remove('drag');
+    c.style.setProperty('--tx', '0deg'); c.style.setProperty('--ty', '0deg'); setTimeout(() => c.classList.remove('touch'), 600);
+    if (PACK.top >= st.children.length - 1) return;
+    if (Math.abs(dx) > 60 || Math.abs(dx) < 8) packNext(dx < -8 ? -1 : 1); else { c.style.setProperty('--x', '0px'); c.style.setProperty('--rot', '0deg'); }
+  };
+  st.addEventListener('pointerup', up); st.addEventListener('pointercancel', up);
+  st.addEventListener('pointerleave', e => { if (!dr) { const c = st.querySelector('.tp-card.top'); if (c) { c.classList.remove('touch'); c.style.setProperty('--tx', '0deg'); c.style.setProperty('--ty', '0deg'); } } });
+  // inclinar el teléfono mueve el brillo (Android; en iPhone pedir permiso del giroscopio sería un aviso molesto, ahí basta el dedo)
+  if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission !== 'function') addEventListener('deviceorientation', e => {
+    if ($('pack').hidden || dr || e.gamma == null) return; const c = st.querySelector('.tp-card.top.holo'); if (!c) return;
+    c.style.setProperty('--hx', clamp(50 + e.gamma * 2, 0, 100).toFixed(0) + '%'); c.style.setProperty('--hy', clamp(50 + (e.beta - 45) * 1.5, 0, 100).toFixed(0) + '%'); c.classList.add('touch');
+  });
+  addEventListener('keydown', e => { if (!$('pack').hidden && PACK.opened && (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === ' ')) { e.preventDefault(); packNext(e.key === 'ArrowLeft' ? -1 : 1); } });
+}
 /* ================= Pausa y ajustes ================= */
 const OPT_DEF = { music: true, sfx: true, vib: true, fx: true };
 function opt(k) {
@@ -9770,6 +10202,42 @@ document.addEventListener('visibilitychange', () => {
   if (document.hidden) { saveProgress(); if (G.engine && ['ready', 'aiming', 'flying', 'settle'].includes(G.state) && !$('hud').hidden) pause(); }
 });
 
+/* ================= Borrar todo el progreso =================
+   Desde "Cómo se juega". Para confirmar hay que mantener apretado el botón rojo 2 segundos. */
+const WIPE_MS = 2000;
+function openReset() {
+  const P = G.progress, lam = typeof albumCount === 'function' ? albumCount() : 0;
+  $('reset-sum').innerHTML = `Vas a perder <b>${totalStars()} ★</b>, <b>${fmt(P.lucas || 0)} lucas</b>, <b>${lam} láminas</b> y <b>${Object.keys(P.medals || {}).length} medallas</b>.`;
+  holdReset(false); showOnly('reset');
+}
+function wipeProgress() {
+  G.wiping = true; // que nada vuelva a guardar el progreso antes de recargar
+  try { localStorage.removeItem(STORE_KEY); localStorage.removeItem(STORE_KEY + '.roto'); } catch (e) {}
+  location.reload();
+}
+const HOLD = { t0: 0, raf: 0 };
+function holdReset(on) {
+  const btn = $('reset-hold'), bar = btn.querySelector('i'), lbl = btn.querySelector('span');
+  cancelAnimationFrame(HOLD.raf);
+  if (!on) { bar.style.width = '0%'; lbl.textContent = 'Mantén para borrar'; btn.classList.remove('on'); return; }
+  HOLD.t0 = performance.now(); btn.classList.add('on'); lbl.textContent = 'Sigue apretando…';
+  const step = now => {
+    const k = Math.min(1, (now - HOLD.t0) / WIPE_MS); bar.style.width = (k * 100).toFixed(1) + '%';
+    if (k >= 1) { lbl.textContent = 'Borrando…'; buzz([40, 30, 80]); SFX.boom(); setTimeout(wipeProgress, 250); return; }
+    HOLD.raf = requestAnimationFrame(step);
+  };
+  HOLD.raf = requestAnimationFrame(step); buzz(15);
+}
+{
+  const btn = $('reset-hold');
+  btn.addEventListener('pointerdown', e => { e.preventDefault(); audioInit(); try { btn.setPointerCapture(e.pointerId); } catch (er) {} holdReset(true); });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => btn.addEventListener(t, () => { if (!G.wiping) holdReset(false); }));
+  btn.addEventListener('contextmenu', e => e.preventDefault()); // iOS: que mantener apretado no abra el menú
+  btn.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) { e.preventDefault(); holdReset(true); } });
+  btn.addEventListener('keyup', e => { if ((e.key === 'Enter' || e.key === ' ') && !G.wiping) holdReset(false); });
+}
+$('reset-open').addEventListener('click', () => { SFX.click(); openReset(); });
+$('reset-cancel').addEventListener('click', () => { SFX.click(); holdReset(false); showOnly('help'); });
 /* ================= Desafíos del día ================= */
 const DEL = { chincol: 'del chincol', loica: 'de la loica', tiuque: 'del tiuque', pinguino: 'del pingüino', condor: 'del cóndor', jote: 'del jote', picaflor: 'del picaflor', queltehue: 'del queltehue', chuncho: 'del chuncho', bandurria: 'de la bandurria', pelicano: 'del pelícano', flamenco: 'del flamenco', carpintero: 'del carpintero', martin: 'del martín pescador', chucao: 'del chucao', zorzal: 'del zorzal' };
 const MISSIONS = {
@@ -10310,6 +10778,11 @@ function playStep(s, t) {
 /* ================= Arranque ================= */
 addEventListener('resize', resize);
 window.visualViewport?.addEventListener('resize', resize);
+// iOS: al girar, la altura final llega tarde (la barra de Safari se anima); se vuelve a medir.
+const resizeLate = () => { setTimeout(resize, 250); setTimeout(resize, 700); };
+addEventListener('orientationchange', resizeLate); addEventListener('pageshow', resizeLate);
+// iOS ignora user-scalable=no: se bloquea el zoom de la página con dos dedos (el mapa y el juego hacen su propio zoom).
+document.addEventListener('gesturestart', e => e.preventDefault());
 resize();
 $('ico-sound').hidden = G.progress.muted; $('ico-mute').hidden = !G.progress.muted;
 splashRun();
