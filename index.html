@@ -1436,6 +1436,9 @@ button,.btn,summary,[role="button"]{touch-action:manipulation}
 .book .tabs{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
 .book .tabs .tab{flex:0 0 auto}
 .opt-diag{grid-column:1/-1;margin:6px 2px 0;font-size:10px;line-height:1.3;opacity:.55;word-break:break-word}
+/* v2.15 · sin contador de invasores y aves en el HUD; botón de prueba de nitidez */
+#hud-foes{display:none!important}
+.opts .sharp-toggle{grid-column:1/-1;justify-self:start;margin:4px 2px 0}
 </style>
 </head>
 <body>
@@ -1443,7 +1446,7 @@ button,.btn,summary,[role="button"]{touch-action:manipulation}
 
 <header id="hud" hidden>
   <div class="chip" id="hud-level">Nivel</div>
-  <div class="score"><span class="lbl">Puntaje</span><span class="num" id="hud-score">0</span><div class="foes" id="hud-foes" title="Invasores que faltan · aves que te quedan"></div><div class="smeter" id="smeter" title="Puntaje para dos y tres estrellas"><i id="smeter-fill"></i><b id="sm2">★</b><b id="sm3" style="left:100%">★</b></div></div>
+  <div class="score"><span class="lbl">Puntaje</span><span class="num" id="hud-score">0</span><div class="foes" id="hud-foes" hidden></div><div class="smeter" id="smeter" title="Puntaje para dos y tres estrellas"><i id="smeter-fill"></i><b id="sm2">★</b><b id="sm3" style="left:100%">★</b></div></div>
   <div class="hud-right">
     <button class="icon-btn cancel-shot" id="btn-cancel-shot" aria-label="Cancelar tiro" title="Cancelar tiro (Esc)" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg><span>Cancelar</span>
@@ -1549,9 +1552,10 @@ button,.btn,summary,[role="button"]{touch-action:manipulation}
       <li>Ajustes nuevos: volumen de música y efectos, temblor y destellos (normal, suave o no), tamaño del texto, modo calma y apuntar en dos pasos.</li>
       <li>Menos ventanas al volver al mapa: los sobres que sobran esperan en un sobre flotante, y una meta a la vista te dice qué viene.</li>
       <li>En el álbum, voltea una lámina y tócala en «Ver grande».</li>
+      <li>Lucas más difíciles: medallas, desafíos del día, misiones de la semana y ruleta pagan la mitad, y la tienda sube un 25%. En los niveles ya no sale el contador de invasores y aves.</li>
       <li>El juego se ve más nítido en iPhone: se dibuja a la resolución real de la pantalla. Si tu celular va lento, en Ajustes puedes elegir <b>Calidad gráfica: Rápida</b>.</li>
       <li>48 láminas nuevas: flora nativa, mar de Chile, bichos, ranas y reptiles, y una lámina dorada por cada región con 3 ★ en todos sus niveles.</li>
-      <li>Los sobres traen <b>3 láminas</b> y ahora se compran en el almacén (200 lucas). En los comprados pueden salir repetidas: cada una vale 25 lucas.</li>
+      <li>Los sobres traen <b>3 láminas</b> y ahora se compran en el almacén (250 lucas). En los comprados pueden salir repetidas: cada una vale 25 lucas.</li>
       <li>Menos aves por nivel y menos variedad: algunos niveles traen solo 2 tipos de aves.</li>
     </ul>
     <details class="howto old-news"><summary>Versiones anteriores</summary>
@@ -7340,8 +7344,9 @@ function resize() {
   const zs = Math.min(Math.max(vv?.scale || 1, 1), 2), base = MOBILE ? (opt('gfx') === 'fast' ? 2 : 3) : G.lowQ ? 1.5 : 2;
   const dpr = Math.min((window.devicePixelRatio || 1) * zs, base * zs);
   canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+  const dpr2 = sharpApply(w, h, dpr);
   canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
-  view = { s0: Math.min(w / 1600, h / 900), dpr, w, h };
+  view = { s0: Math.min(w / 1600, h / 900), dpr: dpr2, w, h };
   if (G.engine) { paintBackground(); [cam.x, cam.z] = clampCam(cam.x, cam.z); }
 }
 function zLimits() { return [Math.max(view.h / (view.s0 * (H - BG.y0)), view.w / (view.s0 * BG.w), 0.4), 1.7]; }
@@ -7388,6 +7393,46 @@ function updateCamera() {
   cam.x += (tx - cam.x) * k; cam.z += (tz - cam.z) * k;
 }
 
+/* ================= v2.15 · Prueba de nitidez (para revisar en un iPhone real) =================
+   Safari en iPhone puede mostrar el lienzo a menos resolución de la que se dibuja (hay un error conocido de WebKit
+   cuando el lienzo mide justo lo mismo que la pantalla). Desde Ajustes se activa una prueba: arriba a la izquierda
+   del nivel se dibujan rayas de 1 y 2 píxeles reales, y un botón cambia entre maneras de armar el lienzo.
+   Si las rayas de 1 px se ven grises y lisas, esa manera sale borrosa en ese equipo. */
+const SHARP = { on: false, v: 0 };
+const SHARP_V = ['Normal', 'Capa propia', 'translateZ', '1 px menos', '2×'];
+// ajusta el lienzo según la variante elegida (se llama al final de resize)
+function sharpApply(w, h, dpr) {
+  const v = SHARP.on ? SHARP.v : (G.progress.opts || {}).sharpV || 0;
+  canvas.style.willChange = v === 1 ? 'transform' : '';
+  canvas.style.transform = v === 2 ? 'translateZ(0)' : '';
+  if (v === 3) { canvas.width = Math.round(w * dpr) - 1; canvas.height = Math.round(h * dpr) - 1; return canvas.height / h; }
+  if (v === 4 && dpr > 2) { canvas.width = Math.round(w * 2); canvas.height = Math.round(h * 2); return 2; }
+  return dpr;
+}
+function drawSharpTest() {
+  const c = ctx, d = view.dpr, x0 = Math.round(12 * d), y0 = Math.round(70 * d), W = Math.round(150 * d);
+  c.setTransform(1, 0, 0, 1, 0, 0);
+  c.fillStyle = '#fff'; c.fillRect(x0 - 6, y0 - 6, W + 12, Math.round(84 * d) + 12);
+  c.fillStyle = '#000';
+  for (let x = 0; x < W; x += 2) c.fillRect(x0 + x, y0, 1, Math.round(22 * d));
+  for (let x = 0; x < W; x += 4) c.fillRect(x0 + x, y0 + Math.round(26 * d), 2, Math.round(22 * d));
+  c.font = `${Math.round(13 * d)}px sans-serif`; c.textBaseline = 'top'; c.textAlign = 'left';
+  c.fillText(`${SHARP.v + 1}/${SHARP_V.length} · ${SHARP_V[SHARP.v]}`, x0, y0 + Math.round(52 * d));
+  c.font = `${Math.round(9 * d)}px sans-serif`;
+  c.fillText(`lienzo ${canvas.width}×${canvas.height} · ${d.toFixed(2)}×`, x0, y0 + Math.round(70 * d));
+}
+function sharpButton() {
+  let b = $('sharp-btn');
+  if (!b) {
+    b = document.createElement('button'); b.id = 'sharp-btn'; b.className = 'btn small';
+    b.style.cssText = 'position:fixed;left:calc(12px + var(--sa-l,0px));bottom:calc(10px + var(--sa-b,0px));z-index:40';
+    b.addEventListener('click', e => { e.stopPropagation(); SHARP.v = (SHARP.v + 1) % SHARP_V.length; resize(); sharpButton(); });
+    document.body.appendChild(b);
+  }
+  b.hidden = !SHARP.on || G.state === 'menu';
+  b.textContent = `Siguiente prueba (${SHARP.v + 1}/${SHARP_V.length})`;
+}
+function sharpToggle() { SHARP.on = !SHARP.on; SHARP.v = 0; resize(); sharpButton(); renderOpts(); }
 /* ================= Render ================= */
 /* ===== v2.1 · fondo en capas con paralaje =====
    Los pintores siguen dibujando de corrido; en cada cerro (wavyFill) y en el suelo (groundBase) se corta una capa.
@@ -7767,6 +7812,7 @@ function frame(now) {
   if (G.cine && !G.paused) cineStep();
   updateCamera();
   render();
+  if (SHARP.on) { drawSharpTest(); if (G.frame % 30 === 0) sharpButton(); }
   if (['ready', 'aiming', 'flying', 'settle'].includes(G.state) && !G.paused && !G.lowQ) { // calidad adaptable
     // mide el trabajo del cuadro (física + dibujo), no el tiempo entre cuadros: Safari limita a 30 fps en ahorro de
     // batería y dentro de iframes, y eso bajaba la calidad sin que el equipo estuviera lento
@@ -9050,7 +9096,7 @@ const MEDALS = [
   { id: 'chile', name: 'De Arica a la Antártica', desc: 'Gana todos los niveles del mapa.', tier: 'oro' },
 ];
 /* v2.10: cada ave tiene su medalla de maestría y todas dan lucas al ganarse */
-const MEDAL_RW = { bronce: 40, plata: 100, oro: 250 }, MASTERY_GOAL = 10;
+const MEDAL_RW = { bronce: 20, plata: 50, oro: 125 }, MASTERY_GOAL = 10;
 (() => { const tiers = { chincol: 'bronce', loica: 'bronce', tiuque: 'bronce', zorzal: 'bronce', chucao: 'bronce', pinguino: 'plata', queltehue: 'plata', chuncho: 'plata', bandurria: 'plata', pelicano: 'plata', flamenco: 'plata', martin: 'plata', condor: 'oro', picaflor: 'oro', jote: 'oro', carpintero: 'oro' };
   for (const t of Object.keys(BIRDS)) { const b = BIRDS[t]; if (!b.power) continue; MEDALS.push({ id: 'dom_' + t, name: 'Maestro ' + b.name.split(' de ')[0].toLowerCase().replace(/^./, ch => ch.toUpperCase()), desc: `Derriba ${MASTERY_GOAL} invasores con el ave «${b.name}».`, tier: tiers[t] || 'plata', bird: t }); } })();
 const MPROG = {
@@ -9239,7 +9285,7 @@ function pickExtra() {
   return null;
 }
 // Sobre comprado en la tienda: 3 láminas al azar de las páginas de sobre; pueden salir repetidas (valen SOBRE_REP lucas)
-const SOBRE_PRICE = 200, SOBRE_REP = 25, SOBRE_N = 3;
+const SOBRE_PRICE = 250, SOBRE_REP = 25, SOBRE_N = 3;
 function buyPack() {
   const A = album(), pool = [['c', Object.keys(CULT)], ...Object.keys(EXTRA).map(k => [k, Object.keys(extraData(k))])].flatMap(([k, ks]) => ks.map(t => [k, t]));
   const cards = [], rep = []; let lucas = 0;
@@ -9887,18 +9933,18 @@ function drawCine(c, cr) {
 
 /* ================= Tienda ================= */
 const SHOP = [
-  { id: 'honda', name: 'Honda reforzada', desc: 'Elástico nuevo: lanza un 7% más fuerte por nivel.', cost: [360, 840] },
-  { id: 'mira', name: 'Mira de águila', desc: 'Ves más de la línea de puntería: sin mejora se ve el 65% del vuelo, con el nivel 1 el 80% y con el nivel 2 completo.', cost: [240, 600] },
-  { id: 'plumas', name: 'Plumas de acero', desc: 'Las aves pesan un 15% más por nivel y pegan más fuerte.', cost: [480, 1080] },
-  { id: 'extra', name: 'Chincol de refuerzo', desc: 'Un chincol extra al final de cada nivel. No cuenta para las estrellas.', cost: [900] },
-  { id: 'viento', name: 'Mira con viento', desc: 'La línea de puntería toma en cuenta el viento y las ráfagas. Se pinta celeste cuando sopla.', cost: [1320] },
-  { id: 'jefe', name: 'Cóndor de refuerzo', desc: 'Un cóndor extra al final de cada nivel de jefe. No cuenta para las estrellas.', cost: [1560] },
-  { id: 'c_emp', name: 'Carta: Lluvia de empanadas', desc: 'Un uso por nivel: 9 empanadas explosivas caen donde tú toques.', cost: [420], stack: true },
-  { id: 'c_gale', name: 'Carta: Ventarrón', desc: 'Un uso por nivel: un viento fortísimo empuja todo el fuerte hacia el fondo.', cost: [465], stack: true },
-  { id: 'c_quake', name: 'Carta: Terremoto', desc: 'Un uso por nivel: el suelo tiembla y el fuerte se desarma.', cost: [525], stack: true },
-  { id: 'iman', name: 'Imán de lucas', desc: 'Las lucas de los próximos 3 niveles que ganes valen un 25% más. Se pueden acumular.', cost: [450], charge: 3 },
+  { id: 'honda', name: 'Honda reforzada', desc: 'Elástico nuevo: lanza un 7% más fuerte por nivel.', cost: [450, 1050] },
+  { id: 'mira', name: 'Mira de águila', desc: 'Ves más de la línea de puntería: sin mejora se ve el 65% del vuelo, con el nivel 1 el 80% y con el nivel 2 completo.', cost: [300, 750] },
+  { id: 'plumas', name: 'Plumas de acero', desc: 'Las aves pesan un 15% más por nivel y pegan más fuerte.', cost: [600, 1350] },
+  { id: 'extra', name: 'Chincol de refuerzo', desc: 'Un chincol extra al final de cada nivel. No cuenta para las estrellas.', cost: [1125] },
+  { id: 'viento', name: 'Mira con viento', desc: 'La línea de puntería toma en cuenta el viento y las ráfagas. Se pinta celeste cuando sopla.', cost: [1650] },
+  { id: 'jefe', name: 'Cóndor de refuerzo', desc: 'Un cóndor extra al final de cada nivel de jefe. No cuenta para las estrellas.', cost: [1950] },
+  { id: 'c_emp', name: 'Carta: Lluvia de empanadas', desc: 'Un uso por nivel: 9 empanadas explosivas caen donde tú toques.', cost: [525], stack: true },
+  { id: 'c_gale', name: 'Carta: Ventarrón', desc: 'Un uso por nivel: un viento fortísimo empuja todo el fuerte hacia el fondo.', cost: [580], stack: true },
+  { id: 'c_quake', name: 'Carta: Terremoto', desc: 'Un uso por nivel: el suelo tiembla y el fuerte se desarma.', cost: [655], stack: true },
+  { id: 'iman', name: 'Imán de lucas', desc: 'Las lucas de los próximos 3 niveles que ganes valen un 25% más. Se pueden acumular.', cost: [565], charge: 3 },
   { id: 'sobre', name: 'Sobre de láminas', desc: '3 láminas al azar de cultura, flora, mar, bichos y reptiles. Si sale una repetida, te da 25 lucas.', cost: [SOBRE_PRICE], pack: true },
-  { id: 'emp2', name: 'Empanadas dobles', desc: 'Cada empanada escondida te da el doble de lucas.', cost: [1080] },
+  { id: 'emp2', name: 'Empanadas dobles', desc: 'Cada empanada escondida te da el doble de lucas.', cost: [1350] },
 ];
 const SAY = { hola: ['¿Qué va a llevar, casero?', '¡Pase, pase, que no muerdo!', 'Tengo de too\', mijo.', 'Llegó mercadería nueva.'],
   buy: ['¡Buena compra, casero!', '¡Al tiro se lo paso!', 'Eso sí que es inversión.', '¡Vuelva pronto!'], poor: ['Le faltan unas lucas, mijo.', 'Fiado no hay, casero.', 'Junte un poquito más y vuelva.'] };
@@ -10547,10 +10593,12 @@ function renderOpts() {
 // línea de diagnóstico al pie de Ajustes (para revisar la nitidez en un teléfono real)
 function gfxDiag() {
   const z = (window.visualViewport?.scale || 1).toFixed(2);
-  return `<p class="opt-diag">Pantalla ${view.w}×${view.h} · densidad ${devicePixelRatio} · lienzo ${canvas.width}×${canvas.height} · fondo ${(view.bgk || 0).toFixed(2)} · zoom ${z} · ${opt('gfx') === 'fast' ? 'rápida' : 'nítida'}${G.lowQ ? ' · efectos reducidos' : ''}${MOBILE ? ' · táctil' : ''}${window.top !== window.self ? ' · en marco' : ''}</p>`;
+  return `<p class="opt-diag">Pantalla ${view.w}×${view.h} · densidad ${devicePixelRatio} · lienzo ${canvas.width}×${canvas.height} · fondo ${(view.bgk || 0).toFixed(2)} · zoom ${z} · ${opt('gfx') === 'fast' ? 'rápida' : 'nítida'}${G.lowQ ? ' · efectos reducidos' : ''}${MOBILE ? ' · táctil' : ''}${window.top !== window.self ? ' · en marco' : ''}</p>` +
+    (MOBILE ? `<button type="button" class="btn small sharp-toggle" id="sharp-toggle">${SHARP.on ? 'Terminar prueba de nitidez' : 'Prueba de nitidez'}</button>` : '');
 }
 const setOpt = (k, v) => { G.progress.opts = G.progress.opts || {}; G.progress.opts[k] = v; saveProgress(); };
 $('opts').addEventListener('click', e => {
+  if (e.target.closest('#sharp-toggle')) { SFX.click(); sharpToggle(); return; }
   const s = e.target.closest('[data-seg]');
   if (s) { const k = s.dataset.seg, raw = s.dataset.v, v = isNaN(+raw) ? raw : +raw; setOpt(k, v); audioInit(); SFX.click(); if (k === 'ui') applyUI(); if (k === 'aim') G.aimLock = false; if (k === 'gfx') resize(); renderOpts(); const nb = $('opts').querySelector(`[data-seg="${k}"][data-v="${raw}"]`); if (nb) nb.focus(); return; }
   const b = e.target.closest('[data-opt]'); if (!b) return;
@@ -10627,18 +10675,18 @@ $('reset-cancel').addEventListener('click', () => { SFX.click(); holdReset(false
 /* ================= Desafíos del día ================= */
 const DEL = { chincol: 'del chincol', loica: 'de la loica', tiuque: 'del tiuque', pinguino: 'del pingüino', condor: 'del cóndor', jote: 'del jote', picaflor: 'del picaflor', queltehue: 'del queltehue', chuncho: 'del chuncho', bandurria: 'de la bandurria', pelicano: 'del pelícano', flamenco: 'del flamenco', carpintero: 'del carpintero', martin: 'del martín pescador', chucao: 'del chucao', zorzal: 'del zorzal' };
 const MISSIONS = {
-  kill:   { t: n => `Bota ${n} invasores`, n: [10, 15, 20], rw: 50 },
-  blocks: { t: n => `Rompe ${n} bloques`, n: [30, 45, 60], rw: 50 },
-  madera: { t: n => `Rompe ${n} bloques de madera`, n: [12, 18], rw: 45 },
-  piedra: { t: n => `Rompe ${n} bloques de piedra`, n: [6, 10], rw: 55 },
-  hielo:  { t: n => `Rompe ${n} bloques de hielo`, n: [8, 12], rw: 50 },
-  wins:   { t: n => `Gana ${n} niveles`, n: [2, 3], rw: 65 },
-  stars3: { t: n => n === 1 ? 'Gana un nivel con 3 estrellas' : `Gana ${n} niveles con 3 estrellas`, n: [1, 2], rw: 75 },
-  chain:  { t: n => `Haz una cadena de x${n} en un solo tiro`, n: [6, 8], rw: 55, max: true },
-  gas:    { t: n => `Revienta ${n} balones de gas`, n: [3, 5], rw: 50 },
-  hazard: { t: n => `Echa ${n} invasores al agua, la lava o una quebrada`, n: [2, 4], rw: 65 },
-  saved:  { t: n => `Gana un nivel guardando ${n} aves`, n: [2, 3], rw: 70, max: true },
-  power:  { t: (n, b) => `Usa ${n} veces el poder ${DEL[b] || 'de un ave'}`, n: [3, 5], rw: 45, bird: true },
+  kill:   { t: n => `Bota ${n} invasores`, n: [10, 15, 20], rw: 25 },
+  blocks: { t: n => `Rompe ${n} bloques`, n: [30, 45, 60], rw: 25 },
+  madera: { t: n => `Rompe ${n} bloques de madera`, n: [12, 18], rw: 25 },
+  piedra: { t: n => `Rompe ${n} bloques de piedra`, n: [6, 10], rw: 30 },
+  hielo:  { t: n => `Rompe ${n} bloques de hielo`, n: [8, 12], rw: 25 },
+  wins:   { t: n => `Gana ${n} niveles`, n: [2, 3], rw: 35 },
+  stars3: { t: n => n === 1 ? 'Gana un nivel con 3 estrellas' : `Gana ${n} niveles con 3 estrellas`, n: [1, 2], rw: 40 },
+  chain:  { t: n => `Haz una cadena de x${n} en un solo tiro`, n: [6, 8], rw: 30, max: true },
+  gas:    { t: n => `Revienta ${n} balones de gas`, n: [3, 5], rw: 25 },
+  hazard: { t: n => `Echa ${n} invasores al agua, la lava o una quebrada`, n: [2, 4], rw: 35 },
+  saved:  { t: n => `Gana un nivel guardando ${n} aves`, n: [2, 3], rw: 35, max: true },
+  power:  { t: (n, b) => `Usa ${n} veces el poder ${DEL[b] || 'de un ave'}`, n: [3, 5], rw: 25, bird: true },
 };
 function dayKey(d = new Date()) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
 function daily() {
@@ -10679,7 +10727,7 @@ function missionDone(m, D) {
   if (S.last !== today) { S.n = S.last === dayKey(new Date(Date.now() - 864e5)) ? S.n + 1 : 1; S.last = today; Pg.streak = S; }
   banner('Desafío cumplido', `${M.t(m.n, m.b)} · +${M.rw} lucas`, '✓');
   if (S.n >= 3) award('racha3'); if (S.n >= 7) award('racha7');
-  if (!D.all && D.list.every(x => x.done)) { D.all = true; Pg.lucas += 100; banner('¡Desafíos del día completos!', '+100 lucas extra', '★'); award('diario'); }
+  if (!D.all && D.list.every(x => x.done)) { D.all = true; Pg.lucas += 50; banner('¡Desafíos del día completos!', '+50 lucas extra', '★'); award('diario'); }
   saveProgress(); updateDailyBadge();
 }
 function updateDailyBadge() {
@@ -10689,7 +10737,7 @@ function updateDailyBadge() {
 function openDaily() {
   const D = daily(), done = D.list.filter(m => m.done).length, sn = streakNow();
   $('daily-eyebrow').textContent = `${done} de 3 cumplidos hoy`; wheelCta();
-  $('daily-streak').innerHTML = `<b>${sn}</b><span>${sn === 1 ? 'día' : 'días'} de racha</span><small>Cumple al menos un desafío al día para mantener la racha. Si completas los tres, ganas 100 lucas extra.</small>`;
+  $('daily-streak').innerHTML = `<b>${sn}</b><span>${sn === 1 ? 'día' : 'días'} de racha</span><small>Cumple al menos un desafío al día para mantener la racha. Si completas los tres, ganas 50 lucas extra.</small>`;
   $('daily-list').innerHTML = D.list.map(m => { const M = MISSIONS[m.k]; return `<div class="mission${m.done ? ' done' : ''}"><div class="mchk">${m.done ? '✓' : ''}</div><div class="mtxt"><b>${M.t(m.n, m.b)}</b><em>${m.p} de ${m.n}</em><div class="mbar"><i style="width:${Math.round(m.p / m.n * 100)}%"></i></div></div><span class="mrw">+${M.rw}<small>lucas</small></span></div>`; }).join('');
   renderWeekly();
   const i = LEVELS.findIndex(l => l.key === D.lvl);
@@ -10702,8 +10750,8 @@ function openDaily() {
 
 /* ================= Ruleta del día (v2.13): un giro gratis cada día, como en Candy Crush o Brawl Stars ================= */
 const WHEEL = [
-  { id: 'l60', t: '60 lucas', ic: '💵', w: 22 }, { id: 'iman', t: 'Imán', ic: '🧲', w: 12 }, { id: 'l120', t: '120 lucas', ic: '💵', w: 18 }, { id: 'c_gale', t: 'Ventarrón', ic: '🌬️', w: 10 },
-  { id: 'sobre', t: 'Sobre', ic: '✉️', w: 12 }, { id: 'c_quake', t: 'Terremoto', ic: '🌋', w: 8 }, { id: 'l250', t: '250 lucas', ic: '💰', w: 10 }, { id: 'c_emp', t: 'Empanadas', ic: '🥟', w: 8 },
+  { id: 'l30', t: '30 lucas', ic: '💵', w: 22 }, { id: 'iman', t: 'Imán', ic: '🧲', w: 12 }, { id: 'l60', t: '60 lucas', ic: '💵', w: 18 }, { id: 'c_gale', t: 'Ventarrón', ic: '🌬️', w: 10 },
+  { id: 'sobre', t: 'Sobre', ic: '✉️', w: 12 }, { id: 'c_quake', t: 'Terremoto', ic: '🌋', w: 8 }, { id: 'l125', t: '125 lucas', ic: '💰', w: 10 }, { id: 'c_emp', t: 'Empanadas', ic: '🥟', w: 8 },
 ];
 const WHEEL_COL = ['#d52b1e', '#fffaf0', '#0b3c8c', '#f6bd1d'];
 const WH = { rot: 0, spinning: false, raf: 0, flick: 0 };
@@ -10715,7 +10763,7 @@ function wheelPrize(i) { // entrega el premio y devuelve el texto
   if (s.id === 'iman') { P.iman = Math.min(9, (P.iman || 0) + 3); return 'Imán de lucas: +3 cargas'; }
   if (s.id.startsWith('c_')) { const k = s.id.slice(2); P.cards = P.cards || {}; P.cards[k] = Math.min(9, cardsOwned(k) + 1); return 'Carta de poder: ' + s.t; }
   const cd = giftCard(); if (cd) { packQ.push([[cd.k, cd.t]]); return 'Un sobre con una lámina nueva'; }
-  P.lucas = (P.lucas || 0) + 80; return '+80 lucas (el álbum ya está completo)';
+  P.lucas = (P.lucas || 0) + 40; return '+40 lucas (el álbum ya está completo)';
 }
 function drawWheel() {
   const cv = $('wheel-cv'), c = cv.getContext('2d'), W = cv.width, C = W / 2, R = C - 30, n = WHEEL.length, seg = Math.PI * 2 / n, now = performance.now();
@@ -10765,16 +10813,16 @@ $('wheel-go').addEventListener('click', wheelSpin);
 $('wheel-back').addEventListener('click', () => { if (WH.spinning) return; SFX.click(); cancelAnimationFrame(WH.raf); showOnly('menu'); buildMap(); if (packQ.length) schedulePacks(); });
 /* ================= Misiones de la semana ================= */
 const WEEKLY = {
-  kill:   { n: [40, 60, 80], rw: 150 },
-  blocks: { n: [120, 180, 240], rw: 150 },
-  madera: { n: [50, 80], rw: 140 },
-  piedra: { n: [25, 40], rw: 160 },
-  hielo:  { n: [30, 45], rw: 150 },
-  wins:   { n: [8, 12], rw: 200 },
-  stars3: { n: [3, 5], rw: 220 },
-  gas:    { n: [10, 15], rw: 160 },
-  hazard: { n: [8, 12], rw: 200 },
-  power:  { n: [15, 25], rw: 160, bird: true },
+  kill:   { n: [40, 60, 80], rw: 75 },
+  blocks: { n: [120, 180, 240], rw: 75 },
+  madera: { n: [50, 80], rw: 70 },
+  piedra: { n: [25, 40], rw: 80 },
+  hielo:  { n: [30, 45], rw: 75 },
+  wins:   { n: [8, 12], rw: 100 },
+  stars3: { n: [3, 5], rw: 110 },
+  gas:    { n: [10, 15], rw: 80 },
+  hazard: { n: [8, 12], rw: 100 },
+  power:  { n: [15, 25], rw: 80, bird: true },
 };
 function weekKey(d = new Date()) { const x = new Date(d); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return dayKey(x); }
 function weekly() {
@@ -10803,9 +10851,9 @@ function weeklyProgress(k, amt, extra) {
       m.done = true; G.progress.lucas = (G.progress.lucas || 0) + WEEKLY[k].rw;
       banner('Misión de la semana', `${MISSIONS[k].t(m.n, m.b)} · +${WEEKLY[k].rw} lucas`, '✓');
       if (!Wk.all && Wk.list.every(x => x.done)) {
-        Wk.all = true; award('semana'); G.progress.lucas += 250; const cu = pickExtra();
+        Wk.all = true; award('semana'); G.progress.lucas += 125; const cu = pickExtra();
         if (cu) { album()[cu[0]][cu[1]] = 1; packQ.push([cu]); schedulePacks(); }
-        banner('¡Semana completa!', cu ? '+250 lucas y un sobre con lámina' : '+250 lucas', '★');
+        banner('¡Semana completa!', cu ? '+125 lucas y un sobre con lámina' : '+125 lucas', '★');
       }
     }
     saveProgress();
@@ -10815,7 +10863,7 @@ function renderWeekly() {
   const Wk = weekly(), done = Wk.list.filter(m => m.done).length;
   $('weekly-list').innerHTML = Wk.list.map(m => { const M = MISSIONS[m.k]; return `<div class="mission${m.done ? ' done' : ''}"><div class="mchk">${m.done ? '✓' : ''}</div><div class="mtxt"><b>${M.t(m.n, m.b)}</b><em>${m.p} de ${m.n}</em><div class="mbar"><i style="width:${Math.round(m.p / m.n * 100)}%"></i></div></div><span class="mrw">+${WEEKLY[m.k].rw}<small>lucas</small></span></div>`; }).join('');
   const mon = new Date(); mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7) + 7); mon.setHours(0, 0, 0, 0); const left = mon - Date.now(), d = Math.floor(left / 864e5), h = Math.floor(left % 864e5 / 36e5);
-  $('weekly-foot').textContent = `${done} de 3 cumplidas. Al completar las tres ganas 250 lucas y un sobre con una lámina. Cambian en ${d} d ${h} h.`;
+  $('weekly-foot').textContent = `${done} de 3 cumplidas. Al completar las tres ganas 125 lucas y un sobre con una lámina. Cambian en ${d} d ${h} h.`;
 }
 $('daily-back').addEventListener('click', () => { SFX.click(); showOnly('menu'); buildMap(); });
 
