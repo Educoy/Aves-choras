@@ -1553,6 +1553,7 @@ button,.btn,summary,[role="button"]{touch-action:manipulation}
       <li>Menos ventanas al volver al mapa: los sobres que sobran esperan en un sobre flotante, y una meta a la vista te dice qué viene.</li>
       <li>En el álbum, voltea una lámina y tócala en «Ver grande».</li>
       <li>Lucas más difíciles: medallas, desafíos del día, misiones de la semana y ruleta pagan la mitad, y la tienda sube un 25%. En los niveles ya no sale el contador de invasores y aves.</li>
+      <li>En celulares el juego ahora se dibuja con WebGL para que no se vea borroso. Si notas algo raro, en Ajustes → <b>Forma de dibujar</b> puedes volver a Normal.</li>
       <li>El juego se ve más nítido en iPhone: se dibuja a la resolución real de la pantalla. Si tu celular va lento, en Ajustes puedes elegir <b>Calidad gráfica: Rápida</b>.</li>
       <li>48 láminas nuevas: flora nativa, mar de Chile, bichos, ranas y reptiles, y una lámina dorada por cada región con 3 ★ en todos sus niveles.</li>
       <li>Los sobres traen <b>3 láminas</b> y ahora se compran en el almacén (250 lucas). En los comprados pueden salir repetidas: cada una vale 25 lucas.</li>
@@ -5828,7 +5829,7 @@ for (const [guest, keys] of Object.entries(GUEST27)) for (const L of LEVELS) {
 }
 /* ================= Estado ================= */
 const canvas = document.getElementById('game');
-const ctx = canvas.getContext('2d');
+let ctx = canvas.getContext('2d'); // v2.15: puede apuntar a un lienzo fuera de pantalla (ver 12b-prueba-nitidez.js)
 const bgCanvas = document.createElement('canvas');
 const bgCtx = bgCanvas.getContext('2d');
 let view = { s0: 1, dpr: 1, w: 0, h: 0 };
@@ -7347,6 +7348,7 @@ function resize() {
   const dpr2 = sharpApply(w, h, dpr);
   canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
   view = { s0: Math.min(w / 1600, h / 900), dpr: dpr2, w, h };
+  presLayout(w, h, dpr2);
   if (G.engine) { paintBackground(); [cam.x, cam.z] = clampCam(cam.x, cam.z); }
 }
 function zLimits() { return [Math.max(view.h / (view.s0 * (H - BG.y0)), view.w / (view.s0 * BG.w), 0.4), 1.7]; }
@@ -7393,33 +7395,99 @@ function updateCamera() {
   cam.x += (tx - cam.x) * k; cam.z += (tz - cam.z) * k;
 }
 
-/* ================= v2.15 · Prueba de nitidez (para revisar en un iPhone real) =================
-   Safari en iPhone puede mostrar el lienzo a menos resolución de la que se dibuja (hay un error conocido de WebKit
-   cuando el lienzo mide justo lo mismo que la pantalla). Desde Ajustes se activa una prueba: arriba a la izquierda
-   del nivel se dibujan rayas de 1 y 2 píxeles reales, y un botón cambia entre maneras de armar el lienzo.
-   Si las rayas de 1 px se ven grises y lisas, esa manera sale borrosa en ese equipo. */
+/* ================= v2.15 · Nitidez en iPhone: presentadores del lienzo y prueba =================
+   En un iPhone 13 el lienzo del juego (2532×1170) se veía como a 1×, y ni 2× ni 3× ni capas propias cambiaban nada:
+   Safari parece mostrar el lienzo 2D grande a una resolución propia. Para esquivarlo, el juego puede dibujar en un
+   lienzo fuera de pantalla (OFF) y "presentarlo" de otra forma:
+     - WebGL: cada cuadro se sube como textura a un lienzo WebGL que ocupa la pantalla (Safari lo muestra tal cual);
+     - Mosaico: se copia en 4 lienzos chicos (por si el problema es el tamaño del lienzo).
+   El lienzo #game queda siempre para los toques (eventos y getBoundingClientRect); `ctx` apunta a donde se dibuja.
+   La prueba (botón en Ajustes) dibuja rayas de 1 y 2 píxeles reales y recorre las variantes. */
 const SHARP = { on: false, v: 0 };
-const SHARP_V = ['Normal', 'Capa propia', 'translateZ', '1 px menos', '2×'];
-// ajusta el lienzo según la variante elegida (se llama al final de resize)
+const SHARP_V = ['Normal', 'WebGL', 'Mosaico', '1 px menos', '2×'];
+const PRES = { mode: 'normal', off: null, gl: null, glc: null, tex: null, tiles: null, failed: false };
+// variante en uso: la de la prueba, la guardada en Ajustes (opts.sharpV) o, por defecto, WebGL en pantallas táctiles
+const sharpV = () => { if (SHARP.on) return SHARP.v; const o = (G.progress && G.progress.opts) || {}; return o.sharpV != null ? o.sharpV : MOBILE ? 1 : 0; };
+const presMode = () => { const v = sharpV(); return v === 1 ? 'gl' : v === 2 ? 'tiles' : 'normal'; };
+function presOff() { if (!PRES.off) { PRES.off = document.createElement('canvas'); PRES.offCtx = PRES.off.getContext('2d'); } return PRES.off; }
+function glSetup() {
+  if (PRES.gl || PRES.failed) return !!PRES.gl;
+  try {
+    const cv = document.createElement('canvas'); cv.id = 'game-gl'; cv.setAttribute('aria-hidden', 'true');
+    cv.style.cssText = 'position:fixed;left:0;top:0;pointer-events:none;display:block';
+    const gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, stencil: false, premultipliedAlpha: false, preserveDrawingBuffer: false });
+    if (!gl) throw new Error('sin webgl');
+    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
+    const pr = gl.createProgram();
+    gl.attachShader(pr, sh(gl.VERTEX_SHADER, 'attribute vec2 p;varying vec2 uv;void main(){uv=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}'));
+    gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 uv;uniform sampler2D t;void main(){gl_FragColor=texture2D(t,uv);}'));
+    gl.linkProgram(pr); if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) throw new Error('link');
+    gl.useProgram(pr);
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+    // 1:1 con la pantalla: NEAREST no inventa nada; CLAMP permite tamaños que no son potencia de 2
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    cv.addEventListener('webglcontextlost', e => { e.preventDefault(); PRES.failed = true; PRES.gl = null; presLayout(); });
+    canvas.after(cv); PRES.gl = gl; PRES.glc = cv; PRES.tex = tex; return true;
+  } catch (e) { PRES.failed = true; return false; }
+}
+function tilesSetup() {
+  if (PRES.tiles) return;
+  const box = document.createElement('div'); box.id = 'game-tiles'; box.setAttribute('aria-hidden', 'true');
+  box.style.cssText = 'position:fixed;left:0;top:0;pointer-events:none';
+  PRES.tiles = Array.from({ length: 4 }, () => { const cv = document.createElement('canvas'); cv.style.cssText = 'position:absolute;display:block'; box.appendChild(cv); return { cv, c: cv.getContext('2d') }; });
+  PRES.tilesBox = box; canvas.after(box);
+}
+// tamaño y modo del presentador (se llama desde resize con el tamaño en CSS y la densidad elegida)
+function presLayout(w = view.w, h = view.h, dpr = view.dpr) {
+  let mode = presMode();
+  if (mode === 'gl' && !glSetup()) mode = 'normal';
+  PRES.mode = mode;
+  const W = Math.round(w * dpr), H = Math.round(h * dpr);
+  if (mode === 'normal') { ctx = canvas.getContext('2d'); canvas.style.opacity = ''; }
+  else { const off = presOff(); off.width = W; off.height = H; ctx = PRES.offCtx; canvas.width = 1; canvas.height = 1; canvas.style.opacity = '0'; }
+  if (PRES.glc) { PRES.glc.style.display = mode === 'gl' ? 'block' : 'none'; if (mode === 'gl') { PRES.glc.width = W; PRES.glc.height = H; PRES.glc.style.width = w + 'px'; PRES.glc.style.height = h + 'px'; PRES.gl.viewport(0, 0, W, H); } }
+  if (mode === 'tiles') tilesSetup();
+  if (PRES.tilesBox) {
+    PRES.tilesBox.style.display = mode === 'tiles' ? 'block' : 'none';
+    if (mode === 'tiles') {
+      const cw = Math.ceil(w / 2), ch = Math.ceil(h / 2);
+      PRES.tiles.forEach((t, i) => { const cx = (i % 2) * cw, cy = (i >> 1) * ch, tw = Math.min(cw, w - cx), th = Math.min(ch, h - cy);
+        Object.assign(t, { sx: Math.round(cx * dpr), sy: Math.round(cy * dpr), sw: Math.round(tw * dpr), sh: Math.round(th * dpr) });
+        t.cv.width = t.sw; t.cv.height = t.sh; Object.assign(t.cv.style, { left: cx + 'px', top: cy + 'px', width: tw + 'px', height: th + 'px' }); });
+    }
+  }
+}
+// copia lo dibujado a la pantalla (después de render)
+function present() {
+  if (PRES.mode === 'gl' && PRES.gl) {
+    const gl = PRES.gl; gl.bindTexture(gl.TEXTURE_2D, PRES.tex);
+    try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, PRES.off); } catch (e) { PRES.failed = true; presLayout(); return; }
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  } else if (PRES.mode === 'tiles') for (const t of PRES.tiles) t.c.drawImage(PRES.off, t.sx, t.sy, t.sw, t.sh, 0, 0, t.sw, t.sh);
+}
+// variantes que solo cambian el tamaño del lienzo normal (se llama al final de resize)
 function sharpApply(w, h, dpr) {
-  const v = SHARP.on ? SHARP.v : (G.progress.opts || {}).sharpV || 0;
-  canvas.style.willChange = v === 1 ? 'transform' : '';
-  canvas.style.transform = v === 2 ? 'translateZ(0)' : '';
+  const v = sharpV();
   if (v === 3) { canvas.width = Math.round(w * dpr) - 1; canvas.height = Math.round(h * dpr) - 1; return canvas.height / h; }
   if (v === 4 && dpr > 2) { canvas.width = Math.round(w * 2); canvas.height = Math.round(h * 2); return 2; }
   return dpr;
 }
 function drawSharpTest() {
-  const c = ctx, d = view.dpr, x0 = Math.round(12 * d), y0 = Math.round(70 * d), W = Math.round(150 * d);
-  c.setTransform(1, 0, 0, 1, 0, 0);
-  c.fillStyle = '#fff'; c.fillRect(x0 - 6, y0 - 6, W + 12, Math.round(84 * d) + 12);
+  const c = ctx, cv = c.canvas, d = cv.height / view.h, x0 = Math.round(12 * d), y0 = Math.round(64 * d), W = Math.round(170 * d);
+  c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1;
+  c.fillStyle = '#fff'; c.fillRect(x0 - 6, y0 - 6, W + 12, Math.round(100 * d) + 12);
   c.fillStyle = '#000';
   for (let x = 0; x < W; x += 2) c.fillRect(x0 + x, y0, 1, Math.round(22 * d));
   for (let x = 0; x < W; x += 4) c.fillRect(x0 + x, y0 + Math.round(26 * d), 2, Math.round(22 * d));
   c.font = `${Math.round(13 * d)}px sans-serif`; c.textBaseline = 'top'; c.textAlign = 'left';
-  c.fillText(`${SHARP.v + 1}/${SHARP_V.length} · ${SHARP_V[SHARP.v]}`, x0, y0 + Math.round(52 * d));
+  c.fillText(`${SHARP.v + 1}/${SHARP_V.length} · ${SHARP_V[SHARP.v]}${SHARP.v === 1 && PRES.mode !== 'gl' ? ' (no disponible)' : ''}`, x0, y0 + Math.round(52 * d));
   c.font = `${Math.round(9 * d)}px sans-serif`;
-  c.fillText(`lienzo ${canvas.width}×${canvas.height} · ${d.toFixed(2)}×`, x0, y0 + Math.round(70 * d));
+  c.fillText(`lienzo ${cv.width}×${cv.height} · ¿rayas separadas o gris parejo?`, x0, y0 + Math.round(70 * d));
+  c.fillText('Si se ven separadas, esta variante está nítida.', x0, y0 + Math.round(84 * d));
 }
 function sharpButton() {
   let b = $('sharp-btn');
@@ -7625,7 +7693,7 @@ function render() {
   }
   const shk = G.shake * fxk(), sx = (Math.random() - 0.5) * shk * 2, sy = (Math.random() - 0.5) * shk * 2;
   c.setTransform(1, 0, 0, 1, 0, 0);
-  c.fillStyle = L.sky; c.fillRect(0, 0, canvas.width, canvas.height);
+  c.fillStyle = L.sky; c.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   c.setTransform(dpr * cr.S, 0, 0, dpr * cr.S, dpr * (-cr.left * cr.S + sx), dpr * (-cr.top * cr.S + sy));
   drawBGLayers(c, cr, L);
   if (!G.engine) return;
@@ -7636,7 +7704,7 @@ function render() {
     c.globalAlpha = 1; c.textAlign = 'center'; c.textBaseline = 'middle';
     for (const p of G.popups) { c.globalAlpha = Math.min(1, p.life / 20); c.font = `${p.size}px "Lilita One", sans-serif`; c.lineWidth = 6; c.strokeStyle = OL; c.strokeText(p.text, p.x, p.y); c.fillStyle = p.color; c.fillText(p.text, p.x, p.y); }
     c.globalAlpha = 1; drawWeather(c, cr);
-    c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = 'rgba(0,0,0,.18)'; c.fillRect(0, 0, canvas.width, canvas.height * 0.04); c.fillRect(0, canvas.height * 0.96, canvas.width, canvas.height * 0.04);
+    c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = 'rgba(0,0,0,.18)'; c.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height * 0.04); c.fillRect(0, ctx.canvas.height * 0.96, ctx.canvas.width, ctx.canvas.height * 0.04);
     return;
   }
   for (const t of G.trail) circle(c, t.x, t.y, t.big ? 5 : 3, 'rgba(255,255,255,.85)');
@@ -7765,10 +7833,10 @@ function render() {
     if (p.bill && BILL_IMG.complete) { const tw = c.measureText(p.text).width, bh = p.size * 0.9; c.drawImage(BILL_IMG, p.x - tw / 2 - bh * 2.2, p.y - bh * 0.85, bh * 2.1, bh); }
   }
   c.globalAlpha = 1;
-  if (G.slowmo > 0) { c.setTransform(1, 0, 0, 1, 0, 0); const g = c.createRadialGradient(canvas.width / 2, canvas.height / 2, canvas.height * 0.3, canvas.width / 2, canvas.height / 2, canvas.height); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, `rgba(20,10,30,${0.45 * Math.min(1, G.slowmo / 20)})`); c.fillStyle = g; c.fillRect(0, 0, canvas.width, canvas.height); }
-  if (G.flash > 0 && opt('fx')) { c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = `rgba(255,248,230,${(Math.min(G.flash, 0.6) * fxk()).toFixed(3)})`; c.fillRect(0, 0, canvas.width, canvas.height); }
+  if (G.slowmo > 0) { c.setTransform(1, 0, 0, 1, 0, 0); const g = c.createRadialGradient(ctx.canvas.width / 2, ctx.canvas.height / 2, ctx.canvas.height * 0.3, ctx.canvas.width / 2, ctx.canvas.height / 2, ctx.canvas.height); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, `rgba(20,10,30,${0.45 * Math.min(1, G.slowmo / 20)})`); c.fillStyle = g; c.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); }
+  if (G.flash > 0 && opt('fx')) { c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = `rgba(255,248,230,${(Math.min(G.flash, 0.6) * fxk()).toFixed(3)})`; c.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); }
   drawCine(c, cr);
-  if (G.dim > 0 && opt('fx')) { c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = `rgba(30,24,40,${(0.38 * Math.min(1, G.dim)).toFixed(3)})`; c.fillRect(0, 0, canvas.width, canvas.height); if (G.state !== 'result') G.dim = 0; }
+  if (G.dim > 0 && opt('fx')) { c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = `rgba(30,24,40,${(0.38 * Math.min(1, G.dim)).toFixed(3)})`; c.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); if (G.state !== 'result') G.dim = 0; }
 }
 function updateParticles() {
   for (const p of G.particles) {
@@ -7813,6 +7881,7 @@ function frame(now) {
   updateCamera();
   render();
   if (SHARP.on) { drawSharpTest(); if (G.frame % 30 === 0) sharpButton(); }
+  present();
   if (['ready', 'aiming', 'flying', 'settle'].includes(G.state) && !G.paused && !G.lowQ) { // calidad adaptable
     // mide el trabajo del cuadro (física + dibujo), no el tiempo entre cuadros: Safari limita a 30 fps en ahorro de
     // batería y dentro de iframes, y eso bajaba la calidad sin que el equipo estuviera lento
@@ -9901,7 +9970,7 @@ function cineStep() {
 const easeOut = u => 1 - Math.pow(1 - Math.max(0, Math.min(1, u)), 3);
 function drawCine(c, cr) {
   const C = G.cine; if (!C) return;
-  const W = canvas.width, H2 = canvas.height, t = C.t, len = C.len, inn = easeOut(t / 14), out = easeOut((len - t) / 16), e = Math.min(inn, out);
+  const W = ctx.canvas.width, H2 = ctx.canvas.height, t = C.t, len = C.len, inn = easeOut(t / 14), out = easeOut((len - t) / 16), e = Math.min(inn, out);
   c.setTransform(1, 0, 0, 1, 0, 0); c.textAlign = 'center'; c.textBaseline = 'middle'; c.lineJoin = 'round';
   if (C.kind === 'phase') {
     const k = 0.5 + 0.5 * Math.sin(t * 0.35), vg = c.createRadialGradient(W / 2, H2 / 2, H2 * 0.25, W / 2, H2 / 2, Math.max(W, H2) * 0.75);
@@ -10581,11 +10650,12 @@ const OPTS = [
   ['ui', 'Tamaño del texto', 'Botones, carteles y paneles', 'seg', [[1, 'Normal'], [1.25, 'Grande'], [1.5, 'Muy grande']]],
   ['aim', 'Apuntar', 'Dos pasos: toca el ave, ajusta con el dedo donde quieras y aprieta ¡Lanzar!', 'seg', [['drag', 'Arrastrar y soltar'], ['two', 'Dos pasos']]],
   ['gfx', 'Calidad gráfica', 'Nítida se ve mejor; Rápida va más fluida en equipos lentos', 'seg', [['hd', 'Nítida'], ['fast', 'Rápida']]],
+  ['sharpV', 'Forma de dibujar', 'Si el juego se ve borroso en tu celular, prueba otra', 'seg', [[1, 'WebGL'], [0, 'Normal'], [2, 'Mosaico']]],
   ['calm', 'Modo calma', 'El ave vuela más lento: más tiempo para usar su poder', 'sw'],
 ];
 function renderOpts() {
-  const val = k => k === 'fxLvl' ? fxLevel() : opt(k);
-  $('opts').innerHTML = OPTS.filter(([k]) => (k !== 'vib' || 'vibrate' in navigator) && (k !== 'fs' || fsOK()) && (k !== 'silent' || 'audioSession' in navigator) && (k !== 'gfx' || MOBILE)).map(([k, name, sub, kind, ch]) =>
+  const val = k => k === 'fxLvl' ? fxLevel() : k === 'sharpV' ? sharpV() : opt(k);
+  $('opts').innerHTML = OPTS.filter(([k]) => (k !== 'vib' || 'vibrate' in navigator) && (k !== 'fs' || fsOK()) && (k !== 'silent' || 'audioSession' in navigator) && (k !== 'gfx' || MOBILE) && (k !== 'sharpV' || MOBILE)).map(([k, name, sub, kind, ch]) =>
     kind === 'vol' ? `<label class="opt vol"><span><b>${name}</b><small>${sub}</small></span><input type="range" min="0" max="100" step="10" value="${Math.round(vol(k) * 100)}" data-vol="${k}" aria-label="Volumen de ${name.toLowerCase()}"></label>`
     : kind === 'seg' ? `<div class="opt seg" role="group" aria-label="${name}"><span><b>${name}</b><small>${sub}</small></span><div class="segs">${ch.map(([v, l]) => `<button type="button" data-seg="${k}" data-v="${v}" aria-pressed="${val(k) == v}">${l}</button>`).join('')}</div></div>`
     : `<button class="opt" role="switch" aria-checked="${k === 'fs' ? !!fsEl() : opt(k)}" data-opt="${k}"><span><b>${name}</b><small>${sub}</small></span><i class="sw"></i></button>`).join('') + gfxDiag();
@@ -10593,14 +10663,14 @@ function renderOpts() {
 // línea de diagnóstico al pie de Ajustes (para revisar la nitidez en un teléfono real)
 function gfxDiag() {
   const z = (window.visualViewport?.scale || 1).toFixed(2);
-  return `<p class="opt-diag">Pantalla ${view.w}×${view.h} · densidad ${devicePixelRatio} · lienzo ${canvas.width}×${canvas.height} · fondo ${(view.bgk || 0).toFixed(2)} · zoom ${z} · ${opt('gfx') === 'fast' ? 'rápida' : 'nítida'}${G.lowQ ? ' · efectos reducidos' : ''}${MOBILE ? ' · táctil' : ''}${window.top !== window.self ? ' · en marco' : ''}</p>` +
+  return `<p class="opt-diag">Pantalla ${view.w}×${view.h} · densidad ${devicePixelRatio} · lienzo ${ctx.canvas.width}×${ctx.canvas.height}${PRES.mode !== 'normal' ? ' (' + PRES.mode + ')' : ''} · fondo ${(view.bgk || 0).toFixed(2)} · zoom ${z} · ${opt('gfx') === 'fast' ? 'rápida' : 'nítida'}${G.lowQ ? ' · efectos reducidos' : ''}${MOBILE ? ' · táctil' : ''}${window.top !== window.self ? ' · en marco' : ''}</p>` +
     (MOBILE ? `<button type="button" class="btn small sharp-toggle" id="sharp-toggle">${SHARP.on ? 'Terminar prueba de nitidez' : 'Prueba de nitidez'}</button>` : '');
 }
 const setOpt = (k, v) => { G.progress.opts = G.progress.opts || {}; G.progress.opts[k] = v; saveProgress(); };
 $('opts').addEventListener('click', e => {
   if (e.target.closest('#sharp-toggle')) { SFX.click(); sharpToggle(); return; }
   const s = e.target.closest('[data-seg]');
-  if (s) { const k = s.dataset.seg, raw = s.dataset.v, v = isNaN(+raw) ? raw : +raw; setOpt(k, v); audioInit(); SFX.click(); if (k === 'ui') applyUI(); if (k === 'aim') G.aimLock = false; if (k === 'gfx') resize(); renderOpts(); const nb = $('opts').querySelector(`[data-seg="${k}"][data-v="${raw}"]`); if (nb) nb.focus(); return; }
+  if (s) { const k = s.dataset.seg, raw = s.dataset.v, v = isNaN(+raw) ? raw : +raw; setOpt(k, v); audioInit(); SFX.click(); if (k === 'ui') applyUI(); if (k === 'aim') G.aimLock = false; if (k === 'gfx' || k === 'sharpV') resize(); renderOpts(); const nb = $('opts').querySelector(`[data-seg="${k}"][data-v="${raw}"]`); if (nb) nb.focus(); return; }
   const b = e.target.closest('[data-opt]'); if (!b) return;
   const k = b.dataset.opt; if (k === 'fs') { toggleFS(); return; }
   setOpt(k, !opt(k));
