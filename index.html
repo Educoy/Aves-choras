@@ -1439,6 +1439,52 @@ button,.btn,summary,[role="button"]{touch-action:manipulation}
 /* v2.15 · sin contador de invasores y aves en el HUD; botón de prueba de nitidez */
 #hud-foes{display:none!important}
 .opts .sharp-toggle{grid-column:1/-1;justify-self:start;margin:4px 2px 0}
+/* v2.15 · Ficha grande de la lámina (al tocarla) */
+.zoom-art{position:relative}
+#zoom-art img{display:block;width:100%;height:auto;border:4px solid #fffdf5;border-radius:14px;box-shadow:0 0 0 2px var(--tinta),0 6px 12px rgba(60,40,20,.35);background:#fff}
+.zoom-num{position:absolute;left:10px;top:10px;background:var(--tinta);color:#fff;font-weight:800;font-size:13px;border-radius:7px;padding:2px 8px}
+.zoom-num:empty{display:none}
+.zoom-badge{position:absolute;right:-8px;bottom:-10px;width:72px;height:72px;border-radius:50%;background:#fff4dc;border:3px solid var(--tinta);display:grid;place-items:center;overflow:hidden;box-shadow:0 3px 0 var(--tinta)}
+.zoom-badge img{width:82px;height:82px}
+.zoom-info .sub{font-size:15px;line-height:1.4}
+.zoom-cred{display:block;margin-top:10px;font-size:11px;color:#6b5a4c;line-height:1.3;word-break:break-word}
+.zoom-cred a{color:inherit}
+#zoom.gold #zoom-art img{border-color:#f2c23a;box-shadow:0 0 0 2px #7a5a08,0 6px 14px rgba(160,110,10,.45)}
+#zoom.boss #zoom-art img{box-shadow:0 0 0 2px #b8860b,0 6px 12px rgba(60,40,20,.35)}
+/* v2.15 · Álbum compacto en celular acostado: tapa y pestañas en una franja delgada, láminas más chicas (unas 7 por fila) */
+@media (max-height:500px){
+  #pedia .panel.book{padding-top:2px}
+  .book .cover{padding:2px 10px 0;min-height:0}
+  .book .cover h2{font-size:16px;margin:0}
+  .book .cover .book-x,#pedia .book-x{width:34px;height:34px;font-size:20px}
+  .book .tab{min-height:30px;padding:3px 9px 4px;font-size:12px}
+  .book .book-page{padding:6px 8px 8px 14px}
+  .book .pg-head{margin:0 26px 5px 0;padding-bottom:3px}
+  .book .pg-head h3{font-size:16px}
+  .book .pg-count{font-size:12px}
+  .book .pedia-grid.stickers{grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px 6px}
+  .book .slot{aspect-ratio:5/6}
+  .book .stk .fr>b{font-size:11px;padding:3px 22px 4px 5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+  .book .stk .spr{width:28px;height:28px;right:3px;top:calc(62.5% - 18px);border-width:2px}
+  .book .stk .spr canvas{width:32px!important;height:32px!important}
+  .book .stk .num{font-size:9px;padding:0 4px;left:4px;top:4px}
+  .book .stk .ribbon{font-size:9px;padding:0 4px;right:4px;top:4px}
+  .book .slot.filled .stk .fr{border-width:3px}
+  .book .slot:not(.filled){padding:4px 3px;gap:1px}
+  .book .slot:not(.filled) .num{font-size:9px;left:5px;top:3px}
+  .book .slot:not(.filled) .ghost canvas{width:34px;height:34px}
+  .book .slot:not(.filled)>b{font-size:12px}
+  .book .slot:not(.filled) small{font-size:9px}
+  .book .slot .abar{height:6px}
+  .zoom-panel{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:14px;padding:12px 16px}
+  #zoom-art img{max-height:calc(var(--app-height,100dvh) - 70px);width:auto;max-width:100%;margin:auto}
+  .zoom-badge{width:54px;height:54px;right:-4px;bottom:-6px}.zoom-badge img{width:62px;height:62px}
+  .zoom-info h2{font-size:22px;margin:0 0 2px}
+  .zoom-info .sub{font-size:13px;margin:6px 0 0}
+}
+.zoom-more p{margin:8px 0 0;font-size:14px;line-height:1.4}.zoom-more b{font-family:var(--display);font-weight:400;color:var(--rojo)}
+.zoom-info{max-height:calc(var(--app-height,100dvh) - 60px);overflow-y:auto;overscroll-behavior:contain;padding-right:4px}
+@media (max-height:500px){.zoom-more p{font-size:12px;margin-top:5px}.zoom-info{padding-top:30px}}
 </style>
 </head>
 <body>
@@ -1553,6 +1599,9 @@ button,.btn,summary,[role="button"]{touch-action:manipulation}
       <li>Menos ventanas al volver al mapa: los sobres que sobran esperan en un sobre flotante, y una meta a la vista te dice qué viene.</li>
       <li>En el álbum, voltea una lámina y tócala en «Ver grande».</li>
       <li>Lucas más difíciles: medallas, desafíos del día, misiones de la semana y ruleta pagan la mitad, y la tienda sube un 25%. En los niveles ya no sale el contador de invasores y aves.</li>
+      <li>Algunos niveles ahora se juegan al atardecer o de noche, con estrellas y luna.</li>
+      <li>Álbum más cómodo en el celular: caben unas 16 láminas a la vista, y al tocar una se abre en grande con su foto, el dato, la descripción, qué hace en el juego y el crédito de la foto.</li>
+      <li>Las dos primeras regiones se rescatan con 4 ★ y los invasores aguantan un poco menos.</li>
       <li>En celulares el juego ahora se dibuja con WebGL para que no se vea borroso. Si notas algo raro, en Ajustes → <b>Forma de dibujar</b> puedes volver a Normal.</li>
       <li>El juego se ve más nítido en iPhone: se dibuja a la resolución real de la pantalla. Si tu celular va lento, en Ajustes puedes elegir <b>Calidad gráfica: Rápida</b>.</li>
       <li>48 láminas nuevas: flora nativa, mar de Chile, bichos, ranas y reptiles, y una lámina dorada por cada región con 3 ★ en todos sus niveles.</li>
@@ -1792,7 +1841,7 @@ button,.btn,summary,[role="button"]{touch-action:manipulation}
     <div class="book-page">
       <div class="pg-head" id="pg-head"></div>
       <div class="pedia-grid stickers" id="pedia-grid"></div>
-      <p class="sub" style="font-size:13px;margin:14px 0 0">Toca una lámina pegada para darla vuelta.</p>
+      <p class="sub" style="font-size:13px;margin:14px 0 0">Toca una lámina pegada para verla en grande, con su dato y el crédito de la foto.</p>
     </div>
     <div class="tray" id="album-tray" hidden><div class="tray-lbl">Por pegar<b id="tray-n">0</b></div><div class="tray-row" id="tray-row"></div><button class="btn primary" id="tray-all">Pegar todas</button></div>
   </div>
@@ -1800,8 +1849,8 @@ button,.btn,summary,[role="button"]{touch-action:manipulation}
 <section id="zoom" class="overlay" hidden role="dialog" aria-labelledby="zoom-name">
   <div class="panel zoom-panel">
     <button class="book-x" id="zoom-x" aria-label="Cerrar">×</button>
-    <div class="zoom-art" id="zoom-art"></div>
-    <div class="zoom-info"><h2 id="zoom-name"></h2><p class="eyebrow" id="zoom-sub"></p><p class="sub" id="zoom-txt"></p></div>
+    <div class="zoom-art"><div id="zoom-art"></div><span class="zoom-num" id="zoom-num"></span><span class="zoom-badge" id="zoom-badge"></span></div>
+    <div class="zoom-info"><h2 id="zoom-name"></h2><p class="eyebrow" id="zoom-sub"></p><p class="sub" id="zoom-txt"></p><div class="zoom-more" id="zoom-more"></div><small class="zoom-cred" id="zoom-cred"></small></div>
   </div>
 </section>
 <section id="pack" class="overlay" hidden>
@@ -2017,7 +2066,7 @@ const SLING = { x: 230, y: 640 };
 const MAX_PULL = 140, POWER = 0.17, STEP = 1000 / 60;
 const GRAV_STEP = 0.001 * STEP * STEP;
 const BG = { x0: -600, y0: -900, w: 2800, h: 1900 };
-const K_DMG = 0.4, ENEMY_MULT = 3.75, BOSS_MULT = 1.0, BOSS_HIT_CAP = 40; // v2.15: invasores un poco más frágiles (antes 3)
+const K_DMG = 0.4, ENEMY_MULT = 4.25, BOSS_MULT = 1.0, BOSS_HIT_CAP = 40; // v2.15: invasores más frágiles (antes 3, luego 3.75)
 const AIM_FRAC = [0.65, 0.8, 1]; // parte visible de la trayectoria según el nivel de la Mira de águila
 
 const BIRDS = {
@@ -2133,6 +2182,7 @@ function cloud(c, x, y, s, col) {
 }
 let LREC = null; // v2.1: mientras se pinta el fondo, anota las capas (cielo, cerros, suelo)
 function skyGrad(c, stops) {
+  stops = todSky(c, stops); // v2.15: atardecer o noche según el nivel
   if (LREC && c === bgCtx) LREC.horizon = stops[stops.length - 1][1];
   const g = c.createLinearGradient(0, BG.y0 + 300, 0, GROUND_Y);
   stops.forEach(([o, col]) => g.addColorStop(o, col));
@@ -7596,6 +7646,7 @@ function bgFinish() {
   if (!LREC.wavy) parts.forEach(p => { p.role = 'static'; });
   const ridges = parts.filter(p => p.role === 'ridge'), n = ridges.length;
   const hz = colorRGB(LREC.horizon || '#cfe6f2'); LEVELS[G.idx]._lum = (hz[0] * 0.3 + hz[1] * 0.59 + hz[2] * 0.11);
+  for (const l of BGL) l.cv.width = l.cv.height = 0; // v2.15: suelta la memoria de las capas del nivel anterior (Safari la cuenta hasta que se recolecta)
   BGL.length = 0; let ri = 0;
   for (const p of parts) {
     const ly = p.ly;
@@ -7611,6 +7662,7 @@ function bgFinish() {
     ly.role = p.role; BGL.push(ly);
   }
   if (fin) { fin.role = 'static'; BGL.push(fin); }
+  BGL.forEach(todGrade);
 }
 function paintBackground() {
   // fondos con la misma nitidez que el lienzo, con margen para el acercamiento de la cámara (máx. 12 MP: Safari no acepta lienzos de más de 16,7 MP)
@@ -7620,11 +7672,12 @@ function paintBackground() {
   bgCtx.setTransform(k, 0, 0, k, -BG.x0 * k, -BG.y0 * k);
   const L = LEVELS[G.idx];
   LREC = { k, parts: [], wavy: 0, grounded: false, horizon: null, sm: null };
-  try { PAINTERS[L.key](bgCtx); drawTerrain(bgCtx, L); bgFinish(); } finally { LREC = null; }
+  try { PAINTERS[L.key](bgCtx); drawTerrain(bgCtx, L); bgFinish(); } finally { if (LREC && LREC.sm) LREC.sm.width = LREC.sm.height = 0; LREC = null; }
   bgCanvas.width = bgCanvas.height = 1;
 }
 const BIRDS_FAR = Array.from({ length: 5 }, (_, i) => ({ x: i * 520 + 200, y: 120 + (i * 53) % 150, v: 14 + (i * 7) % 9, s: 0.7 + (i % 3) * 0.25 }));
 function drawSkyLive(c, cr, L, dxSky) {
+  todStars(c, cr, L, dxSky);
   const t = performance.now() / 1000, lum = L._lum ?? 200, night = lum < 110, span = BG.w + 800;
   if (!night) {
     c.fillStyle = 'rgba(255,255,255,.55)';
@@ -7826,6 +7879,7 @@ function render() {
   for (const r of G.rings) { if (r.r <= 0) continue; const a = r.life / r.max; c.strokeStyle = `rgba(${r.color},${a})`; c.lineWidth = r.big ? 8 * a + 2 : 5 * a + 1; c.beginPath(); if (r.dir) c.arc(r.x, r.y, r.r, r.dir > 0 ? -0.9 : Math.PI - 0.9, r.dir > 0 ? 0.9 : Math.PI + 0.9); else c.arc(r.x, r.y, r.r, 0, Math.PI * 2); c.stroke(); }
   drawLiquids(c);
   drawWeather(c, cr);
+  todVeil(c);
   c.textAlign = 'center'; c.textBaseline = 'middle'; c.lineJoin = 'round';
   for (const p of G.popups) {
     c.globalAlpha = Math.min(1, p.life / 20); c.font = `${Math.round(p.size * popScale(p))}px "Lilita One", sans-serif`;
@@ -7891,6 +7945,54 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 
+/* ================= v2.15 · Hora del día: atardecer y noche en algunos niveles =================
+   No son niveles nuevos: el mismo pintor dibuja el paisaje, pero `skyGrad` usa otro cielo (`todSky`), `bgFinish` tiñe
+   cada capa del fondo según su distancia (`todGrade`), `drawSkyLive` agrega estrellas y luna de noche (`todStars`)
+   y `render` pone un velo suave sobre el juego para que las aves y el fuerte calcen con la luz (`todVeil`).
+   Se eligieron con un sorteo fijo por clave (sin jefes ni niveles que ya tienen cielo oscuro). */
+const TOD_DUSK = ['rapel', 'sancristobal', 'santalucia', 'bahiainglesa', 'huilohuilo', 'sanrafael'];
+const TOD_NIGHT = ['quintavergara', 'quintanormal', 'maule', 'cobquecura', 'laserena', 'valleluna', 'juanfernandez', 'valdivia', 'alerce', 'tortel'];
+const todOf = L => !L ? '' : TOD_NIGHT.includes(L.key) ? 'night' : TOD_DUSK.includes(L.key) ? 'dusk' : '';
+const TOD_SKY = {
+  dusk: [[0, '#33407e'], [0.42, '#a8577f'], [0.72, '#ef8a5a'], [1, '#ffcf8a']],
+  night: [[0, '#060a22'], [0.55, '#14275a'], [1, '#2c4a7a']],
+};
+// cielo del pintor → cielo de la hora del nivel (solo al pintar el fondo del juego)
+function todSky(c, stops) { const t = LREC && c === bgCtx ? todOf(LEVELS[G.idx]) : ''; return t ? TOD_SKY[t] : stops; }
+// tiñe una capa ya recortada: más fuerte en lo lejano, el cielo apenas (su degradado ya es el de la hora)
+function todGrade(ly) {
+  const t = todOf(LEVELS[G.idx]); if (!t || !ly || !ly.cv.width) return;
+  const c = ly.cv.getContext('2d'), far = Math.max(0, 1 - (ly.f ?? 1)), W = ly.cv.width, H = ly.cv.height;
+  c.save(); c.globalCompositeOperation = 'source-atop';
+  if (ly.role === 'sky') { if (t === 'night') { c.fillStyle = 'rgba(8,14,46,.3)'; c.fillRect(0, 0, W, H); } c.restore(); return; }
+  if (t === 'dusk') {
+    c.fillStyle = `rgba(255,128,64,${(0.14 + 0.1 * far).toFixed(3)})`; c.fillRect(0, 0, W, H);
+    c.fillStyle = `rgba(74,32,96,${(0.06 + 0.2 * far).toFixed(3)})`; c.fillRect(0, 0, W, H);
+  } else {
+    c.fillStyle = `rgba(10,20,62,${(0.36 + 0.22 * far).toFixed(3)})`; c.fillRect(0, 0, W, H);
+  }
+  c.restore();
+}
+// estrellas que titilan y luna (de noche), a la profundidad del cielo
+const TOD_STARS = Array.from({ length: 70 }, (_, i) => ({ x: (i * 397.3) % 1, y: ((i * 211.7) % 1) * 0.55, s: 0.7 + ((i * 7) % 5) * 0.25, p: i * 1.7 }));
+function todStars(c, cr, L, dxSky) {
+  if (todOf(L) !== 'night') return;
+  const t = performance.now() / 1000, span = BG.w + 600;
+  for (const s of TOD_STARS) {
+    const a = 0.45 + 0.4 * Math.sin(t * 1.6 + s.p);
+    c.fillStyle = `rgba(255,250,225,${a.toFixed(2)})`; c.beginPath(); c.arc(BG.x0 - 300 + s.x * span + dxSky * 0.3, cr.top + 16 + s.y * cr.vh * 0.85, s.s * 1.6, 0, 7); c.fill();
+  }
+  const mx = cr.left + cr.vw * 0.74 + dxSky * 0.1, my = cr.top + cr.vh * 0.16;
+  c.fillStyle = 'rgba(255,248,220,.16)'; c.beginPath(); c.arc(mx, my, 62, 0, 7); c.fill();
+  c.fillStyle = '#f6f0d6'; c.beginPath(); c.arc(mx, my, 36, 0, 7); c.fill();
+  c.fillStyle = 'rgba(190,180,150,.45)'; c.beginPath(); c.arc(mx - 10, my - 8, 7, 0, 7); c.arc(mx + 12, my + 6, 5, 0, 7); c.arc(mx + 3, my - 16, 3.5, 0, 7); c.fill();
+}
+// velo sobre todo el juego (en píxeles del lienzo)
+function todVeil(c) {
+  const t = todOf(LEVELS[G.idx]); if (!t || G.idx === -1) return;
+  c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1;
+  c.fillStyle = t === 'night' ? 'rgba(18,30,90,.15)' : 'rgba(255,120,50,.07)'; c.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); c.restore();
+}
 /* ================= Entrada ================= */
 const pointers = new Map();
 function cancelAim(playSound = true) {
@@ -8280,7 +8382,7 @@ const REGION_NAME = Object.fromEntries(REGIONS.map(r => [r.id, r.name]));
 const NEIGH = { arica: ['tarapaca'], tarapaca: ['arica', 'antofagasta'], antofagasta: ['tarapaca', 'atacama'], atacama: ['antofagasta', 'coquimbo'], coquimbo: ['atacama', 'valparaiso'],
   valparaiso: ['coquimbo', 'metropolitana', 'ohiggins'], metropolitana: ['valparaiso', 'ohiggins'], ohiggins: ['valparaiso', 'metropolitana', 'maule'], maule: ['ohiggins', 'nuble'],
   nuble: ['maule', 'biobio'], biobio: ['nuble', 'araucania'], araucania: ['biobio', 'losrios'], losrios: ['araucania', 'loslagos'], loslagos: ['losrios', 'aysen'], aysen: ['loslagos', 'magallanes'], magallanes: ['aysen'] };
-const REG_COSTS = [6, 6, 8, 8], REG_COST_LATER = 8, CHEST_LUCAS = 180;
+const REG_COSTS = [4, 4, 8, 8], REG_COST_LATER = 8, CHEST_LUCAS = 180;
 const regOf = L => GEO[L.key].region;
 function regState() {
   const P = G.progress;
@@ -9603,7 +9705,7 @@ const PTAB = { aves: 'b', inv: 'e', jefes: 'j', cultura: 'c', nativos: 'n', flor
 let PEDIA_TAB = 'aves';
 function stickerCard(k, key, num, idx, A) {
   const card = document.createElement('div'); card.className = 'stk' + (k === 'j' ? ' boss' : '') + ((k === 'c' || k === 'n') && !PHOTOS[key] ? ' cult' : ''); card.style.setProperty('--rot', ((idx * 37 % 7) - 3) * 0.7 + 'deg');
-  const name = albumName(k, key);
+  const name = albumName(k, key); card.dataset.k = k; card.dataset.key = key;
   if (extraData(k) && PHOTOS[key]) { // flora y mar: foto + emoji en la insignia
     const D = extraData(k), cr = PHOTO_CREDIT[key] || ['', '', ''];
     card.innerHTML = `<div class="in"><div class="fr"><span class="num">${num}</span><div class="ph"><img alt="" src="${PHOTOS[key]}"></div><div class="spr"></div><b>${name}</b></div><div class="bk"><b>${name}</b><i>${extraLabel(k)}</i><p>${D[key][1]}</p><small class="cred">Foto: <a href="${cr[2]}" target="_blank" rel="noopener">${cr[0]}</a> · ${cr[1]}</small></div></div>`;
@@ -9628,8 +9730,7 @@ function stickerCard(k, key, num, idx, A) {
       <div class="bk"><b>${name}</b><i>${k === 'j' ? 'Jefe de ' + BOSS_INFO[key][1] : sci}</i><p>${fact}</p><small class="cred">Foto: <a href="${cr[2]}" target="_blank" rel="noopener">${cr[0]}</a> · ${cr[1]}</small></div></div>`;
     card.querySelector('.spr').appendChild(ic);
   }
-  const bk = card.querySelector('.bk'); if (bk) bk.insertAdjacentHTML('beforeend', '<button type="button" class="stk-zoom">🔍 Ver grande</button>');
-  card.addEventListener('click', ev => { if (ev.target.closest('a')) return; if (ev.target.closest('.stk-zoom')) { ev.stopPropagation(); openZoom(card); return; } SFX.click(); card.classList.toggle('flip'); });
+  card.addEventListener('click', ev => { if (ev.target.closest('a')) return; if (card.querySelector('.bk')) openZoom(card); });
   return card;
 }
 // Lámina en grande: la foto (o el dibujo) a pantalla completa, con su texto
@@ -9638,6 +9739,15 @@ function openZoom(card) {
   $('zoom-art').innerHTML = img ? `<img alt="" src="${img.src}">` : cv ? `<img alt="" src="${cv.toDataURL()}">` : '';
   $('zoom-name').textContent = bk.querySelector('b').textContent; $('zoom-sub').textContent = bk.querySelector('i') ? bk.querySelector('i').textContent : '';
   $('zoom-txt').textContent = bk.querySelector('p') ? bk.querySelector('p').textContent : '';
+  const num = card.querySelector('.num'), cred = bk.querySelector('.cred'), spr = card.querySelector('.spr canvas');
+  $('zoom-num').textContent = num ? num.textContent : ''; $('zoom-cred').innerHTML = cred ? cred.innerHTML : '';
+  $('zoom-badge').innerHTML = spr ? `<img alt="" src="${spr.toDataURL()}">` : ''; $('zoom-badge').hidden = !spr;
+  { const k = card.dataset.k, key = card.dataset.key, B = BIRDS[key], HT = { impacto: 'rompe mejor la madera, las ramas y el adobe', perforante: 'rompe mejor la piedra y el fierro', sonico: 'rompe mejor el vidrio y la greda' };
+    let more = '';
+    if (k === 'b' && PEDIA_BIRDS[key]) more = `<p>${PEDIA_BIRDS[key][1]}</p>` + (B && B.desc ? `<p><b>En el juego:</b> ${B.desc}</p>` : '') + (B && B.hit ? `<p><b>Golpe ${B.hit === 'sonico' ? 'sónico' : B.hit}:</b> ${HT[B.hit]}.</p>` : '');
+    else if (k === 'e' && PEDIA_ENEMIES[key]) more = `<p>${PEDIA_ENEMIES[key][1]}</p>`;
+    $('zoom-more').innerHTML = more; }
+  $('zoom').classList.toggle('gold', card.classList.contains('gold')); $('zoom').classList.toggle('boss', card.classList.contains('boss'));
   $('zoom').hidden = false; SFX.click(); setTimeout(() => $('zoom-x').focus(), 50);
 }
 const closeZoom = () => { if ($('zoom').hidden) return; $('zoom').hidden = true; SFX.click(); };
